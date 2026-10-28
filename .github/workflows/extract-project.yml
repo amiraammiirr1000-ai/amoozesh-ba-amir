@@ -20,6 +20,7 @@ jobs:
           find .github/workflows -mindepth 1 -maxdepth 1 -type d -name 'main.yml name:*' -exec rm -rf {} +
           mkdir -p /tmp/amoozesh-project
           unzip -o amoozesh_ba_amir_v12_android_ai_ready.zip -d /tmp/amoozesh-project
+          rm -rf /tmp/amoozesh-project/.github/workflows
           rsync -a /tmp/amoozesh-project/ ./
 
       - name: Save extracted files
