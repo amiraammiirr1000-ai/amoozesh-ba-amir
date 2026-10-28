@@ -1,0 +1,21 @@
+
+name: Extract app project
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download repository files
+        uses: actions/checkout@v4
+
+      - name: Extract project ZIP
+        run: |
+          set -e
+          unzip -o amoozesh_ba_amir_v12_android_ai_ready.zip -d /tmp/amoozesh-project
+          rsync -a /tmp/amoozesh-project/ ./
