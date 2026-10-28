@@ -1,0 +1,21 @@
+{
+  "name": "amoozesh-ba-amir",
+  "version": "1.2.0",
+  "private": true,
+  "description": "آموزش با امیر - نسخه ۱.۲، PWA و پروژه اندروید با استقرار آماده دستیار هوشمند",
+  "scripts": {
+    "qa": "node qa-check.mjs",
+    "cap:add:android": "cap add android",
+    "cap:sync": "cap sync android",
+    "android": "cap open android",
+    "test:ai": "npm --prefix secure-ai-server test",
+    "qa:all": "npm run qa && npm run test:ai"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}

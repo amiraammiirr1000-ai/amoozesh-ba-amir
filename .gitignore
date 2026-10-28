@@ -1,0 +1,8 @@
+node_modules/
+android/
+.env
+.env.*
+!.env.example
+secure-ai-server/node_modules/
+secure-ai-server/.env
+.DS_Store

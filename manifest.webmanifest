@@ -1,0 +1,26 @@
+{
+  "name": "آموزش با امیر",
+  "short_name": "آموزش با امیر",
+  "lang": "fa-IR",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f7f9",
+  "theme_color": "#123b50",
+  "description": "آموزش مفهومی و تمرین ریاضی ششم با امیر محمدیان؛ نسخه ۱.۲",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

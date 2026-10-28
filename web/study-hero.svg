@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="330" viewBox="0 0 420 330" role="img" aria-labelledby="title desc">
+<title id="title">کتاب و لوازم‌التحریر</title><desc id="desc">تصویر رنگارنگ کتاب باز، مدادها، خط‌کش و ستاره‌های آموزشی</desc>
+<defs>
+ <linearGradient id="bookA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffdf75"/><stop offset="1" stop-color="#ff9d54"/></linearGradient>
+ <linearGradient id="bookB" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#62e6c7"/><stop offset="1" stop-color="#20a9a7"/></linearGradient>
+ <linearGradient id="bookC" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fca5d2"/><stop offset="1" stop-color="#ec4899"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#080d35" flood-opacity=".28"/></filter>
+</defs>
+<g filter="url(#shadow)" transform="translate(22 30) rotate(-8 190 150)">
+ <path d="M70 178 L194 202 L194 286 L70 262 Q54 257 54 241 L54 191 Q54 174 70 178Z" fill="#f6f2ff" stroke="#d7d5ed" stroke-width="4"/>
+ <path d="M194 202 L318 176 Q336 172 336 190 L336 240 Q336 257 318 261 L194 286Z" fill="#fff" stroke="#d7d5ed" stroke-width="4"/>
+ <path d="M194 202 L194 286" stroke="#c8c6e3" stroke-width="5"/>
+ <path d="M76 201 L171 220 M76 221 L171 240 M76 241 L171 260" stroke="#c3c5df" stroke-width="5" stroke-linecap="round"/>
+ <path d="M216 220 L313 200 M216 241 L313 221 M216 262 L296 245" stroke="#c3c5df" stroke-width="5" stroke-linecap="round"/>
+ <path d="M52 170 L76 84 Q80 72 94 76 L165 94 L142 188Z" fill="url(#bookB)" stroke="#b5fff0" stroke-width="3"/>
+ <path d="M142 188 L165 94 L194 102 L194 202Z" fill="#168b9a"/>
+ <path d="M74 111 L145 128 M69 132 L140 149 M63 153 L135 170" stroke="#e7fff8" stroke-width="5" stroke-linecap="round"/>
+ <path d="M193 202 L194 102 L219 96 L242 186Z" fill="#d94685"/>
+ <path d="M194 102 L219 96 L298 76 Q310 73 314 87 L337 170 L242 186Z" fill="url(#bookC)" stroke="#ffd2e9" stroke-width="3"/>
+ <path d="M222 119 L299 100 M228 140 L305 121 M234 160 L311 141" stroke="#fff0f8" stroke-width="5" stroke-linecap="round"/>
+ <path d="M92 71 L112 22 Q116 12 124 25 L143 85Z" fill="#ffda67" stroke="#fff1a8" stroke-width="3"/>
+ <path d="M92 71 L112 22 L118 81Z" fill="#f6a44d"/>
+ <path d="M134 84 L164 17 Q168 7 176 22 L185 95Z" fill="#a5b4fc" stroke="#dbeafe" stroke-width="3"/>
+ <path d="M134 84 L164 17 L159 89Z" fill="#6474d9"/>
+ <path d="M176 94 L208 31 Q212 20 219 35 L226 88Z" fill="#6ee7b7" stroke="#c7ffea" stroke-width="3"/>
+ <path d="M176 94 L208 31 L203 91Z" fill="#139c87"/>
+ <path d="M255 190 L330 176 L343 198 L269 213Z" fill="#ffcc55" stroke="#fff0a3" stroke-width="3"/>
+ <path d="M269 213 L343 198 L336 211 L275 225Z" fill="#f49a38"/>
+</g>
+<g fill="#ffe082"><path d="M354 37 l7 15 16 2 -12 10 3 16 -14 -8 -14 8 3 -16 -12 -10 16 -2z"/><circle cx="54" cy="77" r="6"/><circle cx="374" cy="238" r="5"/></g>
+<g fill="#fff" opacity=".8"><circle cx="45" cy="210" r="3"/><circle cx="365" cy="104" r="3"/><path d="M35 137l5 10 10 2 -8 7 2 10 -9 -5 -9 5 2 -10 -8 -7 10 -2z"/></g>
+</svg>
