@@ -14,8 +14,20 @@ jobs:
       - name: Download repository files
         uses: actions/checkout@v4
 
-      - name: Extract project ZIP
+      - name: Remove malformed folder and extract project
         run: |
           set -e
+          find .github/workflows -mindepth 1 -maxdepth 1 -type d -name 'main.yml name:*' -exec rm -rf {} +
+          mkdir -p /tmp/amoozesh-project
           unzip -o amoozesh_ba_amir_v12_android_ai_ready.zip -d /tmp/amoozesh-project
           rsync -a /tmp/amoozesh-project/ ./
+
+      - name: Save extracted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Extract app project files"
+            git push
+          fi
