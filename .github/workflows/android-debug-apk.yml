@@ -6,10 +6,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'web/index.html'
-      - 'web/icon.svg'
-      - 'web/manifest.webmanifest'
-      - 'web/sw.js'
+      - 'index.html'
+      - 'icon.svg'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'capacitor.config.json'
       - '.github/workflows/android-debug-apk.yml'
       - 'package.json'
       - 'package-lock.json'
@@ -90,8 +91,8 @@ jobs:
 
       - name: Set Android app version
         run: |
-          sed -i -E 's/versionCode [0-9]+/versionCode 28/' android/app/build.gradle
-          sed -i -E 's/versionName "[^"]+"/versionName "1.8.0"/' android/app/build.gradle
+          sed -i -E 's/versionCode [0-9]+/versionCode 29/' android/app/build.gradle
+          sed -i -E 's/versionName "[^"]+"/versionName "1.9.0"/' android/app/build.gradle
           grep -E 'versionCode|versionName' android/app/build.gradle
 
       - name: Build APK
