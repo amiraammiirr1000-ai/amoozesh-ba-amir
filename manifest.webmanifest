@@ -10,8 +10,11 @@
   "theme_color": "#344b9a",
   "description": "سامانه فارسی آموزش، تمرین و پیشرفت ریاضی ششم با امیر محمدیان؛ نسخه ۱.۴",
   "icons": [
-    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"},
-    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
   ]
 }
