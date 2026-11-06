@@ -7,6 +7,10 @@ on:
     branches: [main]
     paths:
       - 'web/index.html'
+      - 'web/icon.svg'
+      - 'web/manifest.webmanifest'
+      - 'web/sw.js'
+      - '.github/workflows/android-debug-apk.yml'
       - 'package.json'
       - 'package-lock.json'
       - 'capacitor.config.*'
@@ -60,6 +64,21 @@ jobs:
               d.line((292,y+8,420,y),fill=(166,190,210,255),width=9)
           d.polygon([(310,70),(350,153),(393,70),(367,164),(414,190),(351,180),(310,235),(319,168),(266,127),(333,137)],fill=(245,197,81,255))
           d.text((256,448),'AMIR',anchor='mm',fill=(255,255,255,255),stroke_width=1)
+          # Adaptive icon foreground, plus legacy density icons
+          fg=Image.new('RGBA',(432,432),(0,0,0,0)); q=ImageDraw.Draw(fg)
+          q.polygon([(38,175),(210,188),(210,345),(38,330)],fill=(255,224,151,255),outline=(255,246,210,255),width=8)
+          q.polygon([(222,188),(394,175),(394,330),(222,345)],fill=(255,255,255,255),outline=(220,235,240,255),width=8)
+          q.line((216,190,216,347),fill=(195,139,47,255),width=9)
+          for y in (235,278):
+              q.line((70,y,185,y+7),fill=(188,142,59,255),width=8)
+              q.line((247,y+7,362,y),fill=(166,190,210,255),width=8)
+          q.polygon([(262,36),(297,110),(335,36),(312,119),(354,143),(298,135),(262,184),(270,126),(222,88),(282,98)],fill=(245,197,81,255))
+          os.makedirs('android/app/src/main/res/drawable-nodpi',exist_ok=True)
+          os.makedirs('android/app/src/main/res/drawable',exist_ok=True)
+          os.makedirs('android/app/src/main/res/mipmap-anydpi-v26',exist_ok=True)
+          fg.save('android/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png')
+          open('android/app/src/main/res/drawable/ic_launcher_background.xml','w').write('<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle"><solid android:color="#12374b"/></shape>')
+          open('android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml','w').write('<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@drawable/ic_launcher_background"/><foreground android:drawable="@drawable/ic_launcher_foreground"/></adaptive-icon>')
           targets={'mdpi':48,'hdpi':72,'xhdpi':96,'xxhdpi':144,'xxxhdpi':192}
           for density,px in targets.items():
               folder=f'android/app/src/main/res/mipmap-{density}'
