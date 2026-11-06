@@ -334,7 +334,16 @@ function clearProfilePhoto(){localStorage.removeItem('amirProfilePhoto');documen
 document.addEventListener('change',e=>{if(e.target.id==='profileUpload'){const f=e.target.files&&e.target.files[0];if(!f)return;if(!f.type.startsWith('image/')){alert('لطفاً یک تصویر انتخاب کن.');return;}if(f.size>1800000){alert('برای ذخیره مطمئن، عکسی کمتر از ۱٫۸ مگابایت انتخاب کن.');return;}const r=new FileReader();r.onload=()=>{try{localStorage.setItem('amirProfilePhoto',r.result);document.getElementById('profilePhoto').src=r.result;}catch(err){alert('فضای ذخیره مرورگر کافی نیست؛ عکس کوچک‌تری انتخاب کن.')}};r.readAsDataURL(f);}});
 function startDailyChallenge(){quizMode='daily';qIndex=0;answers=[];showView('quiz');renderQuestion();}
 const nativeGetQuestions=getQuestions;
-getQuestions=function(){if(quizMode==='daily')return [{q:'عدد بعدی الگوی ۷، ۱۲، ۱۷، ۲۲، ... چیست؟',opts:['۲۵','۲۶','۲۷','۲۸'],a:2,why:'هر بار ۵ واحد اضافه می‌شود؛ ۲۲ + ۵ = ۲۷.'}];if(quizMode==='lesson')return lessonQuestionBanks[currentLesson]||nativeGetQuestions();return quizQuestions;};
+const dailyChallengeQuestions=[
+{q:'عدد بعدی الگوی ۷، ۱۲، ۱۷، ۲۲، ... چیست؟',opts:['۲۵','۲۶','۲۷','۲۸'],a:2,why:'هر بار ۵ واحد اضافه می‌شود؛ ۲۲ + ۵ = ۲۷.'},
+{q:'کدام عدد بر ۳ بخش‌پذیر است؟',opts:['۱۲۴','۲۳۵','۳۲۱','۴۰۱'],a:2,why:'مجموع رقم‌های ۳۲۱ برابر ۶ است و ۶ بر ۳ بخش‌پذیر است.'},
+{q:'ارزش مکانی رقم ۶ در عدد ۴۶۲٬۱۸۰ چیست؟',opts:['۶۰۰','۶٬۰۰۰','۶۰٬۰۰۰','۶۰۰٬۰۰۰'],a:2,why:'رقم ۶ در مرتبه دهگان هزار قرار دارد؛ ارزش آن ۶۰٬۰۰۰ است.'},
+{q:'حاصل ۸- + ۳ چیست؟',opts:['۵-','۵','۱۱-','۱۱'],a:0,why:'از ۸- سه واحد به سمت صفر حرکت می‌کنیم و به ۵- می‌رسیم.'},
+{q:'کدام کسر بزرگ‌تر است؟',opts:['۱/۲','۲/۳','۳/۸','۱/۴'],a:1,why:'۲/۳ از نصف بزرگ‌تر است و از گزینه‌های دیگر نیز مقدار بیشتری دارد.'},
+{q:'محیط مربعی با ضلع ۵ سانتی‌متر چند سانتی‌متر است؟',opts:['۱۰','۱۵','۲۰','۲۵'],a:2,why:'محیط مربع برابر ۴ برابر ضلع است؛ ۴ × ۵ = ۲۰.'},
+{q:'حاصل ۲۴ × ۳ چیست؟',opts:['۶۲','۶۸','۷۲','۷۶'],a:2,why:'۲۴ × ۳ = ۷۲.'}
+];
+getQuestions=function(){if(quizMode==='daily'){const day=Math.floor(Date.now()/86400000);return [dailyChallengeQuestions[day%dailyChallengeQuestions.length]];}if(quizMode==='lesson')return lessonQuestionBanks[currentLesson]||nativeGetQuestions();return quizQuestions;};
 const nativeFinishQuiz=finishQuiz;
 finishQuiz=function(){nativeFinishQuiz();if(quizMode==='daily'){document.getElementById('quizTitle').textContent='چالش امروز';}};
 function installApp(){const msg=document.getElementById('installMsg');if(deferredInstallPrompt){deferredInstallPrompt.prompt();deferredInstallPrompt.userChoice.then(()=>{deferredInstallPrompt=null;msg.textContent='اگر نصب تأیید شد، آیکون برنامه به صفحه اصلی اضافه می‌شود.';});}else{msg.textContent='در Chrome اندروید، از منوی ⋮ گزینه «افزودن به صفحه اصلی» یا «Install app» را بزن. برای این قابلیت باید برنامه از HTTPS میزبانی شود.';}}
