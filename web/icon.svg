@@ -1,20 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs>
- <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102d4e"/><stop offset=".55" stop-color="#5146c8"/><stop offset="1" stop-color="#d95c9b"/></linearGradient>
- <linearGradient id="book" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff8d7"/><stop offset="1" stop-color="#ffd36b"/></linearGradient>
- <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#08152f" flood-opacity=".3"/></filter>
-</defs>
-<rect width="512" height="512" rx="118" fill="url(#bg)"/>
-<circle cx="402" cy="108" r="78" fill="#fff" opacity=".07"/><circle cx="402" cy="108" r="112" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="3"/>
-<path d="M85 126h342M85 386h342" stroke="#fff" stroke-opacity=".12" stroke-width="4" stroke-linecap="round"/>
-<g filter="url(#shadow)">
- <path d="M93 206c58-27 112-23 163 9v184c-53-32-108-36-163-9-12 6-25-3-25-16V229c0-10 9-19 25-23Z" fill="url(#book)" stroke="#fff2c0" stroke-width="8"/>
- <path d="M419 206c-58-27-112-23-163 9v184c53-32 108-36 163-9 12 6 25-3 25-16V229c0-10-9-19-25-23Z" fill="#fff" stroke="#dce8ff" stroke-width="8"/>
- <path d="M256 215v184" stroke="#d6b96b" stroke-width="9" stroke-linecap="round"/>
- <path d="M105 254c43-15 84-12 122 7M105 292c43-15 84-12 122 7M105 330c43-15 84-12 122 7" fill="none" stroke="#d9b85e" stroke-width="9" stroke-linecap="round"/>
- <path d="M285 261c39-19 79-21 122-7M285 299c39-19 79-21 122-7M285 337c39-19 79-21 122-7" fill="none" stroke="#b8c8ed" stroke-width="9" stroke-linecap="round"/>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102f43"/><stop offset="1" stop-color="#17647a"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe8a3"/><stop offset="1" stop-color="#e9ad3f"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="13" stdDeviation="12" flood-color="#061a28" flood-opacity=".32"/></filter></defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/>
+<circle cx="390" cy="112" r="86" fill="#fff" opacity=".045"/><circle cx="112" cy="395" r="110" fill="#fff" opacity=".035"/>
+<g filter="url(#s)">
+<path d="M72 205Q163 164 250 222V396Q160 344 72 384Q55 390 55 371V229Q55 213 72 205Z" fill="url(#gold)" stroke="#fff2c8" stroke-width="9" stroke-linejoin="round"/>
+<path d="M440 205Q349 164 262 222V396Q352 344 440 384Q457 390 457 371V229Q457 213 440 205Z" fill="#fff" stroke="#dcebf0" stroke-width="9" stroke-linejoin="round"/>
+<path d="M256 221V398" stroke="#c38b2f" stroke-width="10" stroke-linecap="round"/>
+<path d="M91 256Q164 228 222 262M91 300Q164 272 222 306M290 262Q348 228 421 256M290 306Q348 272 421 300" fill="none" stroke="#bd913e" stroke-width="10" stroke-linecap="round" opacity=".75"/>
 </g>
-<path d="m337 72 13 31 33 4-25 22 7 33-28-17-29 17 7-33-25-22 33-4z" fill="#ffe082"/>
-<circle cx="112" cy="110" r="11" fill="#7ce6d0"/><circle cx="405" cy="414" r="10" fill="#ffb4d4"/>
-<path d="m105 414 8 18 19 2-14 13 4 19-17-10-17 10 4-19-14-13 19-2z" fill="#fff" opacity=".85"/>
+<path d="M310 72 352 160 397 72 365 166 414 193 351 181 310 239 318 170 264 126 332 136Z" fill="url(#gold)" stroke="#fff2c8" stroke-width="5" stroke-linejoin="round"/>
+<path d="m126 104 27-34 27 34-27 34Z" fill="#fff" opacity=".95"/><path d="m382 358 22-28 22 28-22 28Z" fill="#e8b54b"/>
+<text x="256" y="474" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="800" letter-spacing="3" fill="#fff">AMIR</text>
 </svg>
