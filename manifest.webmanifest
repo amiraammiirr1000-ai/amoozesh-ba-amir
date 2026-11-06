@@ -7,8 +7,8 @@
   "scope": "./",
   "display": "standalone",
   "background_color": "#f5f7ff",
-  "theme_color": "#344b9a",
-  "description": "سامانه فارسی آموزش، تمرین و پیشرفت ریاضی ششم با امیر محمدیان؛ نسخه ۱.۴",
+  "theme_color": "#123b50",
+  "description": "سامانه فارسی آموزش، تمرین و پیشرفت درسی با امیر محمدیان؛ نسخه ۱.۹.۰",
   "icons": [
     {
       "src": "icon.svg",
