@@ -238,6 +238,7 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
  <button class="tool-tile" onclick="startMathGame(4)">➖ <b>محور اعداد صحیح</b><small>مقایسه عددهای منفی و مثبت</small></button>
  <button class="tool-tile" onclick="startMathGame(5)">💧 <b>کارگاه اعشار</b><small>تمرین جابه‌جایی ممیز</small></button>
  <button class="tool-tile" onclick="startMathGame(6)">📍 <b>صفحه مختصات لمسی</b><small>نقطه‌یابی و تقارن روی شبکه</small></button>
+ <button class="tool-tile" onclick="startMathGame(7)">🍕 <b>آزمایشگاه کسرها</b><small>مدل تصویری، ساده‌سازی و درصد</small></button>
  </div><div id="gameStage" class="mutedbox" style="margin-top:12px">برای شروع یکی از دستگاه‌ها را انتخاب کن.</div></div>
  <div class="card" style="margin-top:12px"><h3>مسیر پیشنهادی مطالعه</h3><ol class="feature-list"><li>درس‌نامه را بخوان و مثال حل‌شده را بررسی کن.</li><li>یک تمرین را خودت روی وایت‌برد حل کن.</li><li>کاربرگ بساز و بدون دیدن پاسخ‌ها تمرین کن.</li><li>اشتباه یا نکته مهم را در دفتر حافظه ذخیره کن.</li><li>در پایان آزمون بده و گزارش پیشرفت را ببین.</li></ol><div class="mutedbox">حافظه این نسخه روی همین دستگاه و در همین مرورگر ذخیره می‌شود؛ هنوز بین گوشی‌ها همگام‌سازی نمی‌شود.</div></div>
 </section>
@@ -487,7 +488,22 @@ function startMathGame(n){
  if(n===4)h='<h3>محور اعداد صحیح</h3><input class="input" id="gmA" value="-3"><input class="input" id="gmB" value="-1"><button class="btn gold full" onclick="runMathGame(4)">مقایسه</button>';
  if(n===5)h='<h3>کارگاه اعشار</h3><input class="input" id="gmA" value="2.45"><select class="input" id="gmB"><option value="10">ضرب در ۱۰</option><option value="100">ضرب در ۱۰۰</option><option value="0.1">تقسیم بر ۱۰</option><option value="0.01">تقسیم بر ۱۰۰</option></select><button class="btn gold full" onclick="runMathGame(5)">محاسبه</button>';
  if(n===6){startCoordinateGame();return;}
+ if(n===7){startFractionGame();return;}
  e.innerHTML=h+'<div id="gmResult" class="example" style="margin-top:10px"></div>';
+}
+
+function startFractionGame(){
+ const e=document.getElementById('gameStage');
+ e.innerHTML='<h3>🍕 آزمایشگاه تصویری کسرها</h3><p class="small">صورت و مخرج را تغییر بده تا ببینی چه بخشی از یک واحد انتخاب شده است. هر خانه یک قسمت مساوی است.</p><div class="grid"><label class="small">صورت (قسمت‌های رنگی)<input class="input" id="gmA" type="number" min="0" max="12" value="3" oninput="renderFractionModel()"></label><label class="small">مخرج (کل قسمت‌ها)<input class="input" id="gmB" type="number" min="1" max="12" value="4" oninput="renderFractionModel()"></label></div><div id="fractionVisual" style="margin:14px 0"></div><button class="btn gold full" onclick="runMathGame(7)">تحلیل کسر و ساده‌سازی</button><div id="gmResult" class="example" style="margin-top:10px">صورت و مخرج را تغییر بده و نتیجه را ببین.</div><div class="mutedbox">یادت باشد: مخرج تعداد قسمت‌های مساوی کل شکل و صورت تعداد قسمت‌های انتخاب‌شده را نشان می‌دهد.</div>';
+ renderFractionModel();
+}
+function renderFractionModel(){
+ const a=document.getElementById('gmA'),b=document.getElementById('gmB'),box=document.getElementById('fractionVisual');
+ if(!a||!b||!box)return;
+ const n=Math.max(0,Math.min(12,Number(a.value)||0)),d=Math.max(1,Math.min(12,Number(b.value)||1));
+ a.value=n;b.value=d;a.max=d;
+ const cells=Array.from({length:d},(_,i)=>'<span style="display:grid;place-items:center;min-height:42px;border:1px solid #ffffff;border-radius:7px;background:'+(i<n?'linear-gradient(145deg,#6c63ff,#3986d8)':'#e7edf2')+';color:'+(i<n?'white':'#60737d')+';font-weight:800">'+(i<n?'✓':'')+'</span>').join('');
+ box.innerHTML='<div style="display:grid;grid-template-columns:repeat('+d+',minmax(0,1fr));gap:4px">'+cells+'</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><b style="font-size:24px;color:var(--navy)">'+fa(n)+' / '+fa(d)+'</b><span class="tag">'+fa(Math.round(n/d*100))+'٪ از یک واحد</span></div><div class="progress"><span style="width:'+(n/d*100)+'%;background:linear-gradient(90deg,#6c63ff,#2d9cdb)"></span></div>';
 }
 let coordinateMode="reflectX",coordinateTarget={x:1,y:1},coordinatePoint=null,coordinateSolved=false,coordinateScore=0;
 const coordinateShape=[{x:1,y:1,n:"A"},{x:3,y:1,n:"B"},{x:2,y:3,n:"C"}];
@@ -504,6 +520,7 @@ function runMathGame(n){
  if(n===3){const z=a.split(/[,، ]+/).filter(Boolean).map(Number),d=z.slice(1).map((x,i)=>x-z[i]);if(z.length<3||z.length>6||z.some(x=>!Number.isFinite(x)))t='سه تا شش عدد معتبر وارد کن.';else if(d.every(x=>x===d[0]))t='اختلاف ثابت '+f(d[0])+' است؛ عدد بعدی '+f(z[z.length-1]+d[0])+' خواهد بود.';else t='اختلاف‌ها ثابت نیستند؛ الگو ممکن است ضربی یا چندمرحله‌ای باشد.';}
  if(n===4){const x=Number(a),y=Number(b);if(!Number.isInteger(x)||!Number.isInteger(y))t='دو عدد صحیح وارد کن.';else t=(x>y?'عدد اول بزرگ‌تر است.':x<y?'عدد دوم بزرگ‌تر است.':'دو عدد برابرند.')+' روی محور، عدد سمت راست بزرگ‌تر است.';}
  if(n===5){const x=Number(a),y=Number(b);if(!Number.isFinite(x))t='عدد اعشاری معتبر وارد کن.';else t=f(x*y)+'؛ '+(y>=1?'ممیز به راست':'ممیز به چپ')+' جابه‌جا می‌شود.';}
+ if(n===7){const x=Number(a),y=Number(b);if(!Number.isInteger(x)||!Number.isInteger(y)||y<1||y>12||x<0||x>y)t='صورت باید عددی از صفر تا مخرج باشد و مخرج بین ۱ تا ۱۲ قرار بگیرد.';else{let m=x,d=y;while(d){const r=m%d;m=d;d=r;}const g=m||1;t='کسر '+f(x)+'/'+f(y)+' است. شکل به '+f(x)+' قسمت از '+f(y)+' قسمت مساوی تقسیم شده است. شکل ساده‌شده: '+f(x/g)+'/'+f(y/g)+'. مقدار تقریبی: '+f(Number((x/y).toFixed(3)))+' و درصد: '+f(Math.round(x/y*100))+'٪.';}}
  o.textContent=t;
 }
 function renderQuestion(){let qs=getQuestions();if(qIndex>=qs.length){finishQuiz();return;}let q=qs[qIndex];document.getElementById("quizTitle").textContent=quizMode==="chapter"?"آزمون فصل اول":"تمرین درس "+fa(currentLesson);document.getElementById("quizCount").textContent=`سؤال ${fa(qIndex+1)} از ${fa(qs.length)}`;document.getElementById("quizCard").innerHTML=`<div class="progress"><span style="width:${(qIndex/qs.length)*100}%"></span></div><div class="question">${q.q}</div><div>${q.opts.map((o,i)=>`<button class="option" onclick="answerQuestion(${i})">${"الفبپتثجچ"[i]} ) ${o}</button>`).join("")}</div><div id="quizFeedback" class="feedback"></div><button id="nextQuestion" class="btn full hidden" onclick="nextQuestion()" style="margin-top:12px">سؤال بعدی ←</button>`;}
