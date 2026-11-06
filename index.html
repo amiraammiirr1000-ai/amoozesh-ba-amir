@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#123b50">
+<meta name="theme-color" content="#344b9a">
 <meta name="description" content="آموزش مفهومی، تمرین و پیشرفت ریاضی ششم با امیر محمدیان">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,6 +72,31 @@ body[data-theme="midnight"] .about-shortcut,body[data-theme="midnight"] .about-f
 @media(max-width:420px){.content{padding:12px}.hero-art{padding:17px;min-height:158px}.hero-art p{max-width:68%;font-size:11px}.hero-illustration{width:35%;left:0}.welcome h1{font-size:21px}.about-hero{padding:17px}.about-emblem{width:62px;height:62px;border-radius:20px;font-size:36px}}
 @media(min-width:700px){.navinner{justify-content:center;overflow:visible}.nav button{flex:1;min-width:0;max-width:110px}.hero-art{min-height:176px}.hero-illustration{width:205px}}
 
+
+/* هویت بصری تازه: نسخه ۱.۳ */
+:root{--accent:#5b55d9;--accent2:#e66c9f;--glow:#5b55d922;--gold:#ffd166;--bg:#f5f7ff;--line:#e2e7f2;--radius:22px}
+body{background:radial-gradient(ellipse at 6% 8%,#e3e9ff 0,transparent 32%),radial-gradient(ellipse at 96% 34%,#ffe8f1 0,transparent 28%),linear-gradient(180deg,#f8faff,#f2f6fb);color:#1b2c49}
+.top{background:linear-gradient(125deg,#102d4e 0%,#344b9a 56%,#6652c9 100%);border-radius:0 0 34px 34px;padding-top:24px;box-shadow:0 16px 34px #1b2c4930}
+.logo{width:58px;height:58px;border-radius:19px;background:linear-gradient(145deg,#ffe99b,#ffbd59);color:#27345f;border:2px solid #ffffffb8;box-shadow:0 8px 22px #091a3a55;font-size:0;position:relative}
+.logo:before{content:'✦';position:absolute;top:4px;right:8px;color:#fff;font-size:14px}.logo:after{content:'آ';font-size:31px;font-weight:900;line-height:1}
+.brand{font-size:21px}.welcome{margin-top:24px}.welcome h1{font-size:25px;text-shadow:0 2px 12px #071a3840}.pill{background:#ffffff1c;border-color:#ffffff40;backdrop-filter:blur(8px)}
+.hero-art{border:1px solid #ffffff45;min-height:182px;border-radius:26px;background:linear-gradient(115deg,#132b56 0%,#5146bb 56%,#d65d98 100%);box-shadow:0 16px 32px #403a9a2b}
+.hero-art:before{width:230px;height:230px;left:-60px;top:-100px;border-color:#ffffff35;box-shadow:0 0 0 24px #ffffff0c,0 0 0 52px #ffffff08}
+.hero-art h2{font-size:21px;font-weight:900}.hero-art p{line-height:2.1}.hero-illustration{width:39%;max-width:220px;bottom:-6px;filter:drop-shadow(0 13px 16px #0a123b66)}
+.card{border-radius:22px;border-color:#e4e9f4;box-shadow:0 8px 24px #263b650d}.stat{border-top:3px solid color-mix(in srgb,var(--accent) 70%,white);background:linear-gradient(145deg,#fff,#f7f8ff)}
+.achievement{border-radius:20px;border:1px solid #f7df9a;background:linear-gradient(110deg,#fff9e8,#fff);box-shadow:0 7px 20px #e8b94c18}.achievement .medal{font-size:29px}
+.lesson-icon{border-radius:16px;background:linear-gradient(145deg,#e0f5f2,#e8e9ff);color:#5146bb}.btn{border-radius:14px;min-height:44px;background:linear-gradient(115deg,#273f78,#6554ca);box-shadow:0 6px 15px #5146bb25}.btn.gold{background:linear-gradient(115deg,#ffe38c,#ffbf58);color:#3d3154}.btn.light,.btn.outline{background:#f2f4ff;color:#3d4384;border:1px solid #e3e5f7}
+.nav{background:#ffffffed;border-top:1px solid #e5e9f4;box-shadow:0 -8px 24px #1e31520b;backdrop-filter:blur(18px)}.nav button.active{color:#5146bb;background:linear-gradient(180deg,#efedff,#fff);border-top:3px solid #6554ca}.nav .ico{font-size:21px}
+.section-head{margin-top:20px}.section-head h2{font-weight:900}.progress{height:10px;background:#e9edf7}.progress span{background:linear-gradient(90deg,#24b99a,#5b55d9)}
+.option{border-radius:15px;transition:background .15s,border-color .15s,transform .15s}.option:active{transform:scale(.99)}
+input,textarea,select,.input{border-color:#dce3f0}.input:focus,input:focus,textarea:focus,select:focus{outline:3px solid #6554ca2e;border-color:#6554ca}
+button:focus-visible{outline:3px solid #ffbd59;outline-offset:3px}
+body[data-theme="midnight"]{--bg:#0c1428;--line:#2c3856;--accent:#a69bff;--accent2:#ff8fbd;background:radial-gradient(ellipse at 8% 0,#28285c,transparent 38%),#0c1428}
+body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy2:#b64e84;--glow:#d9468522;background:radial-gradient(ellipse at 5% 0,#ffe4ef,transparent 34%),#fff7fb}
+@media(max-width:420px){.top{padding:20px 16px 25px}.welcome h1{font-size:22px}.hero-art{min-height:170px;padding:17px}.hero-art p{max-width:65%;font-size:11px}.hero-illustration{width:38%;left:-3px}.card{padding:14px}.achievement{gap:8px}.achievement .btn{padding:9px 11px}}
+@media(min-width:700px){.top{border-radius:0 0 40px 40px}.content{padding-top:22px}.hero-art{min-height:198px}}
+@media(prefers-reduced-motion:no-preference){.hero-art{animation:heroFloat 7s ease-in-out infinite alternate}.achievement{animation:softGlow 5s ease-in-out infinite alternate}@keyframes heroFloat{from{background-position:0 50%}to{background-position:100% 50%}}@keyframes softGlow{from{box-shadow:0 7px 20px #e8b94c12}to{box-shadow:0 9px 26px #e8b94c30}}}
+
 </style>
 </head>
 <body>
@@ -82,7 +107,7 @@ body[data-theme="midnight"] .about-shortcut,body[data-theme="midnight"] .about-f
 </header>
 <main class="content">
 <section id="home" class="view active">
-  <div class="section-head"><h2>داشبورد یادگیری</h2><span class="small">نسخه ۱.۲ · مسیر ساخت و فعال‌سازی معلم هوشمند</span></div>
+  <div class="section-head"><h2>داشبورد یادگیری</h2><span class="small">نسخه ۱.۳ · تجربه یادگیری هوشمند و رنگارنگ</span></div>
   <div class="hero-art"><div class="hero-kicker">AMOOZESH BA AMIR · LEARN SMART</div><h2>قهرمان یادگیری باش! ✨</h2><p>هر روز یک قدم جلوتر؛ با تمرین‌های کوتاه، مسیرت را بساز.</p><img class="hero-illustration" src="study-hero.svg" alt="تصویر کتاب، مداد و لوازم‌التحریر آموزشی" loading="eager"></div>
   <div class="achievement"><span class="medal">🏅</span><div><b>چالش امروز</b><div class="small">یک سؤال حل کن و امتیاز یادگیری بگیر.</div></div><button class="btn gold" onclick="startDailyChallenge()">شروع</button></div>
   <div class="grid stats">
