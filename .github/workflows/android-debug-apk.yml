@@ -17,6 +17,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Get project
         uses: actions/checkout@v4
@@ -41,14 +42,25 @@ jobs:
       - name: Sync app files
         run: npx cap sync android
 
+      - name: Set Android app version
+        run: |
+          sed -i -E 's/versionCode [0-9]+/versionCode 26/' android/app/build.gradle
+          sed -i -E 's/versionName "[^"]+"/versionName "1.6.0"/' android/app/build.gradle
+          grep -E 'versionCode|versionName' android/app/build.gradle
+
       - name: Build APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon --stacktrace --console=plain
+
+      - name: Verify APK
+        run: test -s android/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: amoozesh-ba-amir-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
