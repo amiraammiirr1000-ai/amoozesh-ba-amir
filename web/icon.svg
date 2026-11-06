@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6c63ff"/><stop offset="1" stop-color="#d94685"/></linearGradient></defs><rect width="128" height="128" rx="30" fill="url(#g)"/><path d="M25 32h78M25 96h78" stroke="#fff" stroke-opacity=".25" stroke-width="3"/><text x="64" y="79" text-anchor="middle" font-size="58" font-weight="bold" fill="#fff" font-family="Tahoma,Arial">آ</text><circle cx="99" cy="27" r="8" fill="#ffe082"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102d4e"/><stop offset=".55" stop-color="#5146c8"/><stop offset="1" stop-color="#d95c9b"/></linearGradient>
+ <linearGradient id="book" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff8d7"/><stop offset="1" stop-color="#ffd36b"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#08152f" flood-opacity=".3"/></filter>
+</defs>
+<rect width="512" height="512" rx="118" fill="url(#bg)"/>
+<circle cx="402" cy="108" r="78" fill="#fff" opacity=".07"/><circle cx="402" cy="108" r="112" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="3"/>
+<path d="M85 126h342M85 386h342" stroke="#fff" stroke-opacity=".12" stroke-width="4" stroke-linecap="round"/>
+<g filter="url(#shadow)">
+ <path d="M93 206c58-27 112-23 163 9v184c-53-32-108-36-163-9-12 6-25-3-25-16V229c0-10 9-19 25-23Z" fill="url(#book)" stroke="#fff2c0" stroke-width="8"/>
+ <path d="M419 206c-58-27-112-23-163 9v184c53-32 108-36 163-9 12 6 25-3 25-16V229c0-10-9-19-25-23Z" fill="#fff" stroke="#dce8ff" stroke-width="8"/>
+ <path d="M256 215v184" stroke="#d6b96b" stroke-width="9" stroke-linecap="round"/>
+ <path d="M105 254c43-15 84-12 122 7M105 292c43-15 84-12 122 7M105 330c43-15 84-12 122 7" fill="none" stroke="#d9b85e" stroke-width="9" stroke-linecap="round"/>
+ <path d="M285 261c39-19 79-21 122-7M285 299c39-19 79-21 122-7M285 337c39-19 79-21 122-7" fill="none" stroke="#b8c8ed" stroke-width="9" stroke-linecap="round"/>
+</g>
+<path d="m337 72 13 31 33 4-25 22 7 33-28-17-29 17 7-33-25-22 33-4z" fill="#ffe082"/>
+<circle cx="112" cy="110" r="11" fill="#7ce6d0"/><circle cx="405" cy="414" r="10" fill="#ffb4d4"/>
+<path d="m105 414 8 18 19 2-14 13 4 19-17-10-17 10 4-19-14-13 19-2z" fill="#fff" opacity=".85"/>
+</svg>
