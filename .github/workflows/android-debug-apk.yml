@@ -42,10 +42,37 @@ jobs:
       - name: Sync app files
         run: npx cap sync android
 
+      - name: Create branded Android launcher icons
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from PIL import Image, ImageDraw
+          import os
+          size=512
+          im=Image.new('RGBA',(size,size),(18,55,75,255)); d=ImageDraw.Draw(im)
+          d.rounded_rectangle((0,0,511,511),radius=112,fill=(18,55,75,255))
+          d.ellipse((330,35,485,190),fill=(255,255,255,12))
+          d.polygon([(55,202),(245,218),(245,397),(55,378)],fill=(255,224,151,255),outline=(255,246,210,255),width=9)
+          d.polygon([(267,218),(457,202),(457,378),(267,397)],fill=(255,255,255,255),outline=(220,235,240,255),width=9)
+          d.line((256,220,256,398),fill=(195,139,47,255),width=10)
+          for y in (265,310):
+              d.line((92,y,220,y+8),fill=(188,142,59,255),width=9)
+              d.line((292,y+8,420,y),fill=(166,190,210,255),width=9)
+          d.polygon([(310,70),(350,153),(393,70),(367,164),(414,190),(351,180),(310,235),(319,168),(266,127),(333,137)],fill=(245,197,81,255))
+          d.text((256,448),'AMIR',anchor='mm',fill=(255,255,255,255),stroke_width=1)
+          targets={'mdpi':48,'hdpi':72,'xhdpi':96,'xxhdpi':144,'xxxhdpi':192}
+          for density,px in targets.items():
+              folder=f'android/app/src/main/res/mipmap-{density}'
+              os.makedirs(folder,exist_ok=True)
+              out=im.resize((px,px),Image.Resampling.LANCZOS)
+              out.save(os.path.join(folder,'ic_launcher.png'))
+              out.save(os.path.join(folder,'ic_launcher_round.png'))
+          PY
+
       - name: Set Android app version
         run: |
-          sed -i -E 's/versionCode [0-9]+/versionCode 26/' android/app/build.gradle
-          sed -i -E 's/versionName "[^"]+"/versionName "1.6.0"/' android/app/build.gradle
+          sed -i -E 's/versionCode [0-9]+/versionCode 27/' android/app/build.gradle
+          sed -i -E 's/versionName "[^"]+"/versionName "1.7.0"/' android/app/build.gradle
           grep -E 'versionCode|versionName' android/app/build.gradle
 
       - name: Build APK
