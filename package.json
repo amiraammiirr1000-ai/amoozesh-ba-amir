@@ -1,8 +1,8 @@
 {
   "name": "amoozesh-ba-amir",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
-  "description": "آموزش با امیر - نسخه ۱.۲، PWA و پروژه اندروید با استقرار آماده دستیار هوشمند",
+  "description": "آموزش با امیر - نسخه ۱.۳، سامانه یادگیری تعاملی فارسی",
   "scripts": {
     "qa": "node qa-check.mjs",
     "cap:add:android": "cap add android",
