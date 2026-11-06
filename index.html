@@ -97,7 +97,41 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 @media(min-width:700px){.top{border-radius:0 0 40px 40px}.content{padding-top:22px}.hero-art{min-height:198px}}
 @media(prefers-reduced-motion:no-preference){.hero-art{animation:heroFloat 7s ease-in-out infinite alternate}.achievement{animation:softGlow 5s ease-in-out infinite alternate}@keyframes heroFloat{from{background-position:0 50%}to{background-position:100% 50%}}@keyframes softGlow{from{box-shadow:0 7px 20px #e8b94c12}to{box-shadow:0 9px 26px #e8b94c30}}}
 
-\n/* بازی تعاملی صفحه مختصات فصل چهارم */\n.coord-board{width:100%;max-width:420px;margin:12px auto;background:#f8fbff;border:1px solid var(--line);border-radius:18px;overflow:hidden;touch-action:pan-y}.coord-board svg{display:block;width:100%;height:auto;touch-action:pan-y}.coord-controls{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.coord-readout{padding:11px;border-radius:13px;background:var(--glow);font-weight:700;text-align:center}\n</style>
+\n/* بازی تعاملی صفحه مختصات فصل چهارم */\n.coord-board{width:100%;max-width:420px;margin:12px auto;background:#f8fbff;border:1px solid var(--line);border-radius:18px;overflow:hidden;touch-action:pan-y}.coord-board svg{display:block;width:100%;height:auto;touch-action:pan-y}.coord-controls{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.coord-readout{padding:11px;border-radius:13px;background:var(--glow);font-weight:700;text-align:center}\n
+/* نسخه ۱.۹ — جستجوی سراسری و نمایشگر افقی */
+.global-search{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:13px;margin:14px 0 16px;box-shadow:0 7px 20px #173c4c0b}
+.global-search>label{display:block;font-weight:800;font-size:14px;margin-bottom:8px;color:var(--navy)}
+.global-search-row{display:flex;align-items:center;gap:8px}.global-search-row>span{font-size:21px}.global-search-row .input{min-width:0;flex:1}.global-search-row .btn{white-space:nowrap}
+.global-search-results{display:grid;gap:7px;margin-top:9px}
+.search-hit{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:right;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--accent) 5%,var(--white));color:var(--ink)}
+.search-hit strong{font-size:12px}.search-hit small{display:block;color:var(--muted);font-size:10px}.search-empty{font-size:12px;color:var(--muted);padding:7px}
+@media(orientation:landscape) and (max-height:600px){
+ .app{max-width:100%;padding-bottom:64px}
+ .top{padding:10px 18px 12px;border-radius:0 0 18px 18px}
+ .brandrow{gap:8px}.logo{width:38px;height:38px;border-radius:11px;font-size:20px}
+ .brand{font-size:16px}.sub{font-size:10px}
+ .welcome{margin-top:7px}.welcome h1{font-size:17px}.welcome p{font-size:11px}
+ .pill{margin-top:4px;padding:2px 8px}
+ .content{padding:10px 14px}
+ .section-head{margin:8px 0}.card{padding:11px;margin-bottom:8px}
+ .hero-art{min-height:100px;padding:12px 15px;margin:7px 0 10px}
+ .hero-art h2{font-size:16px}.hero-art p{font-size:11px}
+ .grid,.tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .lessongrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .navinner{max-width:none;min-width:0;overflow-x:auto;justify-content:flex-start}
+ .nav button{flex:0 0 70px;min-width:70px;min-height:52px;padding:4px}
+ .nav .ico{font-size:16px}
+ .global-search{padding:9px;margin:8px 0}
+ .wb-canvas{height:220px}
+}
+@media(orientation:landscape) and (max-height:430px){
+ .top .welcome p,.top .pill{display:none}
+ .top{padding:7px 14px}
+ .global-search{margin:6px 0;padding:8px}
+ .global-search-results{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+</style>
 </head>
 <body>
 <div class="app">
@@ -106,6 +140,11 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
   <div class="welcome"><h1 id="greeting">سلام قهرمان ریاضی! 👋</h1><p>قدم‌به‌قدم یاد بگیر؛ هر تمرین تو را قوی‌تر می‌کند.</p><span class="pill">پایه ششم ابتدایی · ریاضی · هم‌راستا با کتاب ۱۴۰۵–۱۴۰۶</span></div>
 </header>
 <main class="content">
+<section id="globalSearch" class="global-search" aria-label="جستجوی برنامه">
+  <label for="appSearchInput">جستجو در آموزش با امیر</label>
+  <div class="global-search-row"><span aria-hidden="true">🔎</span><input id="appSearchInput" class="input" type="search" placeholder="مثلاً بخش‌پذیری، کسر، وایت‌برد، دانش‌آموز..." autocomplete="off" oninput="runAppSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';runAppSearch('')}"><button class="btn light" type="button" onclick="document.getElementById('appSearchInput').value='';runAppSearch('')">پاک‌کردن</button></div>
+  <div id="appSearchResults" class="global-search-results" role="status" aria-live="polite"><span class="small">نام درس، ابزار یا بخش موردنظر را بنویس.</span></div>
+</section>
 <section id="home" class="view active">
   <div class="section-head"><h2>داشبورد یادگیری</h2><span class="small">نسخه ۱.۳ · تجربه یادگیری هوشمند و رنگارنگ</span></div>
   <div class="hero-art"><div class="hero-kicker">AMOOZESH BA AMIR · LEARN SMART</div><h2>قهرمان یادگیری باش! ✨</h2><p>هر روز یک قدم جلوتر؛ با تمرین‌های کوتاه، مسیرت را بساز.</p><img class="hero-illustration" src="study-hero.svg" alt="تصویر کتاب، مداد و لوازم‌التحریر آموزشی" loading="eager"></div>
@@ -936,5 +975,29 @@ function exportFullBackup(){const keys=['amirMathState','amirLearningMemory','am
 function importFullBackup(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=()=>{const f=input.files&&input.files[0];if(!f)return;if(f.size>8*1024*1024){alert('حجم فایل بیش از ۸ مگابایت است.');return;}const reader=new FileReader();reader.onload=()=>{try{const obj=JSON.parse(reader.result);if(obj.app!=='آموزش با امیر'||![1,2].includes(obj.schemaVersion)||!obj.data||typeof obj.data!=='object'||Array.isArray(obj.data))throw new Error('فایل پشتیبان معتبر نیست.');if(!confirm('اطلاعات موجود در این مرورگر با داده‌های داخل نسخه پشتیبان جایگزین شوند؟'))return;const allowed=new Set(['amirMathState','amirLearningMemory','amirTheme','amirProfilePhoto','amirTutorHistory','amirTutorEndpointV09','amirTutorEndpointV10','amirSkillResultsV07','amirStudentsV07','amirAssignmentsV07']);for(const [k,v] of Object.entries(obj.data)){if(allowed.has(k)&&typeof v==='string')localStorage.setItem(k,v);}alert('بازیابی انجام شد. صفحه را یک بار تازه‌سازی کن تا همه بخش‌ها به‌روز شوند.');location.reload();}catch(e){alert(e.message||'خواندن فایل پشتیبان ناموفق بود.');}};reader.readAsText(f);};input.click();}
 (function initV10(){try{const el=document.getElementById('aiEndpoint'),saved=localStorage.getItem(AMIR_AI_ENDPOINT_KEY)||localStorage.getItem('amirTutorEndpointV09')||'';if(el)el.value=saved;if(saved&&!localStorage.getItem(AMIR_AI_ENDPOINT_KEY))localStorage.setItem(AMIR_AI_ENDPOINT_KEY,saved);if(saved)setAIStatus('نشانی سرور ذخیره‌شده است؛ برای بررسی وضعیت، «آزمایش اتصال» را بزن.');const v=document.querySelector('#profile .card:last-child p');if(v)v.textContent=v.textContent.replace(/نسخه ۰\.۹/g,'نسخه ۱.۲').replace(/نسخه ۱\.۰/g,'نسخه ۱.۲').replace(/نسخه ۱\.۱/g,'نسخه ۱.۲');}catch(e){}})();
 </script>
+
+<script>
+/* جستجوی قابل‌مشاهده صفحه اول: درس‌ها، ابزارها و بخش‌های برنامه */
+function runAppSearch(raw){
+ const box=document.getElementById('appSearchResults'); if(!box)return;
+ const q=String(raw||'').trim().toLocaleLowerCase('fa');
+ if(!q){box.innerHTML='<span class="small">نام درس، ابزار یا بخش موردنظر را بنویس.</span>';return;}
+ const hits=[]; const norm=s=>String(s||'').toLocaleLowerCase('fa').replace(/[ي]/g,'ی').replace(/[ك]/g,'ک');
+ try{
+  if(Array.isArray(lessons)) lessons.forEach(l=>{const hay=norm([l.title,l.pages,l.body].join(' '));if(hay.includes(norm(q)))hits.push({title:l.title,sub:'درس و آموزش',action:"openLesson("+Number(l.id)+")"});});
+ }catch(e){}
+ document.querySelectorAll('.view[id]').forEach(v=>{
+  const id=v.id; if(['lesson','quiz','quizResult'].includes(id))return;
+  const title=v.querySelector('.section-head h2,h2,h1')?.textContent||v.getAttribute('aria-label')||id;
+  const hay=norm(v.innerText||'');
+  if(hay.includes(norm(q))&&!hits.some(h=>h.action==="showView('"+id+"')"))hits.push({title:title.trim().slice(0,70),sub:'بخش برنامه',action:"showView('"+id+"')"});
+ });
+ const unique=hits.filter((h,i)=>hits.findIndex(x=>x.action===h.action)===i).slice(0,12);
+ if(!unique.length){box.innerHTML='<div class="search-empty">موردی پیدا نشد. عبارت دیگری را امتحان کن.</div>';return;}
+ box.innerHTML=unique.map(h=>'<button type="button" class="search-hit" onclick="'+h.action+';document.getElementById(\'appSearchResults\').innerHTML=\'<span class=small>بخش انتخاب‌شده باز شد.</span>\'"><span><strong>'+escapeSearchText(h.title)+'</strong><small>'+escapeSearchText(h.sub)+'</small></span><b aria-hidden="true">←</b></button>').join('');
+}
+function escapeSearchText(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+</script>
+
 </body>
 </html>
