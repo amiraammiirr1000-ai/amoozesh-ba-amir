@@ -114,10 +114,10 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
     <div class="card stat"><strong id="statDone">۰</strong><span>درس تکمیل‌شده</span></div>
     <div class="card stat"><strong id="statScore">۰٪</strong><span>میانگین آزمون‌ها</span></div>
     <div class="card stat"><strong id="statPoints">۰</strong><span>امتیاز یادگیری</span></div>
-    <div class="card stat"><strong>۴</strong><span>درس فصل اول</span></div>
+    <div class="card stat"><strong id="lessonTotal">۹</strong><span>درس آماده</span></div>
   </div>
   <div class="card"><div class="section-head"><h2>پیشرفت فصل</h2><span id="progressLabel" class="small">۰٪</span></div><div class="progress"><span id="progressBar"></span></div><div class="small">با پایان هر درس و شرکت در آزمون، پیشرفتت ثبت می‌شود.</div></div>
-  <div class="section-head"><h2>مسیر یادگیری فصل اول</h2><span class="small">۴ درس اصلی</span></div>
+  <div class="section-head"><h2>مسیر یادگیری فصل اول</h2><span class="small">۹ درس آماده در دو فصل</span></div>
   <div id="lessonList" class="lessongrid"></div>
   <div class="section-head"><h2>نقشه کامل کتاب ریاضی ششم</h2><span class="tag">۱۴۰۵–۱۴۰۶</span></div>
   <div class="mutedbox" style="margin-bottom:12px">این نقشه بر اساس فهرست فصل‌های کتاب ریاضی ششم و سرفصل‌های رسمیِ در دسترس تنظیم شده است. درس‌نامه‌ها و سؤال‌های این برنامه، محتوای آموزشیِ تألیفی و هم‌راستا با مفاهیم کتاب هستند؛ متن و تمرین‌های کتاب عیناً بازنشر نشده‌اند. فصل اول با درس‌نامه و آزمون تعاملی شروع شده و فصل‌های بعدی به‌صورت نقشه آموزشی و نمونه شروع در این نسخه آمده‌اند.</div>
@@ -294,7 +294,7 @@ const lessonQuestionBanks={
 };
 const curriculum=[
 {n:1,title:"عدد و الگوهای عددی",icon:"🔢",status:"درس‌نامه و آزمون تعاملی",topics:["الگوهای عددی","یادآوری عددنویسی","بخش‌پذیری","معرفی اعداد صحیح","مرور فصل"],learn:"در این فصل رابطه میان جمله‌های الگو را پیدا می‌کنی، ارزش مکانی رقم‌ها را مرور می‌کنی، قواعد بخش‌پذیری را به کار می‌بری و با عددهای مثبت و منفی روی محور آشنا می‌شوی.",example:"در الگوی ۷، ۱۲، ۱۷، ۲۲، … هر بار ۵ واحد اضافه می‌شود؛ پس جمله بعدی ۲۷ است.",practice:"عدد بعدی الگوی ۹۰، ۸۲، ۷۴، ۶۶، … چیست؟ پاسخ: ۵۸؛ هر بار ۸ واحد کم می‌شود.",ready:true},
-{n:2,title:"کسر",icon:"🍰",status:"نقشه درس + نمونه شروع",topics:["جمع و تفریق کسرها","ضرب کسرها","تقسیم کسرها","محاسبات با کسر","مرور فصل"],learn:"برای محاسبه با کسرها، ابتدا معنی صورت و مخرج را مرور کن. در جمع و تفریق، کسرها باید مخرج مشترک داشته باشند؛ در ضرب، صورت‌ها و مخرج‌ها در هم ضرب می‌شوند؛ تقسیم بر کسر را با ضرب در معکوس آن انجام می‌دهیم.",example:"۱/۴ + ۲/۴ = ۳/۴؛ چون مخرج‌ها برابرند، صورت‌ها را جمع می‌کنیم.",practice:"۳/۵ × ۲/۳ را ساده کن. پاسخ: ۶/۱۵ = ۲/۵.",ready:false},
+{n:2,title:"کسر",icon:"🍰",status:"۵ درس‌نامه و آزمون تعاملی",topics:["جمع و تفریق کسرها","ضرب کسرها","تقسیم کسرها","محاسبات با کسر","مرور فصل"],learn:"برای محاسبه با کسرها، ابتدا معنی صورت و مخرج را مرور کن. در جمع و تفریق، کسرها باید مخرج مشترک داشته باشند؛ در ضرب، صورت‌ها و مخرج‌ها در هم ضرب می‌شوند؛ تقسیم بر کسر را با ضرب در معکوس آن انجام می‌دهیم.",example:"۱/۴ + ۲/۴ = ۳/۴؛ چون مخرج‌ها برابرند، صورت‌ها را جمع می‌کنیم.",practice:"۳/۵ × ۲/۳ را ساده کن. پاسخ: ۶/۱۵ = ۲/۵.",ready:true},
 {n:3,title:"اعداد اعشاری",icon:"🔟",status:"نقشه درس + نمونه شروع",topics:["یادآوری","یادآوری ضرب و تقسیم","تقسیم عدد اعشاری بر عدد طبیعی","تقسیم یک عدد بر عدد اعشاری","مرور فصل"],learn:"ارزش مکانی دهم، صدم و هزارم را با جدول ارزش مکانی مرور کن. در ضرب و تقسیم، به ارزش مکانی و جابه‌جایی ممیز توجه کن و در پایان، معقول بودن جواب را با تخمین بررسی کن.",example:"۳٫۶ ÷ ۳ = ۱٫۲؛ چون ۳۶ دهم را بین ۳ قسمت مساوی تقسیم می‌کنیم، در هر قسمت ۱۲ دهم داریم.",practice:"۲٫۴ × ۱۰ چند می‌شود؟ پاسخ: ۲۴؛ ضرب در ۱۰، ممیز را یک مرتبه به راست می‌برد.",ready:false},
 {n:4,title:"تقارن و مختصات",icon:"🔷",status:"نقشه درس + نمونه شروع",topics:["مرکز تقارن و تقارن مرکزی","دوران","محورهای مختصات","تقارن و مختصات","مرور فصل"],learn:"تقارن را با بررسی جابه‌جایی یا چرخش شکل‌ها بشناس. در صفحه مختصات، هر نقطه با یک زوج مرتب مشخص می‌شود؛ ابتدا حرکت افقی و سپس عمودی را مطابق قرارداد محور‌ها بخوان.",example:"در زوج مرتب (۳،۲)، مؤلفه اول ۳ و مؤلفه دوم ۲ است؛ نقطه را با توجه به جهت محورهای رسم‌شده پیدا کن.",practice:"اگر از مبدأ، ۴ واحد به راست و ۱ واحد به بالا برویم، مختصات نقطه (۴،۱) است.",ready:false},
 {n:5,title:"اندازه‌گیری",icon:"📐",status:"نقشه درس + نمونه شروع",topics:["طول و سطح","حجم و جرم","مساحت دایره","خط و زاویه","مرور فصل"],learn:"در اندازه‌گیری، واحدها را قبل از محاسبه یکسان کن. محیط دور شکل را توصیف می‌کند و مساحت مقدار سطح داخل شکل است. حجم با واحدهای مکعبی و جرم با واحدهای مناسب سنجیده می‌شود.",example:"مساحت مستطیل با طول ۸ و عرض ۳ برابر ۸×۳=۲۴ واحد مربع است.",practice:"محیط مربعی با ضلع ۵ سانتی‌متر چقدر است؟ پاسخ: ۴×۵=۲۰ سانتی‌متر.",ready:false},
@@ -308,13 +308,82 @@ function loadState(){try{return JSON.parse(localStorage.getItem("amirMathState")
 function persist(){localStorage.setItem("amirMathState",JSON.stringify(state));renderStats();}
 function fa(n){return String(n).replace(/[0-9]/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);}
 function renderLessons(){document.getElementById("lessonList").innerHTML=lessons.map(l=>`<div class="card lesson"><div class="lesson-icon">${l.icon}</div><div style="flex:1"><h3>${l.id}. ${l.title}</h3><p>${l.desc}<br>${l.pages}</p>${state.done.includes(l.id)?'<span class="tag">تکمیل‌شده ✓</span> ':''}<button class="btn" onclick="openLesson(${l.id})" style="margin-top:8px">ورود به درس</button></div></div>`).join("");}
-function renderStats(){let done=state.done.length,avg=state.scores.length?Math.round(state.scores.reduce((a,b)=>a+b,0)/state.scores.length):0,pct=Math.round(done/lessons.length*100);document.getElementById("statDone").textContent=fa(done);document.getElementById("statScore").textContent=fa(avg)+"٪";document.getElementById("statPoints").textContent=fa(state.points);document.getElementById("progressLabel").textContent=fa(pct)+"٪";document.getElementById("progressBar").style.width=pct+"%";document.getElementById("teacherReport").innerHTML=`<p>درس‌های تکمیل‌شده: <b>${fa(done)} از ۴</b></p><p>میانگین آزمون‌ها: <b>${fa(avg)}٪</b></p><p>امتیاز کسب‌شده: <b>${fa(state.points)}</b></p><p class="small">آخرین نمره‌ها: ${state.scores.length?state.scores.map(x=>fa(x)+"٪").join("، "):"هنوز آزمونی ثبت نشده است."}</p>`;document.getElementById("teacherNote").value=state.note||"";renderLessons();}
+function renderStats(){let done=state.done.length,avg=state.scores.length?Math.round(state.scores.reduce((a,b)=>a+b,0)/state.scores.length):0,pct=Math.round(done/lessons.length*100);document.getElementById("statDone").textContent=fa(done);document.getElementById("statScore").textContent=fa(avg)+"٪";document.getElementById("statPoints").textContent=fa(state.points);document.getElementById("progressLabel").textContent=fa(pct)+"٪";document.getElementById("progressBar").style.width=pct+"%";document.getElementById("teacherReport").innerHTML=`<p>درس‌های تکمیل‌شده: <b>${fa(done)} از ${fa(lessons.length)}</b></p><p>میانگین آزمون‌ها: <b>${fa(avg)}٪</b></p><p>امتیاز کسب‌شده: <b>${fa(state.points)}</b></p><p class="small">آخرین نمره‌ها: ${state.scores.length?state.scores.map(x=>fa(x)+"٪").join("، "):"هنوز آزمونی ثبت نشده است."}</p>`;document.getElementById("teacherNote").value=state.note||"";renderLessons();}
 function showView(id){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===id));if(id==="teacher")renderStats();window.scrollTo({top:0,behavior:"smooth"});}
 function openLesson(id){currentLesson=id;let l=lessons.find(x=>x.id===id);document.getElementById("lessonContent").innerHTML=`<div class="lesson"><div class="lesson-icon">${l.icon}</div><div><h2>${l.title}</h2><div class="small">${l.pages}</div></div></div><hr style="border:0;border-top:1px solid var(--line);margin:15px 0">${l.body}<div class="btnrow" style="margin-top:16px"><button class="btn gold" onclick="markDone(${id})">درس را یاد گرفتم ✓</button><button class="btn" onclick="startLessonQuiz(${id})">تمرین این درس</button></div>`;showView("lesson");}
 function markDone(id){if(!state.done.includes(id)){state.done.push(id);state.points+=10;persist();}openLesson(id);document.querySelector("#lessonContent .btn.gold").textContent="درس ثبت شد ✓";}
 function startQuiz(){quizMode="chapter";qIndex=0;answers=[];showView("quiz");renderQuestion();}
 function startLessonQuiz(id){quizMode="lesson";qIndex=0;answers=[];currentLesson=id;showView("quiz");renderQuestion();}
-function getQuestions(){if(quizMode==="lesson"){if(currentLesson===1)return [{q:"در الگوی ۲، ۵، ۸، ۱۱، عدد بعدی چیست؟",opts:["۱۲","۱۳","۱۴","۱۵"],a:2,why:"قانون الگو افزودن ۳ است؛ ۱۱ + ۳ = ۱۴. گزینه درست ۱۴ است."}];if(currentLesson===2)return [{q:"ارزش رقم ۶ در عدد ۶۲٬۴۰۰ چیست؟",opts:["۶۰۰","۶٬۰۰۰","۶۰٬۰۰۰","۶۰۰٬۰۰۰"],a:2,why:"۶ در جایگاه ده‌هزارگان است، پس ارزشش ۶۰٬۰۰۰ است."}];if(currentLesson===3)return [{q:"کدام عدد بر ۳ بخش‌پذیر است؟",opts:["۱۲۴","۲۲۲","۳۱۱","۴۰۱"],a:1,why:"۲ + ۲ + ۲ = ۶ و ۶ بر ۳ بخش‌پذیر است."}];return [{q:"کدام عدد از همه کوچک‌تر است؟",opts:["۳-","۱-","۰","۲-"],a:0,why:"روی محور اعداد، ۳- در سمت چپ بقیه است."}];}return quizQuestions;}
+function getQuestions(){
+ if(quizMode!=="lesson")return quizQuestions;
+ const banks={
+  1:[
+   {q:"در الگوی ۴، ۹، ۱۴، ۱۹، عدد بعدی چیست؟",opts:["۲۲","۲۳","۲۴","۲۵"],a:2,why:"اختلاف هر دو جمله ۵ است؛ پس ۱۹+۵=۲۴."},
+   {q:"قانون الگوی ۳، ۶، ۱۲، ۲۴ چیست؟",opts:["هر بار ۳ تا اضافه می‌شود","هر بار دو برابر می‌شود","هر بار ۶ تا کم می‌شود","هر بار ۳ برابر می‌شود"],a:1,why:"۶ دو برابر ۳، ۱۲ دو برابر ۶ و ۲۴ دو برابر ۱۲ است."},
+   {q:"عدد بعدی الگوی ۵۰، ۴۳، ۳۶، ۲۹ کدام است؟",opts:["۲۱","۲۲","۲۳","۲۴"],a:1,why:"در هر مرحله ۷ واحد کم می‌شود؛ ۲۹−۷=۲۲."},
+   {q:"عدد گمشده در ۱۱، ۱۵، □، ۲۳، ۲۷ چیست؟",opts:["۱۷","۱۸","۱۹","۲۰"],a:2,why:"قانون افزودن ۴ است؛ ۱۵+۴=۱۹ و ۱۹+۴=۲۳."},
+   {q:"برای کشف قانون یک الگو بهتر است چه کنیم؟",opts:["فقط دو عدد اول را ببینیم","قانون را روی چند جمله بررسی کنیم","همیشه عددها را جمع کنیم","آخرین عدد را تکرار کنیم"],a:1,why:"بررسی چند فاصله کمک می‌کند قانون درست را تشخیص دهیم و فریب یک رابطه اتفاقی را نخوریم."}
+  ],
+  2:[
+   {q:"ارزش رقم ۵ در عدد ۴۵۲٬۳۱۸ چقدر است؟",opts:["۵۰۰","۵٬۰۰۰","۵۰٬۰۰۰","۵۰۰٬۰۰۰"],a:2,why:"۵ در جایگاه ده‌هزارگان است؛ بنابراین ارزش آن ۵۰٬۰۰۰ است."},
+   {q:"گسترده‌نویسی درست عدد ۳۰۶٬۰۲۵ کدام است؟",opts:["۳۰۰٬۰۰۰+۶٬۰۰۰+۲۰+۵","۳۰٬۰۰۰+۶٬۰۰۰+۲۵","۳۰۰٬۰۰۰+۶۰۰+۲۵","۳۰۰٬۰۰۰+۶٬۰۰۰+۲۰۰+۵"],a:0,why:"۳ صد‌هزارگان، ۶ هزارگان، ۲ دهگان و ۵ یکان دارد."},
+   {q:"رقم ۷ در عدد ۲٬۷۴۵٬۰۰۰ در چه مرتبه‌ای است؟",opts:["هزارگان","ده‌هزارگان","صد‌هزارگان","میلیون"],a:2,why:"۷ در دسته هزار و در مرتبه صد‌هزارگان قرار گرفته است؛ ارزشش ۷۰۰٬۰۰۰ است."},
+   {q:"عدد ۳٬۰۴۰٬۰۱۲ چگونه خوانده می‌شود؟",opts:["سه میلیون و چهار هزار و دوازده","سه میلیون و چهل هزار و دوازده","سی میلیون و چهل هزار و دوازده","سه میلیون و چهارصد هزار و دوازده"],a:1,why:"عدد را سه‌رقمی دسته‌بندی می‌کنیم: ۳ میلیون، ۰۴۰ هزار و ۰۱۲."},
+   {q:"در عدد ۸۰۵٬۰۶۰ رقم ۶ چه ارزشی دارد؟",opts:["۶","۶۰","۶۰۰","۶٬۰۰۰"],a:1,why:"۶ در جایگاه دهگان است؛ پس ارزش آن ۶۰ می‌شود."}
+  ],
+  3:[
+   {q:"کدام عدد بر ۳ بخش‌پذیر است؟",opts:["۱۲۴","۲۲۲","۳۱۱","۴۰۱"],a:1,why:"مجموع رقم‌های ۲۲۲ برابر ۶ است و ۶ بر ۳ بخش‌پذیر است."},
+   {q:"کدام عدد بر ۵ بخش‌پذیر است؟",opts:["۱۲۳","۲۴۸","۳۷۰","۴۱۶"],a:2,why:"عددهایی بر ۵ بخش‌پذیرند که رقم یکانشان ۰ یا ۵ باشد."},
+   {q:"برای بخش‌پذیری بر ۹ چه چیزی را بررسی می‌کنیم؟",opts:["رقم یکان","رقم دهگان","مجموع رقم‌ها","تعداد رقم‌ها"],a:2,why:"اگر مجموع رقم‌های عدد بر ۹ بخش‌پذیر باشد، خود عدد نیز بر ۹ بخش‌پذیر است."},
+   {q:"کدام عدد هم بر ۲ و هم بر ۵ بخش‌پذیر است؟",opts:["۳۵","۴۲","۶۰","۷۵"],a:2,why:"عدد باید یکان ۰ داشته باشد؛ ۶۰ هم زوج است و هم بر ۵ بخش‌پذیر."},
+   {q:"آیا ۱٬۲۳۶ بر ۲ بخش‌پذیر است؟",opts:["بله، چون زوج است","خیر، چون رقم اول فرد است","خیر، چون چهاررقمی است","فقط بر ۵ بخش‌پذیر است"],a:0,why:"رقم یکان ۶ است؛ هر عددی که یکانش ۰، ۲، ۴، ۶ یا ۸ باشد بر ۲ بخش‌پذیر است."}
+  ],
+  4:[
+   {q:"کدام عدد از همه کوچک‌تر است؟",opts:["۳-","۱-","۰","۲-"],a:0,why:"هرچه روی محور به سمت چپ برویم، عدد کوچک‌تر می‌شود؛ ۳- از بقیه چپ‌تر است."},
+   {q:"قرینه عدد ۷- کدام است؟",opts:["۷-","۰","۷","۱۴"],a:2,why:"قرینه عدد صحیح در فاصله برابر و سمت مخالف صفر قرار دارد؛ قرینه ۷- برابر ۷ است."},
+   {q:"حاصل ۵- + ۸ کدام است؟",opts:["۱۳-","۳-","۳","۱۳"],a:2,why:"از ۵- روی محور ۸ واحد به راست حرکت می‌کنیم و به ۳ می‌رسیم."},
+   {q:"کدام عبارت درست است؟",opts:["۲- بزرگ‌تر از ۱- است","۴- بزرگ‌تر از ۰ است","۰ بزرگ‌تر از ۳- است","۵- بزرگ‌تر از ۲- است"],a:2,why:"صفر در سمت راست عددهای منفی قرار می‌گیرد؛ پس از ۳- بزرگ‌تر است."},
+   {q:"فاصله عدد ۴- تا صفر چند واحد است؟",opts:["۲","۳","۴","۵"],a:2,why:"فاصله تا صفر برابر قدرمطلق عدد است؛ قدرمطلق ۴- برابر ۴ است."}
+  ],
+  6:[
+   {q:"در کسر ۳/۷، صورت کدام عدد است؟",opts:["۳","۷","۱۰","۲۱"],a:0,why:"عدد بالای خط کسر صورت و عدد پایین مخرج نام دارد."},
+   {q:"کدام کسر با ۱/۲ مساوی است؟",opts:["۲/۳","۳/۶","۴/۶","۲/۵"],a:1,why:"با ضرب صورت و مخرج ۱/۲ در ۳، کسر ۳/۶ به دست می‌آید."},
+   {q:"کسر ۶/۸ در ساده‌ترین شکل کدام است؟",opts:["۳/۴","۲/۳","۴/۵","۱/۴"],a:0,why:"صورت و مخرج را بر بزرگ‌ترین مقسوم‌علیه مشترک یعنی ۲ تقسیم می‌کنیم؛ ۶/۸=۳/۴."},
+   {q:"یک واحد کامل برابر کدام کسر است؟",opts:["۱/۲","۲/۳","۵/۵","۳/۵"],a:2,why:"هرگاه صورت و مخرج برابر باشند، مقدار کسر یک واحد کامل است."},
+   {q:"در کسرهای مساوی چه چیزی تغییر می‌کند؟",opts:["مقدار کسر","فقط صورت","صورت و مخرج با یک عدد یکسان ضرب یا تقسیم می‌شوند","همیشه مخرج صفر می‌شود"],a:2,why:"ضرب یا تقسیم هم‌زمان صورت و مخرج در یک عدد غیرصفر، مقدار کسر را ثابت نگه می‌دارد."}
+  ],
+  7:[
+   {q:"حاصل ۱/۴ + ۲/۴ چیست؟",opts:["۳/۸","۳/۴","۲/۴","۱/۲"],a:1,why:"مخرج‌ها برابرند؛ صورت‌ها را جمع می‌کنیم: ۱+۲=۳ و مخرج ۴ باقی می‌ماند."},
+   {q:"حاصل ۳/۵ − ۱/۵ چیست؟",opts:["۲/۵","۲/۱۰","۴/۵","۱/۵"],a:0,why:"با مخرج برابر، صورت‌ها را کم می‌کنیم: ۳−۱=۲."},
+   {q:"برای جمع ۱/۲ و ۱/۳ ابتدا چه می‌کنیم؟",opts:["صورت‌ها را جمع می‌کنیم","مخرج مشترک می‌گیریم","مخرج‌ها را ضرب نمی‌کنیم","کسرها را حذف می‌کنیم"],a:1,why:"مخرج‌ها متفاوت‌اند؛ آن‌ها را به مخرج مشترک ۶ تبدیل می‌کنیم."},
+   {q:"حاصل ۱/۲ + ۱/۳ کدام است؟",opts:["۲/۵","۲/۶","۵/۶","۱/۶"],a:2,why:"۱/۲=۳/۶ و ۱/۳=۲/۶؛ بنابراین مجموع ۵/۶ است."},
+   {q:"حاصل ۷/۸ − ۳/۸ چیست؟",opts:["۴/۸","۱۰/۸","۴/۱۶","۳/۸"],a:0,why:"۷−۳=۴ و مخرج ۸ ثابت می‌ماند؛ ۴/۸ که برابر ۱/۲ است."}
+  ],
+  8:[
+   {q:"حاصل ۲/۳ × ۳/۵ چیست؟",opts:["۶/۱۵","۵/۸","۲/۵","۵/۶"],a:0,why:"صورت‌ها را در هم و مخرج‌ها را در هم ضرب می‌کنیم: ۶/۱۵؛ این کسر برابر ۲/۵ است."},
+   {q:"حاصل ۱/۲ × ۴/۵ چیست؟",opts:["۴/۱۰","۵/۸","۴/۷","۱/۱۰"],a:0,why:"۱×۴=۴ و ۲×۵=۱۰؛ پس حاصل ۴/۱۰ یا ۲/۵ است."},
+   {q:"در ضرب دو کسر چه می‌کنیم؟",opts:["مخرج مشترک می‌گیریم","صورت‌ها و مخرج‌ها را جداگانه ضرب می‌کنیم","فقط صورت‌ها را جمع می‌کنیم","کسر دوم را معکوس می‌کنیم"],a:1,why:"برای ضرب کسرها، صورت در صورت و مخرج در مخرج ضرب می‌شود."},
+   {q:"حاصل ۳/۴ × ۲/۳ پس از ساده‌کردن چیست؟",opts:["۱/۲","۵/۷","۶/۱۲","۲/۳"],a:0,why:"۳×۲ روی ۴×۳ برابر ۶/۱۲ است که با تقسیم بر ۶ به ۱/۲ ساده می‌شود."},
+   {q:"۲/۵ از ۲۰ چند می‌شود؟",opts:["۴","۸","۱۰","۱۲"],a:1,why:"۲۰ را در ۲/۵ ضرب می‌کنیم: ۴۰/۵=۸."}
+  ],
+  9:[
+   {q:"برای تقسیم دو کسر چه روشی به کار می‌بریم؟",opts:["جمع صورت‌ها","ضرب کسر اول در معکوس کسر دوم","تفریق مخرج‌ها","ضرب مخرج‌ها بدون صورت"],a:1,why:"تقسیم بر یک کسر برابر است با ضرب در معکوس آن کسر."},
+   {q:"حاصل ۱/۲ ÷ ۱/۴ چیست؟",opts:["۱/۸","۲","۱/۲","۴"],a:1,why:"۱/۲ × ۴/۱ = ۴/۲ = ۲."},
+   {q:"معکوس کسر ۳/۵ کدام است؟",opts:["۳/۵","۵/۳","۲/۵","۵/۸"],a:1,why:"برای ساخت معکوس، جای صورت و مخرج را عوض می‌کنیم."},
+   {q:"حاصل ۲/۳ ÷ ۴/۵ چیست؟",opts:["۸/۱۵","۱۰/۱۲","۵/۶","۶/۵"],a:2,why:"۲/۳ × ۵/۴ = ۱۰/۱۲ و با ساده‌کردن برابر ۵/۶ است."},
+   {q:"حاصل ۳ ÷ ۱/۲ چیست؟",opts:["۱/۵","۳/۲","۶","۲"],a:2,why:"۳ را در معکوس ۱/۲ یعنی ۲ ضرب می‌کنیم؛ جواب ۶ است."}
+  ],
+  10:[
+   {q:"حاصل ۱/۲ + ۱/۴ چیست؟",opts:["۲/۶","۳/۴","۱/۶","۲/۴"],a:1,why:"۱/۲ را به ۲/۴ تبدیل می‌کنیم؛ ۲/۴+۱/۴=۳/۴."},
+   {q:"اگر ۳/۴ یک کیک خورده شود، چه مقدار باقی می‌ماند؟",opts:["۱/۴","۲/۴","۳/۴","۴/۴"],a:0,why:"کل کیک ۴/۴ است؛ ۴/۴−۳/۴=۱/۴ باقی می‌ماند."},
+   {q:"حاصل ۲/۵ × ۱۵ چیست؟",opts:["۵","۶","۸","۱۰"],a:1,why:"۱۵×۲/۵=۳۰/۵=۶."},
+   {q:"یک بطری ۳/۴ لیتر آب دارد. اگر ۱/۴ لیتر مصرف شود، چقدر می‌ماند؟",opts:["۱/۴","۲/۴","۳/۴","۴/۴"],a:1,why:"۳/۴−۱/۴=۲/۴ که برابر ۱/۲ لیتر است."},
+   {q:"کدام عبارت برابر یک واحد کامل است؟",opts:["۱/۲+۱/۴","۲/۳+۱/۳","۱/۵+۲/۵","۳/۴−۱/۴"],a:1,why:"۲/۳+۱/۳=۳/۳=۱؛ دو کسر با مخرج برابر یک واحد کامل می‌سازند."}
+  ]
+ };
+ return banks[currentLesson]||[{q:"برای تمرین این درس، ابتدا درس‌نامه را مرور کن.",opts:["متوجه شدم"],a:0,why:"پس از مرور درس، دوباره آزمون را اجرا کن."}];
+}
+
 function renderQuestion(){let qs=getQuestions();if(qIndex>=qs.length){finishQuiz();return;}let q=qs[qIndex];document.getElementById("quizTitle").textContent=quizMode==="chapter"?"آزمون فصل اول":"تمرین درس "+fa(currentLesson);document.getElementById("quizCount").textContent=`سؤال ${fa(qIndex+1)} از ${fa(qs.length)}`;document.getElementById("quizCard").innerHTML=`<div class="progress"><span style="width:${(qIndex/qs.length)*100}%"></span></div><div class="question">${q.q}</div><div>${q.opts.map((o,i)=>`<button class="option" onclick="answerQuestion(${i})">${"الفبپتثجچ"[i]} ) ${o}</button>`).join("")}</div><div id="quizFeedback" class="feedback"></div><button id="nextQuestion" class="btn full hidden" onclick="nextQuestion()" style="margin-top:12px">سؤال بعدی ←</button>`;}
 function answerQuestion(i){let q=getQuestions()[qIndex];if(answers[qIndex]!==undefined)return;answers[qIndex]=i;document.querySelectorAll(".option").forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add("correct");if(j===i&&i!==q.a)b.classList.add("wrong");});document.getElementById("quizFeedback").innerHTML=(i===q.a?'<span style="color:var(--green)">آفرین! پاسخ درست است.</span>':'<span style="color:var(--red)">هنوز جا برای یادگیری هست.</span>')+"<br>"+q.why;document.getElementById("nextQuestion").classList.remove("hidden");}
 function nextQuestion(){qIndex++;renderQuestion();}
