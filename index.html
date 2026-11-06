@@ -239,6 +239,7 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
  <button class="tool-tile" onclick="startMathGame(5)">💧 <b>کارگاه اعشار</b><small>تمرین جابه‌جایی ممیز</small></button>
  <button class="tool-tile" onclick="startMathGame(6)">📍 <b>صفحه مختصات لمسی</b><small>نقطه‌یابی و تقارن روی شبکه</small></button>
  <button class="tool-tile" onclick="startMathGame(7)">🍕 <b>آزمایشگاه کسرها</b><small>مدل تصویری، ساده‌سازی و درصد</small></button>
+ <button class="tool-tile" onclick="startMathGame(8)">⚖️ <b>کارگاه مقایسه و جمع کسرها</b><small>مقایسه، جمع و تفریق کسرها</small></button>
  </div><div id="gameStage" class="mutedbox" style="margin-top:12px">برای شروع یکی از دستگاه‌ها را انتخاب کن.</div></div>
  <div class="card" style="margin-top:12px"><h3>مسیر پیشنهادی مطالعه</h3><ol class="feature-list"><li>درس‌نامه را بخوان و مثال حل‌شده را بررسی کن.</li><li>یک تمرین را خودت روی وایت‌برد حل کن.</li><li>کاربرگ بساز و بدون دیدن پاسخ‌ها تمرین کن.</li><li>اشتباه یا نکته مهم را در دفتر حافظه ذخیره کن.</li><li>در پایان آزمون بده و گزارش پیشرفت را ببین.</li></ol><div class="mutedbox">حافظه این نسخه روی همین دستگاه و در همین مرورگر ذخیره می‌شود؛ هنوز بین گوشی‌ها همگام‌سازی نمی‌شود.</div></div>
 </section>
@@ -489,9 +490,23 @@ function startMathGame(n){
  if(n===5)h='<h3>کارگاه اعشار</h3><input class="input" id="gmA" value="2.45"><select class="input" id="gmB"><option value="10">ضرب در ۱۰</option><option value="100">ضرب در ۱۰۰</option><option value="0.1">تقسیم بر ۱۰</option><option value="0.01">تقسیم بر ۱۰۰</option></select><button class="btn gold full" onclick="runMathGame(5)">محاسبه</button>';
  if(n===6){startCoordinateGame();return;}
  if(n===7){startFractionGame();return;}
+ if(n===8){startFractionOperations();return;}
  e.innerHTML=h+'<div id="gmResult" class="example" style="margin-top:10px"></div>';
 }
 
+
+function startFractionOperations(){
+ const e=document.getElementById('gameStage');
+ e.innerHTML='<h3>⚖️ کارگاه مقایسه و عملیات کسرها</h3><p class="small">دو کسر بساز و آن‌ها را مقایسه کن یا جمع و تفریق انجام بده. مخرج‌ها می‌توانند متفاوت باشند.</p><div class="grid"><label class="small">صورت کسر اول<input class="input" id="frA" type="number" value="1" min="0"></label><label class="small">مخرج کسر اول<input class="input" id="frB" type="number" value="2" min="1"></label><label class="small">صورت کسر دوم<input class="input" id="frC" type="number" value="1" min="0"></label><label class="small">مخرج کسر دوم<input class="input" id="frD" type="number" value="3" min="1"></label></div><label class="small">نوع عملیات<select class="input" id="frOp"><option value="compare">مقایسه دو کسر</option><option value="add">جمع دو کسر</option><option value="sub">تفریق کسر دوم از اول</option></select></label><button class="btn gold full" onclick="calculateFractionOperation()">بررسی و محاسبه</button><div id="fractionOperationResult" class="example" style="margin-top:10px">اعداد را وارد کن و عملیات را انتخاب کن.</div><div class="mutedbox">برای جمع و تفریق، ابتدا مخرج مشترک پیدا می‌کنیم؛ سپس صورت‌ها را جمع یا تفریق می‌کنیم.</div>';
+}
+function calculateFractionOperation(){
+ const get=id=>Number(document.getElementById(id).value),a=get('frA'),b=get('frB'),c=get('frC'),d=get('frD'),op=document.getElementById('frOp').value,out=document.getElementById('fractionOperationResult');
+ if(![a,b,c,d].every(Number.isInteger)||b<1||d<1||b>100||d>100||a<0||c<0||a>1000||c>1000){out.textContent='لطفاً صورت‌های صحیح و نامنفی و مخرج‌های صحیح از ۱ تا ۱۰۰ وارد کن.';return;}
+ const gcd=(x,y)=>y?gcd(y,x%y):Math.abs(x),fmt=(n,den)=>{const g=gcd(n,den)||1;return (n/g)+'/'+(den/g);};
+ if(op==='compare'){const left=a*d,right=c*b;out.textContent=left>right?'کسر '+fa(a)+'/'+fa(b)+' بزرگ‌تر است.':left<right?'کسر '+fa(c)+'/'+fa(d)+' بزرگ‌تر است.':'دو کسر با هم برابرند.';return;}
+ const num=op==='add'?a*d+c*b:a*d-c*b,den=b*d;
+ out.textContent='مخرج مشترک: '+fa(den)+'؛ صورتِ نتیجه: '+fa(num)+'. کسر حاصل: '+fmt(num,den)+(num<0?' (نتیجه منفی است)':'')+'.';
+}
 function startFractionGame(){
  const e=document.getElementById('gameStage');
  e.innerHTML='<h3>🍕 آزمایشگاه تصویری کسرها</h3><p class="small">صورت و مخرج را تغییر بده تا ببینی چه بخشی از یک واحد انتخاب شده است. هر خانه یک قسمت مساوی است.</p><div class="grid"><label class="small">صورت (قسمت‌های رنگی)<input class="input" id="gmA" type="number" min="0" max="12" value="3" oninput="renderFractionModel()"></label><label class="small">مخرج (کل قسمت‌ها)<input class="input" id="gmB" type="number" min="1" max="12" value="4" oninput="renderFractionModel()"></label></div><div id="fractionVisual" style="margin:14px 0"></div><button class="btn gold full" onclick="runMathGame(7)">تحلیل کسر و ساده‌سازی</button><div id="gmResult" class="example" style="margin-top:10px">صورت و مخرج را تغییر بده و نتیجه را ببین.</div><div class="mutedbox">یادت باشد: مخرج تعداد قسمت‌های مساوی کل شکل و صورت تعداد قسمت‌های انتخاب‌شده را نشان می‌دهد.</div>';
