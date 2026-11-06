@@ -226,7 +226,18 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
   <button class="tool-tile" onclick="showView('memory')"><span class="tile-ico">🧠</span><b>دفتر حافظه</b><small>نکته‌ها و اشتباهات من</small></button>
   <button class="tool-tile" onclick="showView('teacher')"><span class="tile-ico">👩‍🏫</span><b>مدیریت کلاس</b><small>دانش‌آموز، تکلیف و تحلیل</small></button>
   <button class="tool-tile" onclick="showView('tutor')"><span class="tile-ico">✨</span><b>معلم هوشمند</b><small>راهنمای مرحله‌به‌مرحله</small></button>
+  <button class="tool-tile" onclick="openGameLab()"><span class="tile-ico">🎮</span><b>بازیگاه ریاضی</b><small>دستگاه‌های تعاملی فصل‌ها</small></button>
  </div>
+
+ <div class="card" id="gameLab" style="margin-top:12px">
+ <h3>🎮 بازیگاه ریاضی</h3><p class="small">یکی از دستگاه‌ها را انتخاب کن و با وارد کردن عدد، نتیجه را ببین.</p>
+ <div class="tool-grid">
+ <button class="tool-tile" onclick="startMathGame(1)">🔟 <b>دستگاه ارزش مکانی</b><small>کشف جایگاه و ارزش رقم</small></button>
+ <button class="tool-tile" onclick="startMathGame(2)">➗ <b>آزمایشگاه بخش‌پذیری</b><small>قواعد ۲، ۳، ۵، ۹ و ۱۰</small></button>
+ <button class="tool-tile" onclick="startMathGame(3)">🔢 <b>کارآگاه الگوها</b><small>کشف قانون دنباله</small></button>
+ <button class="tool-tile" onclick="startMathGame(4)">➖ <b>محور اعداد صحیح</b><small>مقایسه عددهای منفی و مثبت</small></button>
+ <button class="tool-tile" onclick="startMathGame(5)">💧 <b>کارگاه اعشار</b><small>تمرین جابه‌جایی ممیز</small></button>
+ </div><div id="gameStage" class="mutedbox" style="margin-top:12px">برای شروع یکی از دستگاه‌ها را انتخاب کن.</div></div>
  <div class="card" style="margin-top:12px"><h3>مسیر پیشنهادی مطالعه</h3><ol class="feature-list"><li>درس‌نامه را بخوان و مثال حل‌شده را بررسی کن.</li><li>یک تمرین را خودت روی وایت‌برد حل کن.</li><li>کاربرگ بساز و بدون دیدن پاسخ‌ها تمرین کن.</li><li>اشتباه یا نکته مهم را در دفتر حافظه ذخیره کن.</li><li>در پایان آزمون بده و گزارش پیشرفت را ببین.</li></ol><div class="mutedbox">حافظه این نسخه روی همین دستگاه و در همین مرورگر ذخیره می‌شود؛ هنوز بین گوشی‌ها همگام‌سازی نمی‌شود.</div></div>
 </section>
 <section id="whiteboard" class="view">
@@ -390,6 +401,26 @@ function getQuestions(){
  return banks[currentLesson]||[{q:"برای تمرین این درس، ابتدا درس‌نامه را مرور کن.",opts:["متوجه شدم"],a:0,why:"پس از مرور درس، دوباره آزمون را اجرا کن."}];
 }
 
+
+function openGameLab(){showView('tools');const e=document.getElementById('gameLab');if(e)e.scrollIntoView({behavior:'smooth'});}
+function startMathGame(n){
+ const e=document.getElementById('gameStage');let h='';
+ if(n===1)h='<h3>دستگاه ارزش مکانی</h3><p>عدد و رقم را وارد کن.</p><input class="input" id="gmA" value="452318" inputmode="numeric"><input class="input" id="gmB" value="5" inputmode="numeric"><button class="btn gold full" onclick="runMathGame(1)">بررسی</button>';
+ if(n===2)h='<h3>آزمایشگاه بخش‌پذیری</h3><input class="input" id="gmA" value="726" inputmode="numeric"><button class="btn gold full" onclick="runMathGame(2)">آزمایش عدد</button>';
+ if(n===3)h='<h3>کارآگاه الگوها</h3><p>عددها را با ویرگول جدا کن.</p><input class="input" id="gmA" value="4,9,14,19"><button class="btn gold full" onclick="runMathGame(3)">کشف قانون</button>';
+ if(n===4)h='<h3>محور اعداد صحیح</h3><input class="input" id="gmA" value="-3"><input class="input" id="gmB" value="-1"><button class="btn gold full" onclick="runMathGame(4)">مقایسه</button>';
+ if(n===5)h='<h3>کارگاه اعشار</h3><input class="input" id="gmA" value="2.45"><select class="input" id="gmB"><option value="10">ضرب در ۱۰</option><option value="100">ضرب در ۱۰۰</option><option value="0.1">تقسیم بر ۱۰</option><option value="0.01">تقسیم بر ۱۰۰</option></select><button class="btn gold full" onclick="runMathGame(5)">محاسبه</button>';
+ e.innerHTML=h+'<div id="gmResult" class="example" style="margin-top:10px"></div>';
+}
+function runMathGame(n){
+ const a=document.getElementById('gmA').value.trim(),b=document.getElementById('gmB')?.value||'',o=document.getElementById('gmResult'),f=x=>fa(x);let t='';
+ if(n===1){const v=Number(a),d=Number(b),p=String(Math.trunc(v)).indexOf(String(d)),names=['یکان','دهگان','صدگان','هزارگان','ده‌هزارگان','صد‌هزارگان'];if(!Number.isInteger(v)||v<0||v>999999||p<0||d<0||d>9)t='ورودی معتبر نیست یا رقم در عدد وجود ندارد.';else{const k=String(Math.trunc(v)).length-p-1;t='رقم '+f(d)+' در جایگاه '+names[k]+' است و ارزش آن '+f(d*Math.pow(10,k))+' می‌شود.';}}
+ if(n===2){const v=Number(a);if(!Number.isInteger(v)||v<0)t='عدد طبیعی وارد کن.';else{const sum=String(v).split('').reduce((x,y)=>x+Number(y),0);t='عدد '+f(v)+'؛ مجموع رقم‌ها '+f(sum)+'. '+[2,3,5,9,10].map(d=>'بر '+f(d)+': '+(v%d===0?'بخش‌پذیر':'بخش‌پذیر نیست')).join(' | ');}}
+ if(n===3){const z=a.split(/[,، ]+/).filter(Boolean).map(Number),d=z.slice(1).map((x,i)=>x-z[i]);if(z.length<3||z.length>6||z.some(x=>!Number.isFinite(x)))t='سه تا شش عدد معتبر وارد کن.';else if(d.every(x=>x===d[0]))t='اختلاف ثابت '+f(d[0])+' است؛ عدد بعدی '+f(z[z.length-1]+d[0])+' خواهد بود.';else t='اختلاف‌ها ثابت نیستند؛ الگو ممکن است ضربی یا چندمرحله‌ای باشد.';}
+ if(n===4){const x=Number(a),y=Number(b);if(!Number.isInteger(x)||!Number.isInteger(y))t='دو عدد صحیح وارد کن.';else t=(x>y?'عدد اول بزرگ‌تر است.':x<y?'عدد دوم بزرگ‌تر است.':'دو عدد برابرند.')+' روی محور، عدد سمت راست بزرگ‌تر است.';}
+ if(n===5){const x=Number(a),y=Number(b);if(!Number.isFinite(x))t='عدد اعشاری معتبر وارد کن.';else t=f(x*y)+'؛ '+(y>=1?'ممیز به راست':'ممیز به چپ')+' جابه‌جا می‌شود.';}
+ o.textContent=t;
+}
 function renderQuestion(){let qs=getQuestions();if(qIndex>=qs.length){finishQuiz();return;}let q=qs[qIndex];document.getElementById("quizTitle").textContent=quizMode==="chapter"?"آزمون فصل اول":"تمرین درس "+fa(currentLesson);document.getElementById("quizCount").textContent=`سؤال ${fa(qIndex+1)} از ${fa(qs.length)}`;document.getElementById("quizCard").innerHTML=`<div class="progress"><span style="width:${(qIndex/qs.length)*100}%"></span></div><div class="question">${q.q}</div><div>${q.opts.map((o,i)=>`<button class="option" onclick="answerQuestion(${i})">${"الفبپتثجچ"[i]} ) ${o}</button>`).join("")}</div><div id="quizFeedback" class="feedback"></div><button id="nextQuestion" class="btn full hidden" onclick="nextQuestion()" style="margin-top:12px">سؤال بعدی ←</button>`;}
 function answerQuestion(i){let q=getQuestions()[qIndex];if(answers[qIndex]!==undefined)return;answers[qIndex]=i;document.querySelectorAll(".option").forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add("correct");if(j===i&&i!==q.a)b.classList.add("wrong");});document.getElementById("quizFeedback").innerHTML=(i===q.a?'<span style="color:var(--green)">آفرین! پاسخ درست است.</span>':'<span style="color:var(--red)">هنوز جا برای یادگیری هست.</span>')+"<br>"+q.why;document.getElementById("nextQuestion").classList.remove("hidden");}
 function nextQuestion(){qIndex++;renderQuestion();}
