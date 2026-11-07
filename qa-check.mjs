@@ -41,7 +41,7 @@ for (const chapter of [5,6,7]) {
 }
 for (const id of expectedLessonIds.filter(id => id >= 6)) assert.ok(html.includes('"' + id + '":['), 'lesson exam bank missing: ' + id);
 for (const topic of ['fractions','measurement','ratio','approximation']) {
-  assert.ok(html.includes(topic + ':[')), 'worksheet bank missing: ' + topic);
+  assert.ok(html.includes(topic + ':['), 'worksheet bank missing: ' + topic);
   assert.ok(html.includes('value="' + topic + '"'), 'worksheet selector missing: ' + topic);
 }
 assert.match(html, /const chapterQuizBanks=Object.fromEntries/);
