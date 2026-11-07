@@ -10,6 +10,7 @@ create unique index if not exists profiles_username_ci_uidx on public.profiles (
 create index if not exists profiles_email_idx on public.profiles (email);
 
 alter table public.classes add column if not exists invite_code text;
+alter table public.classes alter column invite_code set default upper(substr(encode(gen_random_bytes(6),'hex'),1,10));
 update public.classes set invite_code=upper(substr(encode(gen_random_bytes(6),'hex'),1,10))
 where invite_code is null or btrim(invite_code)='';
 create unique index if not exists classes_invite_code_uidx on public.classes(invite_code);
