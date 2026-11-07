@@ -71,15 +71,21 @@ create index if not exists submissions_student_idx on public.submissions(student
 
 create or replace function public.current_role()
 returns text language sql stable security definer set search_path = public
-as $$ select role from public.profiles where id = auth.uid() $$;
+as $ select role from public.profiles where id = auth.uid() $;
+revoke all on function public.current_role() from public;
+grant execute on function public.current_role() to authenticated;
 
 create or replace function public.is_approved()
 returns boolean language sql stable security definer set search_path = public
-as $$ select exists(select 1 from public.profiles where id = auth.uid() and approval_status = 'approved') $$;
+as $ select exists(select 1 from public.profiles where id = auth.uid() and approval_status = 'approved') $;
+revoke all on function public.is_approved() from public;
+grant execute on function public.is_approved() to authenticated;
 
 create or replace function public.is_class_teacher(p_class uuid)
 returns boolean language sql stable security definer set search_path = public
-as $$ select exists(select 1 from public.classes where id = p_class and teacher_id = auth.uid()) $$;
+as $ select exists(select 1 from public.classes where id = p_class and teacher_id = auth.uid()) $;
+revoke all on function public.is_class_teacher(uuid) from public;
+grant execute on function public.is_class_teacher(uuid) to authenticated;
 
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = public
@@ -204,4 +210,9 @@ create policy "teachers grade submissions" on public.submissions for update to a
 using (exists(select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()) and public.is_approved())
 with check (exists(select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()) and public.is_approved());
 
+revoke all on function public.admin_set_teacher_status(uuid,text) from public;
 grant execute on function public.admin_set_teacher_status(uuid,text) to authenticated;
+
+drop policy if exists "published content visible to guests" on public.public_content;
+create policy "published content visible to guests" on public.public_content for select to anon
+using (is_published=true);
