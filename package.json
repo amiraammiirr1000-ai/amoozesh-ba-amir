@@ -1,8 +1,8 @@
 {
   "name": "amoozesh-ba-amir",
-  "version": "1.9.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "آموزش با امیر - سامانه یادگیری تعاملی فارسی، نسخه ۱.۹.۰",
+  "description": "آموزش با امیر - سامانه یادگیری تعاملی فارسی، نسخه ۲.۰.۰",
   "scripts": {
     "qa": "node qa-check.mjs",
     "cap:add:android": "cap add android",
