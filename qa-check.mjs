@@ -47,6 +47,7 @@ for (const topic of ['fractions','measurement','ratio','approximation']) {
 assert.match(html, /const chapterQuizBanks=Object.fromEntries/);
 assert.match(html, /function startChapterQuiz\(n\)/);
 assert.match(html, /function getQuestions\(\)[\s\S]*lessonQuestionBanks\[currentLesson\]/, 'lesson quiz must use the selected lesson bank');
+assert.ok(html.includes("عدد بعدی را بنویس: ۳، ۷، ۱۱، ۱۵، …','۱۹'"), 'pattern worksheet answer must be correct');
 assert.match(html, /id="globalSearch"/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
