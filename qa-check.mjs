@@ -30,29 +30,29 @@ for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','
 }
 
 const lessonSection = html.slice(html.indexOf('const lessons=['), html.indexOf('const quizQuestions=['));
-const lessonIds = [...lessonSection.matchAll(/(?:\\bid:|"id":)(\\d+)/g)].map(m => Number(m[1]));
+const lessonIds = [...lessonSection.matchAll(/(?:\bid:|"id":)(\d+)/g)].map(m => Number(m[1]));
 const expectedLessonIds = [1,2,3,4,...Array.from({length:25},(_,i)=>i+6)];
 assert.deepEqual([...new Set(lessonIds)].sort((a,b)=>a-b), expectedLessonIds, 'all 29 grade-six math lessons must exist exactly once');
-assert.match(lessonSection, /lessons\\.sort\\(\\(a,b\\)=>a\\.id-b\\.id\\)/, 'lesson list must be sorted by chapter sequence');
+assert.match(lessonSection, /lessons\.sort\(\(a,b\)=>a\.id-b\.id\)/, 'lesson list must be sorted by chapter sequence');
 
 for (const chapter of [5,6,7]) {
-  const re = new RegExp('\\\\{n:' + chapter + ',title:[^}]+ready:true,lessonIds:\\\\[');
+  const re = new RegExp('\\{n:' + chapter + ',title:[^}]+ready:true,lessonIds:\\[');
   assert.match(html, re, 'chapter ' + chapter + ' must be marked ready and link to its lessons');
 }
 for (const topic of ['fractions','measurement','ratio','approximation']) {
-  assert.match(html, new RegExp('(?:const worksheetBanks=|,)\\\\s*' + topic + ':'), 'worksheet bank missing: ' + topic);
+  assert.match(html, new RegExp('(?:const worksheetBanks=|,)\\s*' + topic + ':'), 'worksheet bank missing: ' + topic);
   assert.ok(html.includes('value="' + topic + '"'), 'worksheet selector missing: ' + topic);
 }
-assert.match(html, /function getQuestions\\(\\)[\\s\\S]*lessonQuestionBanks\\[currentLesson\\]/, 'lesson quiz must use the selected lesson bank');
+assert.match(html, /function getQuestions\(\)[\s\S]*lessonQuestionBanks\[currentLesson\]/, 'lesson quiz must use the selected lesson bank');
 assert.match(html, /id="globalSearch"/);
 assert.match(html, /id="aiAccessToken"/);
-assert.match(html, /function exportFullBackup\\(/);
-assert.match(html, /function importFullBackup\\(/);
-assert.match(sw, /url\\.origin !== self\\.location\\.origin/);
-assert.match(sw, /pathname\\.includes\\('\\/api\\/'\\)/);
+assert.match(html, /function exportFullBackup\(/);
+assert.match(html, /function importFullBackup\(/);
+assert.match(sw, /url\.origin !== self\.location\.origin/);
+assert.match(sw, /pathname\.includes\('\/api\/'\)/);
 
-const inlineScripts = [...html.matchAll(/<script([^>]*)>([\\s\\S]*?)<\\/script>/gi)]
-  .filter(m => !/\\bsrc\\s*=/.test(m[1]) && m[2].trim());
+const inlineScripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
+  .filter(m => !/\bsrc\s*=/.test(m[1]) && m[2].trim());
 assert.ok(inlineScripts.length > 0, 'inline application script must exist');
 for (let i=0; i<inlineScripts.length; i++) {
   const check = spawnSync(process.execPath, ['--check','-'], { input: inlineScripts[i][2], encoding: 'utf8' });
