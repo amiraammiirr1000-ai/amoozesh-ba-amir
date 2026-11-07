@@ -6,9 +6,9 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f3f7f9",
+  "background_color": "#f5f7ff",
   "theme_color": "#123b50",
-  "description": "سامانه فارسی آموزش، تمرین، مدیریت دانش‌آموزان و کلاس آنلاین با امیر محمدیان؛ نسخه ۱.۷",
+  "description": "سامانه فارسی آموزش، تمرین و پیشرفت درسی با امیر محمدیان؛ نسخه ۱.۹.۰",
   "icons": [
     {
       "src": "icon.svg",
