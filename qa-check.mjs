@@ -23,7 +23,7 @@ assert.equal(manifestText, webManifestText, 'root and web manifests must be sync
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
 assert.equal(manifest.dir, 'rtl');
-assert.equal(pkg.version, '2.0.0', 'package version must match the current release');
+assert.equal(pkg.version, '2.1.0', 'package version must match the current release');
 
 for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','sw.js','study-hero.svg']) {
   await access(resolve(root,'web',f), constants.R_OK);
@@ -35,11 +35,16 @@ const expectedLessonIds = [1,2,3,4,...Array.from({length:25},(_,i)=>i+6)];
 assert.deepEqual([...new Set(lessonIds)].sort((a,b)=>a-b), expectedLessonIds, 'all 29 grade-six math lessons must exist exactly once');
 assert.match(lessonSection, /lessons\.sort\(\(a,b\)=>a\.id-b\.id\)/, 'lesson list must be sorted by chapter sequence');
 
-for (const chapter of [5,6,7]) {
+for (const chapter of [1,2,3,4,5,6,7]) {
   const re = new RegExp('\\{n:' + chapter + ',title:[^}]+ready:true,lessonIds:\\[');
   assert.match(html, re, 'chapter ' + chapter + ' must be marked ready and link to its lessons');
 }
-for (const id of expectedLessonIds.filter(id => id >= 6)) assert.ok(html.includes('"' + id + '":['), 'lesson exam bank missing: ' + id);
+for (const id of expectedLessonIds) {
+  const hasBank = id <= 4
+    ? new RegExp('\\n' + id + ':\\[').test(html)
+    : html.includes('"' + id + '":[') || html.includes('lessonQuestionBanks[' + id + ']=[');
+  assert.ok(hasBank, 'lesson exam bank missing: ' + id);
+}
 for (const topic of ['fractions','measurement','ratio','approximation']) {
   assert.ok(html.includes(topic + ':['), 'worksheet bank missing: ' + topic);
   assert.ok(html.includes('value="' + topic + '"'), 'worksheet selector missing: ' + topic);
@@ -60,6 +65,8 @@ assert.match(html, /function saveSessionAttendance\(/);
 assert.match(html, /function exportAttendanceCSV\(/);
 assert.match(html, /amClassAttendanceV1/);
 assert.match(html, /function renderTeacherOverview\(/);
+assert.match(html, /targetGrade:document.getElementById\('classGrade'\)\.value/);
+assert.match(html, /function setAllPresent\(sessionId\)/);
 assert.match(html, /recordSkillAnswer\(q,i===q\.a\)/);
 assert.match(html, /onclick="exportAttendanceCSV\(\)">خروجی حضور و غیاب/);
 assert.match(html, /id="aiAccessToken"/);
