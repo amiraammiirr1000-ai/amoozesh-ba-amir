@@ -141,7 +141,7 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 .overview-grid b{display:block;font-size:1.3rem;color:var(--navy)}
 .overview-grid small{display:block;color:var(--muted)}
 .teacher-overview{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
-</style>
+.navinner{overflow-x:auto;justify-content:flex-start}.nav button{flex:0 0 auto;min-width:76px;white-space:nowrap}.english-unit{border:1px solid var(--line);border-radius:12px;padding:12px;margin:9px 0}</style>
 </head>
 <body>
 <div class="app">
@@ -328,10 +328,10 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
  <div class="card"><div class="section-head"><h3>یادداشت‌های ذخیره‌شده</h3><span id="memoryCount" class="chip">۰ یادداشت</span></div><input id="memorySearch" class="input" placeholder="جست‌وجو در یادداشت‌ها..." oninput="renderMemory()"><div id="memoryList"></div><div class="btnrow"><button class="btn outline" onclick="exportMemory()">خروجی گرفتن از یادداشت‌ها</button><button class="btn outline" onclick="importMemoryPrompt()">ورود یادداشت‌ها</button></div></div>
 </section>
 
-<footer>آموزش با امیر · ریاضی ششم ۱۴۰۵–۱۴۰۶ · هدف یادگیری است.</footer>
+<section id="english" class="view"><div class="section-head"><h2>مرکز زبان انگلیسی</h2></div><div class="card"><h3>دیکشنری انگلیسی–فارسی</h3><input id="dictionarySearch" class="input" oninput="searchEnglishDictionary(this.value)" placeholder="جست‌وجوی واژه"><div id="dictionaryResults"></div></div><div class="card"><h3>کتاب‌های آموزشی</h3><select id="bookSelect" class="input" onchange="renderEnglishBook()"><option value="first-friends-1">First Friends 1</option><option value="first-friends-2">First Friends 2</option><option value="family-friends-1">Family and Friends 1</option><option value="family-friends-2">Family and Friends 2</option><option value="family-friends-3">Family and Friends 3</option><option value="family-friends-4">Family and Friends 4</option><option value="family-friends-5">Family and Friends 5</option><option value="family-friends-6">Family and Friends 6</option></select><div id="englishBookContent"></div></div><div class="mutedbox">محتوای این بخش مکمل و تألیفی است و متن یا صفحه‌های کتاب‌های دارای حق نشر را بازنشر نمی‌کند.</div></section><footer>آموزش با امیر · ریاضی ششم ۱۴۰۵–۱۴۰۶ · هدف یادگیری است.</footer>
 </main>
 <nav class="nav"><div class="navinner">
-<button class="active" data-view="home" onclick="showView('home')"><span class="ico">⌂</span>خانه</button>
+<button class="active" data-view="home" onclick="showView('home')"><span class="ico">⌂</span>خانه</button><button data-view="english" onclick="showView(&quot;english&quot;)"><span class="ico">🔤</span>انگلیسی</button>
 <button data-view="video" onclick="showView('video')"><span class="ico">▶</span>ویدئو</button>
 <button data-view="tutor" onclick="showView('tutor')"><span class="ico">✦</span>معلم هوشمند</button>
 <button data-view="teacher" onclick="showView('teacher')"><span class="ico">▤</span>معلم</button>
@@ -913,5 +913,5 @@ function runAppSearch(raw){
 function escapeSearchText(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 </script>
 
-</body>
+<script>const englishWords=[["apple","سیب","I eat an apple."],["book","کتاب","Open your book."],["cat","گربه","The cat is small."],["dog","سگ","The dog is friendly."],["family","خانواده","I love my family."],["father","پدر","My father is kind."],["friend","دوست","She is my friend."],["hello","سلام","Hello! How are you?"],["happy","خوشحال","I am happy."],["mother","مادر","My mother is a teacher."],["school","مدرسه","I go to school."],["teacher","معلم","My teacher is helpful."],["water","آب","Drink some water."],["yellow","زرد","The sun is yellow."]];function searchEnglishDictionary(q){const n=String(q||"").toLowerCase();const rows=englishWords.filter(w=>!n||w.join(" ").toLowerCase().includes(n));document.getElementById("dictionaryResults").innerHTML=rows.map(w=>"<p><b>"+w[0]+"</b> — "+w[1]+"<br><small>"+w[2]+"</small></p>").join("")||"واژه‌ای پیدا نشد.";}const englishThemes=[["Greetings",["hello","goodbye","please","thank you"]],["Family",["mother","father","sister","brother"]],["Colours",["red","blue","green","yellow"]],["School",["book","pencil","teacher","classroom"]],["Food",["apple","banana","bread","milk"]],["Animals",["cat","dog","bird","fish"]],["Home",["house","bedroom","kitchen","door"]],["Daily life",["wake up","eat","study","sleep"]]];const englishLevels={"first-friends-1":["First Friends 1",[0,2,3,4,5,6,1,7]],"first-friends-2":["First Friends 2",[1,2,3,4,5,6,7,0]],"family-friends-1":["Family and Friends 1",[0,1,2,3,4,5,6,7]],"family-friends-2":["Family and Friends 2",[7,3,4,5,6,1,2,0]],"family-friends-3":["Family and Friends 3",[1,2,3,4,5,6,7,0]],"family-friends-4":["Family and Friends 4",[7,6,5,4,3,2,1,0]],"family-friends-5":["Family and Friends 5",[1,3,5,7,0,2,4,6]],"family-friends-6":["Family and Friends 6",[7,5,3,1,0,2,4,6]]};function renderEnglishBook(){const cfg=englishLevels[document.getElementById("bookSelect").value];document.getElementById("englishBookContent").innerHTML="<h4>"+cfg[0]+" · ۸ واحد مکمل</h4>"+cfg[1].map((t,i)=>"<div class=english-unit><b>Unit "+(i+1)+": "+englishThemes[t][0]+"</b><p>"+englishThemes[t][1].join(" · ")+"</p><p>تمرین: با دو واژه این واحد یک جمله درباره خودت بساز.</p></div>").join("");}function initEnglishHub(){searchEnglishDictionary("");renderEnglishBook();}const priorEnglishShow=showView;showView=function(id){priorEnglishShow(id);if(id==="english")initEnglishHub();};</script></body>
 </html>
