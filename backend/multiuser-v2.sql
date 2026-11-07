@@ -77,6 +77,8 @@ begin
 end;
 $$;
 
+revoke all on function public.class_student_roster(uuid) from public;
+revoke all on function public.join_class_by_code(text) from public;
 grant execute on function public.class_student_roster(uuid) to authenticated;
 grant execute on function public.join_class_by_code(text) to authenticated;
 
