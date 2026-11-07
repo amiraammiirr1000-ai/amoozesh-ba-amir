@@ -97,24 +97,56 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 @media(min-width:700px){.top{border-radius:0 0 40px 40px}.content{padding-top:22px}.hero-art{min-height:198px}}
 @media(prefers-reduced-motion:no-preference){.hero-art{animation:heroFloat 7s ease-in-out infinite alternate}.achievement{animation:softGlow 5s ease-in-out infinite alternate}@keyframes heroFloat{from{background-position:0 50%}to{background-position:100% 50%}}@keyframes softGlow{from{box-shadow:0 7px 20px #e8b94c12}to{box-shadow:0 9px 26px #e8b94c30}}}
 
-\n/* بازی تعاملی صفحه مختصات فصل چهارم */\n.coord-board{width:100%;max-width:420px;margin:12px auto;background:#f8fbff;border:1px solid var(--line);border-radius:18px;overflow:hidden;touch-action:pan-y}.coord-board svg{display:block;width:100%;height:auto;touch-action:pan-y}.coord-controls{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.coord-readout{padding:11px;border-radius:13px;background:var(--glow);font-weight:700;text-align:center}\n/* v1.7 classroom */.logo{background:linear-gradient(145deg,#f7d77b,#e9a93b);color:#153c50;border:2px solid #fff7d8;box-shadow:0 7px 18px #071f3355}.logo svg{width:38px;height:38px;display:block}.class-session{border:1px solid var(--line);border-radius:15px;padding:12px;margin:9px 0;background:linear-gradient(130deg,#f8fbff,#fff)}.session-meta{display:flex;gap:7px;flex-wrap:wrap;margin:5px 0;color:var(--muted);font-size:12px}.attendance-list{display:grid;gap:7px;margin-top:10px}.attendance-item{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--line);border-radius:11px;padding:8px}.attendance-item select{max-width:125px;padding:5px;border:1px solid var(--line);border-radius:9px;background:white}.student-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.student-tools input{flex:1;min-width:150px}.teacher-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.teacher-kpi{background:#edf5f8;border-radius:13px;padding:10px;text-align:center}.teacher-kpi b{display:block;font-size:20px;color:var(--navy)}.teacher-kpi span{font-size:11px;color:var(--muted)}@media(max-width:420px){.teacher-kpi{padding:8px 4px}}
-/* جستجوی سراسری و چیدمان افقی موبایل */
-.home-search-card{margin:12px 0 16px;padding:14px;border:1px solid color-mix(in srgb,var(--accent) 22%,var(--line));background:linear-gradient(145deg,var(--white),color-mix(in srgb,var(--accent) 5%,var(--white)))}.home-search-card label{display:block;margin-bottom:8px;font-size:14px}.home-search-row{display:flex;gap:8px;align-items:center}.home-search-row .input{min-width:0;flex:1}.home-search-row .btn{flex:0 0 auto}.home-search-results{display:grid;gap:7px;margin-top:9px}.home-search-result{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 11px;border:1px solid var(--line);border-radius:12px;background:var(--white);text-align:right;color:var(--ink);font-size:12px}.home-search-result span{min-width:0;overflow-wrap:anywhere}.home-search-result b{color:var(--accent);white-space:nowrap}.home-search-empty{padding:8px;color:var(--muted);font-size:12px}
-@media (orientation:landscape) and (max-height:560px){html,body{min-height:100%;overflow-x:hidden}.app{width:100%;max-width:none;min-height:100vh;padding-bottom:64px;overflow-x:clip}.top{padding:10px 18px;border-radius:0 0 20px 20px}.brandrow .logo{width:42px;height:42px}.brand{font-size:17px}.sub{font-size:10px}.welcome{margin-top:7px}.welcome h1{font-size:19px;margin-bottom:0}.welcome p{font-size:11px}.welcome .pill{margin-top:4px;padding:2px 8px}.content{padding:10px 14px}.section-head{margin:8px 0}.hero-art{min-height:112px;padding:12px 16px;margin:8px 0 10px}.hero-art h2{font-size:17px}.hero-art p{font-size:11px;max-width:65%}.hero-illustration{width:26%;max-width:150px}.card{padding:12px;margin-bottom:9px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.chapter-lesson-links{grid-template-columns:repeat(3,minmax(0,1fr))}.nav{left:0;right:0;bottom:0;max-height:58px;overflow-x:auto;overflow-y:hidden;justify-content:flex-start}.navinner{width:max-content;min-width:0;max-width:none;justify-content:flex-start;overflow:visible}.nav button{flex:0 0 76px;min-width:76px;min-height:52px;padding:4px 5px;font-size:10px}.nav .ico{font-size:16px}.wb-canvas{height:190px}.chatlog{height:160px}.home-search-card{padding:10px;margin:8px 0}.home-search-results{grid-template-columns:repeat(2,minmax(0,1fr))}.view,.card,.tool-grid,.grid{min-width:0}.input,button{max-width:100%}}
-@media (orientation:landscape) and (max-height:380px){.top{padding:6px 14px}.welcome p,.welcome .pill{display:none}.nav button{min-height:46px}.app{padding-bottom:54px}.wb-canvas{height:145px}}
+\n/* بازی تعاملی صفحه مختصات فصل چهارم */\n.coord-board{width:100%;max-width:420px;margin:12px auto;background:#f8fbff;border:1px solid var(--line);border-radius:18px;overflow:hidden;touch-action:pan-y}.coord-board svg{display:block;width:100%;height:auto;touch-action:pan-y}.coord-controls{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.coord-readout{padding:11px;border-radius:13px;background:var(--glow);font-weight:700;text-align:center}\n
+/* نسخه ۱.۹ — جستجوی سراسری و نمایشگر افقی */
+.global-search{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:13px;margin:14px 0 16px;box-shadow:0 7px 20px #173c4c0b}
+.global-search>label{display:block;font-weight:800;font-size:14px;margin-bottom:8px;color:var(--navy)}
+.global-search-row{display:flex;align-items:center;gap:8px}.global-search-row>span{font-size:21px}.global-search-row .input{min-width:0;flex:1}.global-search-row .btn{white-space:nowrap}
+.global-search-results{display:grid;gap:7px;margin-top:9px}
+.search-hit{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:right;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--accent) 5%,var(--white));color:var(--ink)}
+.search-hit strong{font-size:12px}.search-hit small{display:block;color:var(--muted);font-size:10px}.search-empty{font-size:12px;color:var(--muted);padding:7px}
+@media(orientation:landscape) and (max-height:600px){
+ .app{max-width:100%;padding-bottom:64px}
+ .top{padding:10px 18px 12px;border-radius:0 0 18px 18px}
+ .brandrow{gap:8px}.logo{width:38px;height:38px;border-radius:11px;font-size:20px}
+ .brand{font-size:16px}.sub{font-size:10px}
+ .welcome{margin-top:7px}.welcome h1{font-size:17px}.welcome p{font-size:11px}
+ .pill{margin-top:4px;padding:2px 8px}
+ .content{padding:10px 14px}
+ .section-head{margin:8px 0}.card{padding:11px;margin-bottom:8px}
+ .hero-art{min-height:100px;padding:12px 15px;margin:7px 0 10px}
+ .hero-art h2{font-size:16px}.hero-art p{font-size:11px}
+ .grid,.tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .lessongrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .navinner{max-width:none;min-width:0;overflow-x:auto;justify-content:flex-start}
+ .nav button{flex:0 0 70px;min-width:70px;min-height:52px;padding:4px}
+ .nav .ico{font-size:16px}
+ .global-search{padding:9px;margin:8px 0}
+ .wb-canvas{height:220px}
+}
+@media(orientation:landscape) and (max-height:430px){
+ .top .welcome p,.top .pill{display:none}
+ .top{padding:7px 14px}
+ .global-search{margin:6px 0;padding:8px}
+ .global-search-results{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-  <div class="brandrow"><div class="logo" aria-label="نشان آموزش با امیر"><svg viewBox="0 0 48 48"><path d="M5 15c7-3 13-2 19 2v22c-6-4-12-5-19-2-2 1-3-1-3-3V18c0-1 1-2 3-3Z" fill="#fff8df" stroke="#153c50" stroke-width="1.5"/><path d="M43 15c-7-3-13-2-19 2v22c6-4 12-5 19-2 2 1 3-1 3-3V18c0-1-1-2-3-3Z" fill="#fff" stroke="#153c50" stroke-width="1.5"/><path d="M24 17v22" stroke="#d79a2b" stroke-width="2"/><path d="m19 8 4-5 4 5-4 5Z" fill="#153c50"/><path d="m28 7 3-3 11 11-3 3Z" fill="#f7d77b" stroke="#153c50" stroke-width="1.2"/></svg></div><div><div class="brand">آموزش با امیر</div><div class="sub">سامانه یادگیری، تمرین و پیشرفت</div></div></div>
+  <div class="brandrow"><div class="logo">آ</div><div><div class="brand">آموزش با امیر</div><div class="sub">سامانه یادگیری، تمرین و پیشرفت</div></div></div>
   <div class="welcome"><h1 id="greeting">سلام قهرمان ریاضی! 👋</h1><p>قدم‌به‌قدم یاد بگیر؛ هر تمرین تو را قوی‌تر می‌کند.</p><span class="pill">پایه ششم ابتدایی · ریاضی · هم‌راستا با کتاب ۱۴۰۵–۱۴۰۶</span></div>
 </header>
 <main class="content">
+<section id="globalSearch" class="global-search" aria-label="جستجوی برنامه">
+  <label for="appSearchInput">جستجو در آموزش با امیر</label>
+  <div class="global-search-row"><span aria-hidden="true">🔎</span><input id="appSearchInput" class="input" type="search" placeholder="مثلاً بخش‌پذیری، کسر، وایت‌برد، دانش‌آموز..." autocomplete="off" oninput="runAppSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';runAppSearch('')}"><button class="btn light" type="button" onclick="document.getElementById('appSearchInput').value='';runAppSearch('')">پاک‌کردن</button></div>
+  <div id="appSearchResults" class="global-search-results" role="status" aria-live="polite"><span class="small">نام درس، ابزار یا بخش موردنظر را بنویس.</span></div>
+</section>
 <section id="home" class="view active">
   <div class="section-head"><h2>داشبورد یادگیری</h2><span class="small">نسخه ۱.۳ · تجربه یادگیری هوشمند و رنگارنگ</span></div>
-
-  <div class="card home-search-card" role="search" aria-label="جستجوی بخش‌های برنامه"><label for="homeGlobalSearch"><b>🔎 جستجو در آموزش با امیر</b></label><div class="home-search-row"><input id="homeGlobalSearch" class="input" type="search" placeholder="مثلاً بخش‌پذیری، وایت‌برد، دانش‌آموز، تکلیف..." autocomplete="off" oninput="searchAppHome(this.value)"><button class="btn" type="button" onclick="searchAppHome(document.getElementById('homeGlobalSearch').value)">جستجو</button></div><div id="homeSearchResults" class="home-search-results" aria-live="polite"><span class="small">نام درس، ابزار یا گزینه موردنظرت را بنویس.</span></div></div>
   <div class="hero-art"><div class="hero-kicker">AMOOZESH BA AMIR · LEARN SMART</div><h2>قهرمان یادگیری باش! ✨</h2><p>هر روز یک قدم جلوتر؛ با تمرین‌های کوتاه، مسیرت را بساز.</p><img class="hero-illustration" src="study-hero.svg" alt="تصویر کتاب، مداد و لوازم‌التحریر آموزشی" loading="eager"></div>
   <div class="achievement"><span class="medal">🏅</span><div><b>چالش امروز</b><div class="small">یک سؤال حل کن و امتیاز یادگیری بگیر.</div></div><button class="btn gold" onclick="startDailyChallenge()">شروع</button></div>
   <div class="grid stats">
@@ -175,19 +207,13 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 
 <section id="teacher" class="view">
   <div class="section-head"><h2>پنل معلم</h2><span class="tag">محلی روی همین دستگاه</span></div>
-  <div class="card" id="classroomDashboard"><div class="section-head"><h3>نمای کلی کلاس</h3><span class="tag">مدیریت روزانه</span></div><div class="teacher-kpis"><div class="teacher-kpi"><b id="kpiStudents">۰</b><span>دانش‌آموز</span></div><div class="teacher-kpi"><b id="kpiSessions">۰</b><span>جلسه ثبت‌شده</span></div><div class="teacher-kpi"><b id="kpiAssignments">۰</b><span>تکلیف فعال</span></div></div></div>
-<div class="card" id="onlineClassPanel"><div class="section-head"><h3>کلاس آنلاین و برنامه جلسات</h3><span class="tag">اتصال به سرویس دلخواه</span></div><p class="small">برای تماس تصویری، لینک Google Meet، Zoom یا سرویس دلخواهت را وارد کن. برنامه جلسه، دعوت‌نامه و حضورغیاب در همین دستگاه مدیریت می‌شود؛ تماس تصویری داخل خود برنامه میزبانی نمی‌شود.</p>
-<label class="small" for="sessionTitle">عنوان جلسه</label><input id="sessionTitle" class="input" placeholder="مثلاً آموزش کسرها – جلسه اول" style="margin:5px 0">
-<div class="grid"><div><label class="small" for="sessionTopic">درس / موضوع</label><input id="sessionTopic" class="input" placeholder="ریاضی، زبان انگلیسی..."></div><div><label class="small" for="sessionDate">تاریخ</label><input id="sessionDate" class="input" type="date"></div></div>
-<div class="grid" style="margin-top:8px"><div><label class="small" for="sessionTime">ساعت</label><input id="sessionTime" class="input" type="time" value="18:00"></div><div><label class="small" for="sessionLink">لینک ورود جلسه</label><input id="sessionLink" class="input" type="url" placeholder="https://meet.google.com/..."></div></div>
-<button class="btn full" style="margin-top:10px" onclick="addClassSession()">ثبت جلسه آنلاین</button><div id="classSessionList" style="margin-top:10px"></div><div id="attendanceEditor" style="display:none;margin-top:12px" class="mutedbox"></div></div>
-<div class="card teacher-manager">
+  <div class="card teacher-manager">
     <div class="section-head"><h3>مدیریت کلاس و دانش‌آموزان</h3><span class="tag">ذخیره روی همین دستگاه</span></div>
     <p class="small">برای نمونه‌سازی و آزمایش روی دستگاه معلم است؛ هنوز حساب مستقل دانش‌آموز یا همگام‌سازی اینترنتی ندارد.</p>
     <div class="grid"><div><label class="small" for="studentName">نام دانش‌آموز</label><input id="studentName" class="input" placeholder="مثلاً سارا احمدی"></div><div><label class="small" for="studentGrade">پایه</label><select id="studentGrade" class="input"><option>ششم</option><option>پنجم</option><option>چهارم</option><option>سوم</option><option>دوم</option><option>اول</option></select></div></div>
     <label class="small" for="studentNote">نیاز آموزشی / توضیح (اختیاری)</label><input id="studentNote" class="input" placeholder="مثلاً نیاز به تمرین بخش‌پذیری" style="margin:5px 0 9px">
     <button class="btn full" onclick="addStudent()">افزودن دانش‌آموز</button>
-    <div class="student-tools"><input id="studentSearch" class="input" placeholder="جست‌وجوی نام دانش‌آموز..." oninput="renderStudents()"><span class="tag" id="studentCount">۰ نفر</span></div><div id="studentList" style="margin-top:12px"></div>
+    <div id="studentList" style="margin-top:12px"></div>
   </div>
   <div class="card">
     <h3>تکلیف‌های کلاسی</h3>
@@ -951,33 +977,27 @@ function importFullBackup(){const input=document.createElement('input');input.ty
 </script>
 
 <script>
-// AMIR_CLASSROOM_V27
-const AMIR_SESSIONS_KEY='amirClassSessionsV27';
-let amirClassSessions=readLocal(AMIR_SESSIONS_KEY,[]);
-function saveClassSessions(){localStorage.setItem(AMIR_SESSIONS_KEY,JSON.stringify(amirClassSessions));}
-function refreshClassroomDashboard(){const a=document.getElementById('kpiStudents'),b=document.getElementById('kpiSessions'),c=document.getElementById('kpiAssignments');if(a)a.textContent=fa(teacherStudents.length);if(b)b.textContent=fa(amirClassSessions.length);if(c)c.textContent=fa(teacherAssignments.filter(x=>!x.done).length);}
-function addClassSession(){const title=document.getElementById('sessionTitle').value.trim(),topic=document.getElementById('sessionTopic').value.trim(),date=document.getElementById('sessionDate').value,time=document.getElementById('sessionTime').value||'18:00',link=document.getElementById('sessionLink').value.trim();if(!title||!date){alert('عنوان و تاریخ جلسه را وارد کن.');return;}if(link){try{const u=new URL(link);if(!['https:','http:'].includes(u.protocol))throw 0;}catch(e){alert('لینک جلسه معتبر نیست؛ نشانی کامل با https:// وارد کن.');return;}}amirClassSessions.unshift({id:Date.now(),title,topic,date,time,link,attendance:{},created:new Date().toISOString()});saveClassSessions();['sessionTitle','sessionTopic','sessionDate','sessionLink'].forEach(id=>document.getElementById(id).value='');renderClassSessions();refreshClassroomDashboard();}
-function renderClassSessions(){const root=document.getElementById('classSessionList');if(!root)return;root.innerHTML=amirClassSessions.length?amirClassSessions.map(x=>'<div class="class-session"><b>'+escapeHtml(x.title)+'</b><div class="session-meta"><span>📅 '+escapeHtml(x.date)+'</span><span>🕒 '+escapeHtml(x.time)+'</span>'+(x.topic?'<span>📚 '+escapeHtml(x.topic)+'</span>':'')+'</div><div class="mini-actions">'+(x.link?'<button class="btn" onclick="openClassMeeting('+x.id+')">ورود به کلاس</button>':'<span class="small">لینک جلسه ثبت نشده</span>')+'<button class="btn light" onclick="shareClassInvite('+x.id+')">ارسال دعوت‌نامه</button><button class="btn outline" onclick="editAttendance('+x.id+')">حضورغیاب</button><button class="btn outline" onclick="deleteClassSession('+x.id+')">حذف</button></div></div>').join(''):'<div class="mutedbox">هنوز جلسه‌ای برنامه‌ریزی نشده است.</div>';}
-function openClassMeeting(id){const x=amirClassSessions.find(v=>v.id===id);if(x&&x.link)window.open(x.link,'_blank','noopener');}
-function shareClassInvite(id){const x=amirClassSessions.find(v=>v.id===id);if(!x)return;const msg='دعوت به کلاس آنلاین آموزش با امیر\n'+x.title+'\nموضوع: '+(x.topic||'آموزشی')+'\nتاریخ: '+x.date+' ساعت '+x.time+'\nلینک ورود: '+(x.link||'لینک هنوز ثبت نشده');if(navigator.share)navigator.share({title:'دعوت به کلاس آنلاین',text:msg}).catch(()=>{});else if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(msg).then(()=>alert('متن دعوت‌نامه کپی شد.')).catch(()=>prompt('متن دعوت‌نامه را کپی کن:',msg));else prompt('متن دعوت‌نامه را کپی کن:',msg);}
-function editAttendance(id){const x=amirClassSessions.find(v=>v.id===id),root=document.getElementById('attendanceEditor');if(!x||!root)return;if(!teacherStudents.length){alert('ابتدا دانش‌آموزان کلاس را ثبت کن.');return;}root.style.display='block';root.innerHTML='<b>حضورغیاب: '+escapeHtml(x.title)+'</b><div class="small">وضعیت هر دانش‌آموز را انتخاب و ذخیره کن.</div><div class="attendance-list">'+teacherStudents.map(st=>'<label class="attendance-item"><span>'+escapeHtml(st.name)+'</span><select data-attendance-id="'+st.id+'"><option value="unset">ثبت‌نشده</option><option value="present" '+(x.attendance[st.id]==='present'?'selected':'')+'>حاضر</option><option value="absent" '+(x.attendance[st.id]==='absent'?'selected':'')+'>غایب</option><option value="late" '+(x.attendance[st.id]==='late'?'selected':'')+'>با تأخیر</option></select></label>').join('')+'</div><div class="mini-actions"><button class="btn" onclick="saveAttendance('+x.id+')">ذخیره حضورغیاب</button><button class="btn outline" onclick="document.getElementById(\'attendanceEditor\').style.display=\'none\'">بستن</button></div>';root.scrollIntoView({behavior:'smooth',block:'center'});}
-function saveAttendance(id){const x=amirClassSessions.find(v=>v.id===id),root=document.getElementById('attendanceEditor');if(!x||!root)return;root.querySelectorAll('[data-attendance-id]').forEach(el=>{if(el.value==='unset')delete x.attendance[el.dataset.attendanceId];else x.attendance[el.dataset.attendanceId]=el.value;});saveClassSessions();alert('حضورغیاب ذخیره شد.');renderClassSessions();}
-function deleteClassSession(id){if(!confirm('این جلسه و اطلاعات حضورغیاب آن حذف شود؟'))return;amirClassSessions=amirClassSessions.filter(x=>x.id!==id);saveClassSessions();renderClassSessions();refreshClassroomDashboard();document.getElementById('attendanceEditor').style.display='none';}
-function renderStudents(){const root=document.getElementById('studentList');if(!root)return;const term=(document.getElementById('studentSearch')?.value||'').trim().toLocaleLowerCase(),filtered=teacherStudents.filter(s=>(s.name+' '+(s.grade||'')+' '+(s.note||'')).toLocaleLowerCase().includes(term)),count=document.getElementById('studentCount');if(count)count.textContent=fa(teacherStudents.length)+' نفر';root.innerHTML=filtered.length?filtered.map(st=>'<div class="student-row"><h4>'+escapeHtml(st.name)+' <span class="chip">پایه '+escapeHtml(st.grade||'—')+'</span></h4><p>'+escapeHtml(st.note||'توضیح آموزشی ثبت نشده')+' · ثبت '+escapeHtml(st.created||'')+'</p><div class="mini-actions"><button class="btn light" onclick="assignToStudent('+st.id+')">ثبت تکلیف</button><button class="btn outline" onclick="editStudent('+st.id+')">ویرایش</button><button class="btn outline" onclick="deleteStudent('+st.id+')">حذف</button></div></div>').join(''):'<div class="mutedbox">'+(teacherStudents.length?'دانش‌آموزی با این عبارت پیدا نشد.':'هنوز دانش‌آموزی ثبت نشده است.')+'</div>';refreshClassroomDashboard();}
-function editStudent(id){const st=teacherStudents.find(x=>x.id===id);if(!st)return;const name=prompt('نام و نام خانوادگی دانش‌آموز:',st.name);if(name===null)return;if(!name.trim()){alert('نام نمی‌تواند خالی باشد.');return;}const grade=prompt('پایه تحصیلی:',st.grade||'ششم');if(grade===null)return;const note=prompt('یادداشت آموزشی:',st.note||'');if(note===null)return;st.name=name.trim();st.grade=grade.trim()||st.grade;st.note=note.trim();storeTeacherData();renderStudents();}
-function addStudent(){const name=document.getElementById('studentName').value.trim(),grade=document.getElementById('studentGrade').value,note=document.getElementById('studentNote').value.trim();if(!name){alert('نام دانش‌آموز را وارد کن.');return;}teacherStudents.unshift({id:Date.now(),name,grade,note,created:new Date().toLocaleDateString('fa-IR')});storeTeacherData();document.getElementById('studentName').value='';document.getElementById('studentNote').value='';renderStudents();}
-function deleteStudent(id){if(!confirm('این دانش‌آموز از فهرست محلی حذف شود؟'))return;teacherStudents=teacherStudents.filter(s=>s.id!==id);amirClassSessions.forEach(x=>delete x.attendance[id]);storeTeacherData();saveClassSessions();renderStudents();renderClassSessions();}
-const oldRenderAssignmentsV27=renderAssignments;renderAssignments=function(){oldRenderAssignmentsV27();refreshClassroomDashboard();};
-const oldShowViewV27=showView;showView=function(id){oldShowViewV27(id);if(id==='teacher'){renderStudents();renderAssignments();renderClassSessions();refreshClassroomDashboard();}};
-function exportClassroomReport(){const rows=[['نام دانش‌آموز','پایه','یادداشت','جلسه','وضعیت']];amirClassSessions.forEach(se=>teacherStudents.forEach(st=>rows.push([st.name,st.grade||'',st.note||'',se.title,se.attendance[st.id]==='present'?'حاضر':se.attendance[st.id]==='absent'?'غایب':se.attendance[st.id]==='late'?'با تأخیر':'ثبت‌نشده'])));const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='gozaresh-hozorghiyab-amoozesh-ba-amir.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),700);}
-const exportFullBackupV27=exportFullBackup;exportFullBackup=function(){const keys=['amirMathState','amirLearningMemory','amirTheme','amirProfilePhoto','amirTutorHistory','amirSkillResultsV07','amirStudentsV07','amirAssignmentsV07','amirClassSessionsV27'];const data={app:'آموزش با امیر',schemaVersion:3,exportedAt:new Date().toISOString(),data:{}};keys.forEach(k=>{const v=localStorage.getItem(k);if(v!==null)data.data[k]=v;});const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='backup-amoozesh-ba-amir.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),800);const m=document.getElementById('backupStatus');if(m)m.textContent='پشتیبان کامل ساخته شد؛ فایل را در محل امن نگه دار.';};
-importFullBackup=function(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=()=>{const f=input.files&&input.files[0];if(!f)return;const reader=new FileReader();reader.onload=()=>{try{const obj=JSON.parse(reader.result);if(obj.app!=='آموزش با امیر'||![1,2,3].includes(obj.schemaVersion)||!obj.data||typeof obj.data!=='object'||Array.isArray(obj.data))throw new Error('invalid');if(!confirm('اطلاعات موجود در این دستگاه با نسخه پشتیبان جایگزین شوند؟'))return;const allowed=new Set(['amirMathState','amirLearningMemory','amirTheme','amirProfilePhoto','amirTutorHistory','amirSkillResultsV07','amirStudentsV07','amirAssignmentsV07','amirClassSessionsV27']);for(const [k,v] of Object.entries(obj.data))if(allowed.has(k)&&typeof v==='string')localStorage.setItem(k,v);alert('بازیابی انجام شد؛ صفحه را دوباره باز کن.');location.reload();}catch(e){alert('فایل پشتیبان معتبر نیست.');}};reader.readAsText(f);};input.click();};
-const expBtn=document.querySelector('#teacher button[onclick="exportTeacherData()"]');if(expBtn){const b=document.createElement('button');b.className='btn outline';b.style.marginTop='8px';b.textContent='گزارش حضورغیاب CSV';b.onclick=exportClassroomReport;expBtn.parentNode.insertBefore(b,expBtn.nextSibling);}
-renderStudents();renderAssignments();renderClassSessions();refreshClassroomDashboard();
+/* جستجوی قابل‌مشاهده صفحه اول: درس‌ها، ابزارها و بخش‌های برنامه */
+function runAppSearch(raw){
+ const box=document.getElementById('appSearchResults'); if(!box)return;
+ const q=String(raw||'').trim().toLocaleLowerCase('fa');
+ if(!q){box.innerHTML='<span class="small">نام درس، ابزار یا بخش موردنظر را بنویس.</span>';return;}
+ const hits=[]; const norm=s=>String(s||'').toLocaleLowerCase('fa').replace(/[ي]/g,'ی').replace(/[ك]/g,'ک');
+ try{
+  if(Array.isArray(lessons)) lessons.forEach(l=>{const hay=norm([l.title,l.pages,l.body].join(' '));if(hay.includes(norm(q)))hits.push({title:l.title,sub:'درس و آموزش',action:"openLesson("+Number(l.id)+")"});});
+ }catch(e){}
+ document.querySelectorAll('.view[id]').forEach(v=>{
+  const id=v.id; if(['lesson','quiz','quizResult'].includes(id))return;
+  const title=v.querySelector('.section-head h2,h2,h1')?.textContent||v.getAttribute('aria-label')||id;
+  const hay=norm(v.innerText||'');
+  if(hay.includes(norm(q))&&!hits.some(h=>h.action==="showView('"+id+"')"))hits.push({title:title.trim().slice(0,70),sub:'بخش برنامه',action:"showView('"+id+"')"});
+ });
+ const unique=hits.filter((h,i)=>hits.findIndex(x=>x.action===h.action)===i).slice(0,12);
+ if(!unique.length){box.innerHTML='<div class="search-empty">موردی پیدا نشد. عبارت دیگری را امتحان کن.</div>';return;}
+ box.innerHTML=unique.map(h=>'<button type="button" class="search-hit" onclick="'+h.action+';document.getElementById(\'appSearchResults\').innerHTML=\'<span class=small>بخش انتخاب‌شده باز شد.</span>\'"><span><strong>'+escapeSearchText(h.title)+'</strong><small>'+escapeSearchText(h.sub)+'</small></span><b aria-hidden="true">←</b></button>').join('');
+}
+function escapeSearchText(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 </script>
 
-<script>
-function searchAppHome(raw){const box=document.getElementById('homeSearchResults');if(!box)return;const q=String(raw||'').trim().toLocaleLowerCase('fa');if(!q){box.innerHTML='<span class="small">نام درس، ابزار یا گزینه موردنظرت را بنویس.</span>';return;}const nodes=[...document.querySelectorAll('button,[onclick],.lesson,.tool-tile,.chapter-card')],seen=new Set(),matches=[];for(const node of nodes){if(node.closest('#homeSearchResults')||node.id==='homeGlobalSearch'||node.disabled)continue;const label=(node.innerText||node.textContent||node.getAttribute('aria-label')||'').replace(/\s+/g,' ').trim();if(!label||label.length<2||!label.toLocaleLowerCase('fa').includes(q))continue;const target=node.matches('button,[onclick]')?node:node.querySelector('button,[onclick]');if(!target)continue;const key=label+'|'+(target.getAttribute('onclick')||target.dataset.view||'');if(seen.has(key))continue;seen.add(key);matches.push({label:label.slice(0,100),target,view:node.closest('.view')?.id||target.closest('.view')?.id||''});if(matches.length>=12)break;}if(!matches.length){box.innerHTML='<div class="home-search-empty">موردی پیدا نشد. واژه دیگری را امتحان کن.</div>';return;}box.innerHTML=matches.map((m,i)=>'<button type="button" class="home-search-result" data-search-result="'+i+'"><span>'+escapeHtml(m.label)+'</span><b>رفتن ←</b></button>').join('');box.querySelectorAll('[data-search-result]').forEach(b=>b.addEventListener('click',()=>{const m=matches[Number(b.dataset.searchResult)];if(m.view)showView(m.view);m.target.scrollIntoView?.({behavior:'smooth',block:'center'});m.target.click();}));}
-</script>
 </body>
 </html>
