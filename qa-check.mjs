@@ -39,6 +39,7 @@ for (const chapter of [5,6,7]) {
   const re = new RegExp('\\{n:' + chapter + ',title:[^}]+ready:true,lessonIds:\\[');
   assert.match(html, re, 'chapter ' + chapter + ' must be marked ready and link to its lessons');
 }
+for (const id of expectedLessonIds.filter(id => id >= 6)) assert.ok(html.includes('"' + id + '":['), 'lesson exam bank missing: ' + id);
 for (const topic of ['fractions','measurement','ratio','approximation']) {
   assert.ok(html.includes(topic + ':[')), 'worksheet bank missing: ' + topic);
   assert.ok(html.includes('value="' + topic + '"'), 'worksheet selector missing: ' + topic);
@@ -46,7 +47,7 @@ for (const topic of ['fractions','measurement','ratio','approximation']) {
 assert.match(html, /function getQuestions\(\)[\s\S]*lessonQuestionBanks\[currentLesson\]/, 'lesson quiz must use the selected lesson bank');
 assert.match(html, /id="globalSearch"/);
 assert.match(html, /id="classSessionList"/);
-assert.match(html, /function saveClassSession\\(/);
+assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="aiAccessToken"/);
 assert.match(html, /function exportFullBackup\(/);
 assert.match(html, /function importFullBackup\(/);
