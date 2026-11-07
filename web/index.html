@@ -859,8 +859,9 @@ function openAttendanceForm(sessionId){
  const saved=classAttendance[String(sessionId)]||{};
  panel.innerHTML='<div class="attendance-head"><b>حضور و غیاب: '+escapeHtml(session.title)+'</b><span class="small">'+escapeHtml(session.date)+' · '+escapeHtml(session.time)+'</span></div>'+
  teacherStudents.map(s=>{const old=saved.records?.find(r=>Number(r.studentId)===Number(s.id));return '<div class="attendance-row"><span>'+escapeHtml(s.name)+' <small>پایه '+escapeHtml(s.grade)+'</small></span><select class="input attendance-select" id="att-'+sessionId+'-'+s.id+'" aria-label="وضعیت حضور '+escapeHtml(s.name)+'"><option value="">انتخاب وضعیت</option><option value="present" '+(old?.status==='present'?'selected':'')+'>حاضر</option><option value="absent" '+(old?.status==='absent'?'selected':'')+'>غایب</option><option value="excused" '+(old?.status==='excused'?'selected':'')+'>غیبت موجه</option></select></div>';}).join('')+
- '<div class="mini-actions"><button class="btn gold" onclick="saveSessionAttendance('+sessionId+')">ذخیره حضور و غیاب</button><button class="btn outline" onclick="renderAttendanceReport('+sessionId+')">گزارش این جلسه</button></div><div id="attendanceReport-'+sessionId+'"></div>';
+ '<div class="mini-actions"><button class="btn outline" onclick="setAllPresent('+sessionId+')">همه حاضر</button><button class="btn gold" onclick="saveSessionAttendance('+sessionId+')">ذخیره حضور و غیاب</button><button class="btn outline" onclick="renderAttendanceReport('+sessionId+')">گزارش این جلسه</button></div><div id="attendanceReport-'+sessionId+'"></div>';
 }
+function setAllPresent(sessionId){teacherStudents.forEach(s=>{const el=document.getElementById('att-'+sessionId+'-'+s.id);if(el)el.value='present';});}
 function saveSessionAttendance(sessionId){
  const session=classSessions.find(s=>s.id===sessionId);if(!session)return;
  const records=teacherStudents.map(s=>({studentId:s.id,name:s.name,grade:s.grade,status:document.getElementById('att-'+sessionId+'-'+s.id)?.value||''}));
@@ -877,6 +878,7 @@ function renderAttendanceReport(sessionId){
 }
 function renderTeacherOverview(){
  const root=document.getElementById('teacherReport');if(!root)return;
+ root.querySelector('.teacher-overview')?.remove();
  const records=Object.values(classAttendance),all=records.flatMap(x=>x.records||[]),present=all.filter(x=>x.status==='present').length;
  const pct=all.length?Math.round(present/all.length*100):0;
  root.innerHTML+='<div class="teacher-overview"><h3>نمای کلی مدیریت کلاس</h3><div class="overview-grid"><div><b>'+fa(teacherStudents.length)+'</b><small>دانش‌آموز</small></div><div><b>'+fa(teacherAssignments.filter(a=>!a.done).length)+'</b><small>تکلیف در انتظار</small></div><div><b>'+fa(classSessions.length)+'</b><small>جلسه برنامه‌ریزی‌شده</small></div><div><b>'+fa(pct)+'٪</b><small>نرخ حضور ثبت‌شده</small></div></div><p class="small">آمار حضور بر اساس تمام وضعیت‌های ثبت‌شده در همین دستگاه محاسبه می‌شود.</p></div>';
@@ -884,7 +886,7 @@ function renderTeacherOverview(){
 function exportAttendanceCSV(){
  const rows=[['جلسه','تاریخ','ساعت','نام دانش‌آموز','پایه','وضعیت']];
  Object.values(classAttendance).forEach(a=>(a.records||[]).forEach(r=>rows.push([a.sessionTitle,a.date,a.time,r.name,r.grade,r.status==='present'?'حاضر':r.status==='absent'?'غایب':'غیبت موجه'])));
- const csv='\\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\\r\\n');
+ const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');
  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='amoozesh-ba-amir-attendance.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),500);
 }
 function runAppSearch(raw){
