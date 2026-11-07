@@ -14,6 +14,8 @@ const backendConfig = await read('backend-config.js');
 const webBackendConfig = await read('web/backend-config.js');
 const schema = await read('backend/schema.sql');
 assert.match(html, /backend-config\.js/, 'backend config hook missing');
+assert.equal(auth, webAuth, 'root and web auth modules must be synchronized');
+assert.equal(backendConfig, webBackendConfig, 'root and web backend configs must be synchronized');
 assert.match(html, /supabase-js@2/, 'Supabase client library missing');
 assert.match(html, /auth\.js/, 'multi-user auth module missing');
 assert.match(auth, /requested_role/);
