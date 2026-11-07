@@ -14,7 +14,7 @@ assert.match(html, /backend-config\.js/, 'backend config hook missing');
 assert.match(html, /supabase-js@2/, 'Supabase client library missing');
 assert.match(html, /auth\.js/, 'multi-user auth module missing');
 assert.match(auth, /requested_role/);
-assert.match(auth, /admin_set_teacher_status/);
+assert.match(auth, /admin_set_teacher_status/);\nassert.match(auth, /amirAuthUsername/);\nassert.match(auth, /class_student_roster/);\nassert.match(auth, /join_class_by_code/);\nassert.match(auth, /loadAllUsers/);\nassert.match(auth, /loadTeacherClasses/);\nassert.match(auth, /loadStudentClasses/);\nconst multiuser = await read('backend/multiuser-v2.sql');\nassert.match(multiuser, /profiles_username_ci_uidx/);\nassert.match(multiuser, /class_student_roster/);\nassert.match(multiuser, /join_class_by_code/);
 assert.match(schema, /approval_status/);
 assert.match(schema, /enable row level security/i);
 assert.match(schema, /admin_set_teacher_status/);
