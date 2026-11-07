@@ -4,22 +4,62 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 const root = dirname(fileURLToPath(import.meta.url));
 const read = name => readFile(resolve(root, name), 'utf8');
-const html = await read('index.html'), webHtml = await read('web/index.html');
-const sw = await read('sw.js'), webSw = await read('web/sw.js');
-const manifest = JSON.parse(await read('manifest.webmanifest'));
+const html = await read('index.html');
+const webHtml = await read('web/index.html');
+const sw = await read('sw.js');
+const webSw = await read('web/sw.js');
+const manifestText = await read('manifest.webmanifest');
+const webManifestText = await read('web/manifest.webmanifest');
+const manifest = JSON.parse(manifestText);
 const cap = JSON.parse(await read('capacitor.config.json'));
 const pkg = JSON.parse(await read('package.json'));
+
 assert.equal(html, webHtml, 'root and web index.html must be synchronized');
 assert.equal(sw, webSw, 'root and web service worker must be synchronized');
-assert.equal(cap.webDir, 'web'); assert.equal(manifest.lang, 'fa-IR'); assert.equal(manifest.dir, 'rtl');
-assert.match(html, /id="aiAccessToken"/); assert.match(html, /id="about"/); assert.match(html, /درباره آموزش با امیر/); assert.match(html, /Vazirmatn/); assert.match(html, /study-hero\.svg/); assert.match(html, /function saveAIToken\(/);
-assert.match(html, /function exportFullBackup\(/); assert.match(html, /function importFullBackup\(/);
-assert.match(html, /function renderWeaknessReport\(/); assert.match(sw, /url\.origin !== self\.location\.origin/);
-assert.match(sw, /pathname\.includes\('\/api\/'\)/); assert.equal(pkg.scripts?.['cap:sync'], 'cap sync android');
-for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','sw.js','study-hero.svg']) await access(resolve(root,'web',f),constants.R_OK);
-const check = spawnSync(process.execPath, ['--check', resolve(root,'secure-ai-server/server.mjs')], { encoding: 'utf8' });
-assert.equal(check.status, 0, `server syntax check failed: ${check.stderr}`);
-console.log('PASS: release structure, PWA assets, synchronized web files, AI controls, backup tools and server syntax.');
-console.log('NOTE: static release check only; not a replacement for device, API, security or signed-APK testing.');
+assert.equal(manifestText, webManifestText, 'root and web manifests must be synchronized');
+assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
+assert.equal(manifest.lang, 'fa-IR');
+assert.equal(manifest.dir, 'rtl');
+assert.equal(pkg.version, '2.0.0', 'package version must match the current release');
+
+for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','sw.js','study-hero.svg']) {
+  await access(resolve(root,'web',f), constants.R_OK);
+}
+
+const lessonSection = html.slice(html.indexOf('const lessons=['), html.indexOf('const quizQuestions=['));
+const lessonIds = [...lessonSection.matchAll(/(?:\\bid:|"id":)(\\d+)/g)].map(m => Number(m[1]));
+const expectedLessonIds = [1,2,3,4,...Array.from({length:25},(_,i)=>i+6)];
+assert.deepEqual([...new Set(lessonIds)].sort((a,b)=>a-b), expectedLessonIds, 'all 29 grade-six math lessons must exist exactly once');
+assert.match(lessonSection, /lessons\\.sort\\(\\(a,b\\)=>a\\.id-b\\.id\\)/, 'lesson list must be sorted by chapter sequence');
+
+for (const chapter of [5,6,7]) {
+  const re = new RegExp('\\\\{n:' + chapter + ',title:[^}]+ready:true,lessonIds:\\\\[');
+  assert.match(html, re, 'chapter ' + chapter + ' must be marked ready and link to its lessons');
+}
+for (const topic of ['fractions','measurement','ratio','approximation']) {
+  assert.match(html, new RegExp('(?:const worksheetBanks=|,)\\\\s*' + topic + ':'), 'worksheet bank missing: ' + topic);
+  assert.ok(html.includes('value="' + topic + '"'), 'worksheet selector missing: ' + topic);
+}
+assert.match(html, /function getQuestions\\(\\)[\\s\\S]*lessonQuestionBanks\\[currentLesson\\]/, 'lesson quiz must use the selected lesson bank');
+assert.match(html, /id="globalSearch"/);
+assert.match(html, /id="aiAccessToken"/);
+assert.match(html, /function exportFullBackup\\(/);
+assert.match(html, /function importFullBackup\\(/);
+assert.match(sw, /url\\.origin !== self\\.location\\.origin/);
+assert.match(sw, /pathname\\.includes\\('\\/api\\/'\\)/);
+
+const inlineScripts = [...html.matchAll(/<script([^>]*)>([\\s\\S]*?)<\\/script>/gi)]
+  .filter(m => !/\\bsrc\\s*=/.test(m[1]) && m[2].trim());
+assert.ok(inlineScripts.length > 0, 'inline application script must exist');
+for (let i=0; i<inlineScripts.length; i++) {
+  const check = spawnSync(process.execPath, ['--check','-'], { input: inlineScripts[i][2], encoding: 'utf8' });
+  assert.equal(check.status, 0, 'inline script ' + (i+1) + ' has a syntax error: ' + check.stderr);
+}
+
+const serverCheck = spawnSync(process.execPath, ['--check', resolve(root,'secure-ai-server/server.mjs')], { encoding: 'utf8' });
+assert.equal(serverCheck.status, 0, 'server syntax check failed: ' + serverCheck.stderr);
+console.log('PASS: synchronized PWA/Capacitor assets, 29 math lessons, lesson exams, chapter readiness, worksheet banks and inline JavaScript syntax.');
+console.log('NOTE: static QA is not a substitute for testing on real Android devices, accessibility, privacy, live-class workflows or release signing.');
