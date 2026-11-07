@@ -62,8 +62,7 @@ for (const chapter of [1,2,3,4,5,6,7]) {
 }
 for (const id of expectedLessonIds) {
   const hasBank = id <= 4
-    ? new RegExp('\
-' + id + ':\\[').test(html)
+    ? new RegExp('\\n' + id + ':\\[').test(html)
     : html.includes('"' + id + '":[') || html.includes('lessonQuestionBanks[' + id + ']=[');
   assert.ok(hasBank, 'lesson exam bank missing: ' + id);
 }
