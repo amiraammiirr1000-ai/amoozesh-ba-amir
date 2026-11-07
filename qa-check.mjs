@@ -14,7 +14,17 @@ assert.match(html, /backend-config\.js/, 'backend config hook missing');
 assert.match(html, /supabase-js@2/, 'Supabase client library missing');
 assert.match(html, /auth\.js/, 'multi-user auth module missing');
 assert.match(auth, /requested_role/);
-assert.match(auth, /admin_set_teacher_status/);\nassert.match(auth, /amirAuthUsername/);\nassert.match(auth, /class_student_roster/);\nassert.match(auth, /join_class_by_code/);\nassert.match(auth, /loadAllUsers/);\nassert.match(auth, /loadTeacherClasses/);\nassert.match(auth, /loadStudentClasses/);\nconst multiuser = await read('backend/multiuser-v2.sql');\nassert.match(multiuser, /profiles_username_ci_uidx/);\nassert.match(multiuser, /class_student_roster/);\nassert.match(multiuser, /join_class_by_code/);
+assert.match(auth, /admin_set_teacher_status/);
+assert.match(auth, /amirAuthUsername/);
+assert.match(auth, /class_student_roster/);
+assert.match(auth, /join_class_by_code/);
+assert.match(auth, /loadAllUsers/);
+assert.match(auth, /loadTeacherClasses/);
+assert.match(auth, /loadStudentClasses/);
+const multiuser = await read('backend/multiuser-v2.sql');
+assert.match(multiuser, /profiles_username_ci_uidx/);
+assert.match(multiuser, /class_student_roster/);
+assert.match(multiuser, /join_class_by_code/);
 assert.match(schema, /approval_status/);
 assert.match(schema, /enable row level security/i);
 assert.match(schema, /admin_set_teacher_status/);
@@ -52,7 +62,8 @@ for (const chapter of [1,2,3,4,5,6,7]) {
 }
 for (const id of expectedLessonIds) {
   const hasBank = id <= 4
-    ? new RegExp('\\n' + id + ':\\[').test(html)
+    ? new RegExp('\
+' + id + ':\\[').test(html)
     : html.includes('"' + id + '":[') || html.includes('lessonQuestionBanks[' + id + ']=[');
   assert.ok(hasBank, 'lesson exam bank missing: ' + id);
 }
