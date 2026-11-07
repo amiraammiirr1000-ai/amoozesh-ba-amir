@@ -44,6 +44,8 @@ for (const topic of ['fractions','measurement','ratio','approximation']) {
   assert.ok(html.includes(topic + ':[')), 'worksheet bank missing: ' + topic);
   assert.ok(html.includes('value="' + topic + '"'), 'worksheet selector missing: ' + topic);
 }
+assert.match(html, /const chapterQuizBanks=Object.fromEntries/);
+assert.match(html, /function startChapterQuiz\(n\)/);
 assert.match(html, /function getQuestions\(\)[\s\S]*lessonQuestionBanks\[currentLesson\]/, 'lesson quiz must use the selected lesson bank');
 assert.match(html, /id="globalSearch"/);
 assert.match(html, /id="classSessionList"/);
