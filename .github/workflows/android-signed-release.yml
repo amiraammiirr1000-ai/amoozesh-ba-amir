@@ -115,8 +115,8 @@ jobs:
                   }
               }
               '''
-              s=re.sub(r'(android\\s*\\{)',r'\\1'+block,s,count=1)
-          s,n=re.subn(r'(buildTypes\\s*\\{\\s*release\\s*\\{)',r'\\1\\n            signingConfig signingConfigs.release',s,count=1)
+              s=re.sub(r'(android\s*\{)',r'\1'+block,s,count=1)
+          s,n=re.subn(r'(buildTypes\s*\{\s*release\s*\{)',r'\1\n            signingConfig signingConfigs.release',s,count=1)
           if n != 1: raise SystemExit('Could not configure release signing in app/build.gradle')
           p.write_text(s)
           PY
