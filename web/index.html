@@ -1049,5 +1049,9 @@ function initEnglishStudio(){
 }
 document.addEventListener('click',e=>{const s=e.target.closest('[data-dict-speak]'),f=e.target.closest('[data-dict-fav]');if(s)speakEnglish(s.dataset.dictSpeak);if(f){let a=getEnglishFavs();a=a.includes(f.dataset.dictFav)?a.filter(x=>x!==f.dataset.dictFav):a.concat(f.dataset.dictFav);localStorage.setItem('amirEnglishFavoritesV1',JSON.stringify(a));searchEnglishDictionary(document.getElementById('dictionarySearch')?.value||'');}});
 const oldEnglishInit=initEnglishHub;initEnglishHub=function(){oldEnglishInit();initEnglishStudio();};
-</script></body>
+</script>
+<script src="backend-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+</body>
 </html>
