@@ -232,7 +232,8 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
     <div class="btnrow"><button class="btn gold" type="button" onclick="openMeetCreator()">ساخت اتاق Google Meet</button><button class="btn outline" type="button" onclick="window.open('https://zoom.us/','_blank','noopener')">ورود به Zoom</button></div>
     <label class="small" for="classTitle">عنوان کلاس</label><input id="classTitle" class="input" placeholder="مثلاً رفع اشکال فصل کسرها" style="margin:5px 0">
     <div class="grid"><div><label class="small" for="classDate">تاریخ</label><input id="classDate" class="input" type="date"></div><div><label class="small" for="classTime">ساعت</label><input id="classTime" class="input" type="time"></div></div>
-    <div class="grid" style="margin-top:8px"><div><label class="small" for="classDuration">مدت جلسه</label><select id="classDuration" class="input"><option value="30">۳۰ دقیقه</option><option value="45" selected>۴۵ دقیقه</option><option value="60">۶۰ دقیقه</option><option value="90">۹۰ دقیقه</option></select></div><div><label class="small" for="classTopic">موضوع</label><select id="classTopic" class="input"><option>ریاضی ششم</option><option>کسرها</option><option>اعداد اعشاری</option><option>تقارن و مختصات</option><option>اندازه‌گیری</option><option>تناسب و درصد</option><option>تقریب</option><option>رفع اشکال</option></select></div></div>
+    <div class="grid" style="margin-top:8px"><div><label class="small" for="classDuration">مدت جلسه</label><select id="classDuration" class="input"><option value="30">۳۰ دقیقه</option><option value="45" selected>۴۵ دقیقه</option><option value="60">۶۰ دقیقه</option><option value="90">۹۰ دقیقه</option></select></div><div><label class="small" for="classTopic">موضوع</label><select id="classTopic" class="input"><option>ریاضی ششم</option><option>کسرها</option><option>اعداد اعشاری</option><option>تقارن و مختصات</option><option>اندازه‌گیری</option><option>تناسب و درصد</option><option>تقریب</option><option>زبان انگلیسی مقدماتی</option><option>زبان انگلیسی</option><option>رفع اشکال</option></select></div></div>
+    <div style="margin-top:8px"><label class="small" for="classGrade">پایه مخاطب</label><select id="classGrade" class="input"><option value="all">همه پایه‌ها / کلاس عمومی</option><option value="ششم">ششم</option><option value="پنجم">پنجم</option><option value="چهارم">چهارم</option><option value="سوم">سوم</option><option value="دوم">دوم</option><option value="اول">اول</option></select></div>
     <label class="small" for="classLink">لینک جلسه (Google Meet / Zoom)</label><input id="classLink" class="input" type="url" placeholder="https://meet.google.com/..." style="margin:5px 0">
     <label class="small" for="classNotes">توضیح برای دانش‌آموزان (اختیاری)</label><textarea id="classNotes" class="input" rows="2" placeholder="وسایل موردنیاز، تکلیف قبل از جلسه و..."></textarea>
     <button class="btn full" style="margin-top:9px" onclick="saveClassSession()">ذخیره و برنامه‌ریزی کلاس</button>
@@ -834,7 +835,7 @@ function saveClassSession(){
  const link=document.getElementById('classLink').value.trim();
  if(!title||!date||!time){alert('عنوان، تاریخ و ساعت کلاس را وارد کن.');return;}
  if(link){try{const u=new URL(link);if(u.protocol!=='https:')throw new Error('https');}catch(e){alert('لینک کلاس باید یک نشانی معتبر و امن با https باشد.');return;}}
- const session={id:Date.now(),title,date,time,duration:Number(document.getElementById('classDuration').value)||45,topic:document.getElementById('classTopic').value,link,notes:document.getElementById('classNotes').value.trim(),created:new Date().toISOString()};
+ const session={id:Date.now(),title,date,time,duration:Number(document.getElementById('classDuration').value)||45,topic:document.getElementById('classTopic').value,targetGrade:document.getElementById('classGrade').value||'all',link,notes:document.getElementById('classNotes').value.trim(),created:new Date().toISOString()};
  classSessions.unshift(session);storeClassSessions();
  for(const id of ['classTitle','classDate','classTime','classLink','classNotes'])document.getElementById(id).value='';
  renderClassSessions();
@@ -842,29 +843,31 @@ function saveClassSession(){
 function renderClassSessions(){
  const root=document.getElementById('classSessionList');if(!root)return;
  const items=[...classSessions].sort((a,b)=>(a.date+'T'+a.time).localeCompare(b.date+'T'+b.time));
- root.innerHTML=items.length?items.map(s=>'<article class="assignment-row"><h4>'+escapeHtml(s.title)+'</h4><p>'+escapeHtml(s.topic)+' · '+escapeHtml(s.date)+' · '+escapeHtml(s.time)+' · '+fa(s.duration)+' دقیقه</p>'+(s.notes?'<p>'+escapeHtml(s.notes)+'</p>':'')+'<div class="mini-actions">'+(s.link?'<button class="btn gold" onclick="joinClassSession('+s.id+')">ورود به کلاس</button>':'<span class="tag">لینک ثبت نشده</span>')+'<button class="btn light" onclick="shareClassSession('+s.id+')">ارسال دعوت</button><button class="btn outline" onclick="openAttendanceForm('+s.id+')">ثبت حضور و غیاب</button><button class="btn outline" onclick="deleteClassSession('+s.id+')">حذف</button></div><div id="attendancePanel-'+s.id+'" class="attendance-panel"></div>').join(''):'<div class="mutedbox">هنوز کلاسی برنامه‌ریزی نشده است.</div>';
+ root.innerHTML=items.length?items.map(s=>'<article class="assignment-row"><h4>'+escapeHtml(s.title)+'</h4><p>'+escapeHtml(s.topic)+' · '+escapeHtml(s.date)+' · '+escapeHtml(s.time)+' · '+fa(s.duration)+' دقیقه · '+(s.targetGrade&&s.targetGrade!=='all'?'پایه '+escapeHtml(s.targetGrade):'همه پایه‌ها')+'</p>'+(s.notes?'<p>'+escapeHtml(s.notes)+'</p>':'')+'<div class="mini-actions">'+(s.link?'<button class="btn gold" onclick="joinClassSession('+s.id+')">ورود به کلاس</button>':'<span class="tag">لینک ثبت نشده</span>')+'<button class="btn light" onclick="shareClassSession('+s.id+')">ارسال دعوت</button><button class="btn outline" onclick="openAttendanceForm('+s.id+')">ثبت حضور و غیاب</button><button class="btn outline" onclick="deleteClassSession('+s.id+')">حذف</button></div><div id="attendancePanel-'+s.id+'" class="attendance-panel"></div>').join(''):'<div class="mutedbox">هنوز کلاسی برنامه‌ریزی نشده است.</div>';
 }
 function joinClassSession(id){const s=classSessions.find(x=>x.id===id);if(!s||!s.link){alert('ابتدا لینک جلسه را ثبت کن.');return;}window.open(s.link,'_blank','noopener');}
 async function shareClassSession(id){
  const s=classSessions.find(x=>x.id===id);if(!s)return;
- const message='دعوت به کلاس آموزش با امیر\n'+s.title+'\nموضوع: '+s.topic+'\nزمان: '+s.date+' ساعت '+s.time+'\nمدت: '+s.duration+' دقیقه\n'+(s.link?'لینک ورود: '+s.link:'لینک جلسه هنوز ثبت نشده است.')+(s.notes?'\nتوضیحات: '+s.notes:'');
+ const message='دعوت به کلاس آموزش با امیر\n'+s.title+'\nموضوع: '+s.topic+'\nپایه: '+(s.targetGrade&&s.targetGrade!=='all'?s.targetGrade:'همه پایه‌ها')+'\nزمان: '+s.date+' ساعت '+s.time+'\nمدت: '+s.duration+' دقیقه\n'+(s.link?'لینک ورود: '+s.link:'لینک جلسه هنوز ثبت نشده است.')+(s.notes?'\nتوضیحات: '+s.notes:'');
  try{if(navigator.share){await navigator.share({title:s.title,text:message});}else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(message);alert('متن دعوت کپی شد؛ آن را برای دانش‌آموزان ارسال کن.');}else{prompt('متن دعوت را کپی کن:',message);}}catch(e){}
 }
 function deleteClassSession(id){if(!confirm('این جلسه از برنامه حذف شود؟'))return;classSessions=classSessions.filter(s=>s.id!==id);storeClassSessions();renderClassSessions();}
 
+function studentsForSession(session){return teacherStudents.filter(s=>!session.targetGrade||session.targetGrade==='all'||String(s.grade)===String(session.targetGrade));}
 function openAttendanceForm(sessionId){
  const panel=document.getElementById('attendancePanel-'+sessionId);if(!panel)return;
- if(!teacherStudents.length){panel.innerHTML='<div class="mutedbox">ابتدا فهرست دانش‌آموزان را تکمیل کن.</div>';return;}
  const session=classSessions.find(s=>s.id===sessionId);if(!session)return;
+ const roster=studentsForSession(session);
+ if(!roster.length){panel.innerHTML='<div class="mutedbox">برای این پایه هنوز دانش‌آموزی ثبت نشده است. ابتدا فهرست دانش‌آموزان را تکمیل کن.</div>';return;}
  const saved=classAttendance[String(sessionId)]||{};
  panel.innerHTML='<div class="attendance-head"><b>حضور و غیاب: '+escapeHtml(session.title)+'</b><span class="small">'+escapeHtml(session.date)+' · '+escapeHtml(session.time)+'</span></div>'+
- teacherStudents.map(s=>{const old=saved.records?.find(r=>Number(r.studentId)===Number(s.id));return '<div class="attendance-row"><span>'+escapeHtml(s.name)+' <small>پایه '+escapeHtml(s.grade)+'</small></span><select class="input attendance-select" id="att-'+sessionId+'-'+s.id+'" aria-label="وضعیت حضور '+escapeHtml(s.name)+'"><option value="">انتخاب وضعیت</option><option value="present" '+(old?.status==='present'?'selected':'')+'>حاضر</option><option value="absent" '+(old?.status==='absent'?'selected':'')+'>غایب</option><option value="excused" '+(old?.status==='excused'?'selected':'')+'>غیبت موجه</option></select></div>';}).join('')+
+ roster.map(s=>{const old=saved.records?.find(r=>Number(r.studentId)===Number(s.id));return '<div class="attendance-row"><span>'+escapeHtml(s.name)+' <small>پایه '+escapeHtml(s.grade)+'</small></span><select class="input attendance-select" id="att-'+sessionId+'-'+s.id+'" aria-label="وضعیت حضور '+escapeHtml(s.name)+'"><option value="">انتخاب وضعیت</option><option value="present" '+(old?.status==='present'?'selected':'')+'>حاضر</option><option value="absent" '+(old?.status==='absent'?'selected':'')+'>غایب</option><option value="excused" '+(old?.status==='excused'?'selected':'')+'>غیبت موجه</option></select></div>';}).join('')+
  '<div class="mini-actions"><button class="btn outline" onclick="setAllPresent('+sessionId+')">همه حاضر</button><button class="btn gold" onclick="saveSessionAttendance('+sessionId+')">ذخیره حضور و غیاب</button><button class="btn outline" onclick="renderAttendanceReport('+sessionId+')">گزارش این جلسه</button></div><div id="attendanceReport-'+sessionId+'"></div>';
 }
-function setAllPresent(sessionId){teacherStudents.forEach(s=>{const el=document.getElementById('att-'+sessionId+'-'+s.id);if(el)el.value='present';});}
+function setAllPresent(sessionId){const session=classSessions.find(s=>s.id===sessionId);if(!session)return;studentsForSession(session).forEach(s=>{const el=document.getElementById('att-'+sessionId+'-'+s.id);if(el)el.value='present';});}
 function saveSessionAttendance(sessionId){
  const session=classSessions.find(s=>s.id===sessionId);if(!session)return;
- const records=teacherStudents.map(s=>({studentId:s.id,name:s.name,grade:s.grade,status:document.getElementById('att-'+sessionId+'-'+s.id)?.value||''}));
+ const records=studentsForSession(session).map(s=>({studentId:s.id,name:s.name,grade:s.grade,status:document.getElementById('att-'+sessionId+'-'+s.id)?.value||''}));
  const missing=records.filter(r=>!r.status);
  if(missing.length){alert('وضعیت حضور '+missing.length+' دانش‌آموز هنوز انتخاب نشده است.');return;}
  classAttendance[String(sessionId)]={sessionId,sessionTitle:session.title,date:session.date,time:session.time,savedAt:new Date().toISOString(),records};
