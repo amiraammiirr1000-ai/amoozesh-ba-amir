@@ -70,7 +70,7 @@
     const status=$('amirAccountStatus'),btn=$('amirAccountOpen');
     if(!profile){if(status)status.textContent='حالت مهمان · داده‌ها محلی';if(btn)btn.textContent='ورود / ثبت‌نام';}
     else{if(status)status.textContent=profile.display_name+' · '+({admin:'مدیر کل',teacher:'معلم',student:'دانش‌آموز'}[profile.role]||'کاربر')+' · '+profile.approval_status;if(btn)btn.textContent='حساب کاربری / خروج';}
-    document.querySelectorAll('[data-view="teacher"]').forEach(b=>b.classList.toggle('amir-hidden-role',!profile||profile.role!=='admin'&&(profile.role!=='teacher'||profile.approval_status!=='approved')));
+    document.querySelectorAll('[data-view="teacher"]').forEach(b=>b.classList.toggle('amir-hidden-role',ready&&(!profile||profile.role!=='admin'&&(profile.role!=='teacher'||profile.approval_status!=='approved'))));
     document.querySelectorAll('[data-view="admin"]').forEach(b=>b.classList.toggle('amir-hidden-role',!profile||profile.role!=='admin'));
     const old=$('amirStudentDashboard');if(old)old.remove();
     if(profile&&profile.role==='student'&&profile.approval_status==='approved'){
