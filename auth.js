@@ -27,7 +27,7 @@
     overlay.innerHTML=`<div class="amir-auth-panel" role="dialog" aria-modal="true" aria-labelledby="amirAuthTitle">
       <h2 id="amirAuthTitle">حساب کاربری آموزش با امیر</h2>
       <p class="small">برای همگام‌سازی اطلاعات، با حساب خودت وارد شو.</p>
-      <label>نام و نام خانوادگی</label><input id="amirAuthName" autocomplete="name" placeholder="نام نمایشی">
+      <label>نام نمایشی</label><input id="amirAuthName" autocomplete="name" placeholder="نام نمایشی"><label>آیدی دلخواه (۳ تا ۲۴ حرف انگلیسی، عدد یا زیرخط)</label><input id="amirAuthUsername" autocomplete="username" maxlength="24" pattern="[A-Za-z0-9_]{3,24}" placeholder="مثلاً amir_student">
       <label>ایمیل</label><input id="amirAuthEmail" type="email" autocomplete="email" placeholder="name@example.com">
       <label>رمز عبور</label><input id="amirAuthPassword" type="password" autocomplete="current-password" minlength="8" placeholder="حداقل ۸ نویسه">
       <label>نوع حساب هنگام ثبت‌نام</label><select id="amirAuthRole"><option value="student">دانش‌آموز</option><option value="teacher">معلم (نیازمند تأیید مدیر)</option></select>
@@ -48,11 +48,11 @@
   }
   async function signup(){
     if(!client)return;
-    const email=$('amirAuthEmail').value.trim(),password=$('amirAuthPassword').value,name=$('amirAuthName').value.trim(),role=$('amirAuthRole').value;
-    if(!name||!email||password.length<8)return msg('نام، ایمیل معتبر و رمز حداقل ۸ نویسه لازم است.');
-    const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name,requested_role:role}}});
+    const email=$('amirAuthEmail').value.trim(),password=$('amirAuthPassword').value,name=$('amirAuthName').value.trim(),username=$('amirAuthUsername').value.trim().toLowerCase(),role=$('amirAuthRole').value;
+    if(!name||!email||password.length<8||!/^[a-z0-9_]{3,24}$/.test(username))return msg('نام، ایمیل معتبر، آیدی ۳ تا ۲۴ حرفی (انگلیسی/عدد/زیرخط) و رمز حداقل ۸ نویسه لازم است.');
+    const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name,username,requested_role:role}}});
     if(error)return msg(error.message);
-    if(data.session){await loadProfile();}else msg(role==='teacher'?'درخواست ثبت‌نام معلم ثبت شد. پس از تأیید ایمیل و مدیر کل می‌توانی وارد پنل معلم شوی.':'حساب ساخته شد؛ ایمیل را برای تأیید بررسی کن.');
+    if(data.session){await loadProfile();}else msg(role==='teacher'?'درخواست معلم ثبت شد و پس از تأیید ایمیل و مدیر کل فعال می‌شود.':'حساب ساخته شد؛ ایمیل را برای تأیید بررسی کن. آیدی انتخابی‌ات برای معلم فقط در کلاس‌هایی که عضو می‌شوی نمایش داده می‌شود.');
   }
   async function loadProfile(){
     if(!client)return;
