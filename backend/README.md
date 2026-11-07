@@ -13,23 +13,23 @@ The repository does not contain a Supabase project URL or public client key, and
 
 ## Setup
 1. Create a Supabase project.
-2. Open **SQL Editor**, paste and run `schema.sql`.
-3. In **Project Settings → API**, copy the Project URL and publishable/anon key.
-4. Put those two values in `backend-config.js` and commit the file. These are public client values; database access is protected by RLS.
-5. In Supabase **Authentication → URL Configuration**, add the deployed GitHub Pages URL and local development URL to the allowed redirect URLs.
-6. Open the app and create an account using the email/password form. Choose **معلم** or **دانش‌آموز**.
-7. To make the first administrator, find the account UUID in **Authentication → Users**, then run:
+2. Open **SQL Editor**, paste and run `schema.sql`.\n3. Then run `multiuser-v2.sql` in the same SQL Editor. This adds unique student handles, administrator registration directory, class invitation codes, privacy-safe class rosters and student self-enrollment.\n4. In **Project Settings → API**, copy the Project URL and publishable/anon key.
+
+5. Put those two values in `backend-config.js` and commit the file. These are public client values; database access is protected by RLS.
+6. In Supabase **Authentication → URL Configuration**, add the deployed GitHub Pages URL and local development URL to the allowed redirect URLs.
+7. Open the app and create an account using the email/password form. Choose **معلم** or **دانش‌آموز**.
+8. To make the first administrator, find the account UUID in **Authentication → Users**, then run:
    ```sql
    update public.profiles
    set role='admin', approval_status='approved'
    where id='PASTE-ADMIN-USER-UUID-HERE';
    ```
-8. Sign out and back in. The admin account can approve/reject teacher registrations from the administrator panel.
+9. Sign out and back in. The admin account can approve/reject teacher registrations from the administrator panel.
 
 ## Roles
 - **Admin:** approve teachers; manage shared content and system accounts.
-- **Teacher:** only after approval, create/manage own classes, enroll students, publish shared content, issue assignments and grade submissions.
-- **Student:** access shared published lessons and content, see only their own classes/assignments/submissions and submit work.
+- **Teacher:** only after approval, create own classes and share invite codes; see only student display names and handles in own class rosters. The SQL schema also supports assignments and grading, which still require connecting the app's assignment UI.
+- **Student:** register independently, use public learning content, join a teacher's class with an invite code, and see only their own classes/assignments/submissions. Assignment workflows still need UI integration.
 
 ## Data migration
 Existing browser localStorage data is not automatically uploaded. Import/migration needs an explicit review and a later migration tool so private student data is not uploaded accidentally.
