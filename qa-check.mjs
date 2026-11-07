@@ -97,7 +97,7 @@ assert.match(html, /American English/);
 assert.match(html, /American Family and Friends/);
 assert.match(html, /function initEnglishStudio\(/);
 
-assert.match(sw, /amoozesh-ba-amir-v33/);
+assert.match(sw, /amoozesh-ba-amir-v34/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
