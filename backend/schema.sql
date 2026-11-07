@@ -127,10 +127,6 @@ drop policy if exists "profiles read self or admin" on public.profiles;
 create policy "profiles read self or admin" on public.profiles for select to authenticated
 using (id=auth.uid() or public.current_role()='admin');
 
-drop policy if exists "profile update own name" on public.profiles;
-create policy "profile update own name" on public.profiles for update to authenticated
-using (id=auth.uid()) with check (id=auth.uid() and role=public.current_role());
-
 drop policy if exists "classes read by participants" on public.classes;
 create policy "classes read by participants" on public.classes for select to authenticated
 using (teacher_id=auth.uid() or public.current_role()='admin' or exists(
@@ -169,6 +165,10 @@ drop policy if exists "approved teachers manage content" on public.public_conten
 create policy "approved teachers manage content" on public.public_content for insert to authenticated
 with check (created_by=auth.uid() and public.current_role()='teacher' and public.is_approved());
 
+drop policy if exists "admins create content" on public.public_content;
+create policy "admins create content" on public.public_content for insert to authenticated
+with check (public.current_role()='admin');
+
 drop policy if exists "content owners and admin update" on public.public_content;
 create policy "content owners and admin update" on public.public_content for update to authenticated
 using (created_by=auth.uid() or public.current_role()='admin')
@@ -199,8 +199,9 @@ create policy "students submit own work" on public.submissions for insert to aut
 with check (student_id=auth.uid() and public.current_role()='student' and public.is_approved());
 
 drop policy if exists "students update own submission or teacher grades" on public.submissions;
-create policy "students update own submission or teacher grades" on public.submissions for update to authenticated
-using (student_id=auth.uid() or exists(select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()))
-with check (student_id=auth.uid() or exists(select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()));
+drop policy if exists "teachers grade submissions" on public.submissions;
+create policy "teachers grade submissions" on public.submissions for update to authenticated
+using (exists(select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()) and public.is_approved())
+with check (exists(select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()) and public.is_approved());
 
 grant execute on function public.admin_set_teacher_status(uuid,text) to authenticated;
