@@ -59,7 +59,7 @@ assert.match(html, /id="dictionarySearch"/);
 assert.match(html, /function searchEnglishDictionary\(/);
 assert.match(html, /englishExtendedThemes/);
 assert.match(html, /function renderEnglishBook\(/);
-for (const level of ['first-friends-1','first-friends-2','family-friends-1','family-friends-2','family-friends-3','family-friends-4','family-friends-5','family-friends-6']) assert.ok(html.includes(level), 'English pathway missing: ' + level);
+for (const level of ['first-friends-1','first-friends-2','first-friends-3','family-friends-1','family-friends-2','family-friends-3','family-friends-4','family-friends-5','family-friends-6']) assert.ok(html.includes(level), 'English pathway missing: ' + level);
 assert.match(html, /englishWords/);
 assert.match(sw, /amoozesh-ba-amir-v32/);
 assert.match(html, /id="classSessionList"/);
