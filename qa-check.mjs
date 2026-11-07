@@ -113,6 +113,9 @@ for (let i=0; i<inlineScripts.length; i++) {
   assert.equal(check.status, 0, 'inline script ' + (i+1) + ' has a syntax error: ' + check.stderr);
 }
 
+const authCheck = spawnSync(process.execPath, ['--check', resolve(root,'auth.js')], { encoding: 'utf8' });
+assert.equal(authCheck.status, 0, 'auth.js syntax check failed: ' + authCheck.stderr);
+
 const serverCheck = spawnSync(process.execPath, ['--check', resolve(root,'secure-ai-server/server.mjs')], { encoding: 'utf8' });
 assert.equal(serverCheck.status, 0, 'server syntax check failed: ' + serverCheck.stderr);
 console.log('PASS: synchronized PWA/Capacitor assets, 29 math lessons, American English dictionary, First Friends 1–3, American Family and Friends 1–6, local PDF/audio library, US voice controls, lesson exams, worksheets and inline JavaScript syntax.');
