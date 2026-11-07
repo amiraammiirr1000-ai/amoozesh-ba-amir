@@ -40,11 +40,13 @@ for (const chapter of [5,6,7]) {
   assert.match(html, re, 'chapter ' + chapter + ' must be marked ready and link to its lessons');
 }
 for (const topic of ['fractions','measurement','ratio','approximation']) {
-  assert.match(html, new RegExp('(?:const worksheetBanks=|,)\\s*' + topic + ':'), 'worksheet bank missing: ' + topic);
+  assert.ok(html.includes(topic + ':[')), 'worksheet bank missing: ' + topic);
   assert.ok(html.includes('value="' + topic + '"'), 'worksheet selector missing: ' + topic);
 }
 assert.match(html, /function getQuestions\(\)[\s\S]*lessonQuestionBanks\[currentLesson\]/, 'lesson quiz must use the selected lesson bank');
 assert.match(html, /id="globalSearch"/);
+assert.match(html, /id="classSessionList"/);
+assert.match(html, /function saveClassSession\\(/);
 assert.match(html, /id="aiAccessToken"/);
 assert.match(html, /function exportFullBackup\(/);
 assert.match(html, /function importFullBackup\(/);
