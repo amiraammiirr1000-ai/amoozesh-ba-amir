@@ -20,11 +20,11 @@ assert.match(auth, /class_student_roster/);
 assert.match(auth, /join_class_by_code/);
 assert.match(auth, /loadAllUsers/);
 assert.match(auth, /loadTeacherClasses/);
-assert.match(auth, /loadStudentClasses/);
+assert.match(auth, /loadStudentClasses/);\nassert.match(auth, /async function shareInvite/);\nassert.match(auth, /meeting_url/);\nassert.match(auth, /https:\\\/\\\//);
 const multiuser = await read('backend/multiuser-v2.sql');
 assert.match(multiuser, /profiles_username_ci_uidx/);
 assert.match(multiuser, /class_student_roster/);
-assert.match(multiuser, /join_class_by_code/);
+assert.match(multiuser, /join_class_by_code/);\nassert.match(multiuser, /classes_meeting_url_https_check/);
 assert.match(schema, /approval_status/);
 assert.match(schema, /enable row level security/i);
 assert.match(schema, /admin_set_teacher_status/);
@@ -128,5 +128,5 @@ assert.equal(authCheck.status, 0, 'auth.js syntax check failed: ' + authCheck.st
 
 const serverCheck = spawnSync(process.execPath, ['--check', resolve(root,'secure-ai-server/server.mjs')], { encoding: 'utf8' });
 assert.equal(serverCheck.status, 0, 'server syntax check failed: ' + serverCheck.stderr);
-console.log('PASS: synchronized PWA/Capacitor assets, 29 math lessons, American English dictionary, First Friends 1–3, American Family and Friends 1–6, local PDF/audio library, US voice controls, lesson exams, worksheets and inline JavaScript syntax.');
+console.log('PASS: synchronized PWA/Capacitor assets, multi-user role client, class invites, HTTPS meeting links, privacy RPCs, 29 math lessons, English studio, lesson exams, worksheets and inline JavaScript syntax.');
 console.log('NOTE: static QA is not a substitute for testing on real Android devices, accessibility, privacy, live-class workflows or release signing.');
