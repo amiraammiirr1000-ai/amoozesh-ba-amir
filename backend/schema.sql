@@ -177,7 +177,7 @@ with check (created_by=auth.uid() or public.current_role()='admin');
 drop policy if exists "assignment read by class participants" on public.assignments;
 create policy "assignment read by class participants" on public.assignments for select to authenticated
 using (teacher_id=auth.uid() or public.current_role()='admin' or exists(
-  select 1 from public.class_members m where m.class_id=class_id and m.student_id=auth.uid()
+  select 1 from public.class_members m where m.class_id=assignments.class_id and m.student_id=auth.uid()
 ));
 
 drop policy if exists "approved teachers create assignments" on public.assignments;
@@ -191,7 +191,7 @@ using (teacher_id=auth.uid() and public.is_approved()) with check (teacher_id=au
 drop policy if exists "submissions visible to owner teacher or student" on public.submissions;
 create policy "submissions visible to owner teacher or student" on public.submissions for select to authenticated
 using (student_id=auth.uid() or public.current_role()='admin' or exists(
-  select 1 from public.assignments a where a.id=assignment_id and a.teacher_id=auth.uid()
+  select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()
 ));
 
 drop policy if exists "students submit own work" on public.submissions;
@@ -200,7 +200,7 @@ with check (student_id=auth.uid() and public.current_role()='student' and public
 
 drop policy if exists "students update own submission or teacher grades" on public.submissions;
 create policy "students update own submission or teacher grades" on public.submissions for update to authenticated
-using (student_id=auth.uid() or exists(select 1 from public.assignments a where a.id=assignment_id and a.teacher_id=auth.uid()))
-with check (student_id=auth.uid() or exists(select 1 from public.assignments a where a.id=assignment_id and a.teacher_id=auth.uid()));
+using (student_id=auth.uid() or exists(select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()))
+with check (student_id=auth.uid() or exists(select 1 from public.assignments a where a.id=submissions.assignment_id and a.teacher_id=auth.uid()));
 
 grant execute on function public.admin_set_teacher_status(uuid,text) to authenticated;
