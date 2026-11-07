@@ -8,6 +8,17 @@ import { fileURLToPath } from 'node:url';
 const root = dirname(fileURLToPath(import.meta.url));
 const read = name => readFile(resolve(root, name), 'utf8');
 const html = await read('index.html');
+const auth = await read('auth.js');
+const schema = await read('backend/schema.sql');
+assert.match(html, /backend-config\\.js/, 'backend config hook missing');
+assert.match(html, /supabase-js@2/, 'Supabase client library missing');
+assert.match(html, /auth\\.js/, 'multi-user auth module missing');
+assert.match(auth, /requested_role/);
+assert.match(auth, /admin_set_teacher_status/);
+assert.match(schema, /approval_status/);
+assert.match(schema, /enable row level security/i);
+assert.match(schema, /admin_set_teacher_status/);
+
 const webHtml = await read('web/index.html');
 const sw = await read('sw.js');
 const webSw = await read('web/sw.js');
