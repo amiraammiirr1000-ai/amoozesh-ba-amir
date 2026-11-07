@@ -72,18 +72,18 @@
     else{if(status)status.textContent=profile.display_name+' · '+({admin:'مدیر کل',teacher:'معلم',student:'دانش‌آموز'}[profile.role]||'کاربر')+' · '+profile.approval_status;if(btn)btn.textContent='حساب کاربری / خروج';}
     document.querySelectorAll('[data-view="teacher"]').forEach(b=>b.classList.toggle('amir-hidden-role',ready&&(!profile||profile.role!=='admin'&&(profile.role!=='teacher'||profile.approval_status!=='approved'))));
     document.querySelectorAll('[data-view="admin"]').forEach(b=>b.classList.toggle('amir-hidden-role',!profile||profile.role!=='admin'));
-    const old=$('amirStudentDashboard');if(old)old.remove();
+    ['amirStudentDashboard','amirTeacherDashboard'].forEach(id=>$(id)?.remove());
     if(profile&&profile.role==='student'&&profile.approval_status==='approved'){
       const s=document.createElement('section');s.id='amirStudentDashboard';s.className='amir-role-panel';s.innerHTML='<h3>پنل دانش‌آموز</h3><p class="small">حساب دانش‌آموز فعال است. درس‌ها و محتوای عمومی در دسترس‌اند؛ تکالیف و کلاس‌های اختصاصی پس از اتصال کامل بخش‌های آموزشی نمایش داده می‌شوند.</p>';
       const home=$('home');if(home)home.insertBefore(s,home.firstChild);
     }
     if(profile&&profile.role==='admin'&&!$('amirAdminPanel')){
-      const s=document.createElement('section');s.id='amirAdminPanel';s.className='amir-role-panel';s.innerHTML='<h3>مدیریت درخواست معلمان</h3><p class="small">درخواست‌های ثبت‌نام معلم برای تأیید شما نمایش داده می‌شود.</p><div id="amirPendingTeachers">در حال بارگذاری…</div>';
-      const main=document.querySelector('main.content');if(main)main.prepend(s);loadPending();
+      const s=document.createElement('section');s.id='amirAdminPanel';s.className='amir-role-panel';s.innerHTML='<h3>مدیریت کاربران سامانه</h3><p class="small">مشخصات ثبت‌نام‌کنندگان فقط برای مدیر کل نمایش داده می‌شود.</p><div id="amirAllUsers">در حال بارگذاری…</div><h4>درخواست‌های معلمان</h4><div id="amirPendingTeachers">در حال بارگذاری…</div>';
+      const main=document.querySelector('main.content');if(main)main.prepend(s);loadPending();loadAllUsers();
     }
     if((!profile||profile.role!=='admin')&&$('amirAdminPanel'))$('amirAdminPanel').remove();
   }
-  async function loadPending(){
+  async function loadAllUsers(){\n    const box=$(\'amirAllUsers\');if(!box||!client)return;\n    const {data,error}=await client.from(\'profiles\').select(\'display_name,username,email,role,approval_status,created_at\').order(\'created_at\',{ascending:false}).limit(500);\n    if(error){box.textContent=\'خطا در دریافت کاربران: \'+error.message;return;}\n    box.innerHTML=data.length?data.map(p=>\'<div class="amir-list-row"><b>\'+esc(p.display_name)+\'</b> · @\'+esc(p.username)+\'<div class="small">\'+esc(p.email||\'\')+\' · \'+esc(p.role)+\' · \'+esc(p.approval_status)+\' · \'+new Date(p.created_at).toLocaleDateString(\'fa-IR\')+\'</div></div>\').join(\'\'):\'هنوز کاربری ثبت‌نام نکرده است.\';\n  }\n  async function loadPending(){
     const box=$('amirPendingTeachers');if(!box||!client)return;
     const {data,error}=await client.from('profiles').select('id,display_name,created_at').eq('role','teacher').eq('approval_status','pending').order('created_at');
     if(error){box.textContent='خطا در دریافت درخواست‌ها: '+error.message;return;}
@@ -96,7 +96,7 @@
     if(error){alert('تغییر وضعیت انجام نشد: '+error.message);return;}
     await loadPending();
   }
-  async function logout(){await client.auth.signOut();profile=null;render();}
+  async function createClass(){\n    const title=$(\'amirClassTitle\').value.trim();if(!title)return alert(\'نام کلاس را وارد کن.\');\n    const {data,error}=await client.from(\'classes\').insert({teacher_id:profile.id,title,grade:$(\'amirClassGrade\').value.trim(),subject:$(\'amirClassSubject\').value.trim()}).select(\'id,title,invite_code\').single();\n    if(error)return alert(\'ایجاد کلاس ناموفق بود: \'+error.message);await loadTeacherClasses();alert(\'کلاس ساخته شد. کد دعوت: \'+data.invite_code);\n  }\n  async function loadTeacherClasses(){\n    const box=$(\'amirTeacherClasses\');if(!box||!client)return;const {data,error}=await client.from(\'classes\').select(\'id,title,grade,subject,invite_code\').eq(\'teacher_id\',profile.id).order(\'created_at\',{ascending:false});\n    if(error){box.textContent=\'خطا: \'+error.message;return;}box.innerHTML=data.length?data.map(x=>\'<div class="amir-list-row"><b>\'+esc(x.title)+\'</b><div class="small">\'+esc(x.grade||\'\')+\' · \'+esc(x.subject||\'\')+\' · کد: <b>\'+esc(x.invite_code)+\'</b></div><button class="amir-account-btn" data-roster="\'+x.id+\'">فهرست دانش‌آموزان</button><div id="amirRoster-\'+x.id+\'"></div></div>\').join(\'\'):\'هنوز کلاسی نساخته‌ای.\';box.querySelectorAll(\'[data-roster]\').forEach(b=>b.onclick=()=>loadRoster(b.dataset.roster));\n  }\n  async function loadRoster(id){const box=$(\'amirRoster-\'+id);const {data,error}=await client.rpc(\'class_student_roster\',{p_class_id:id});if(error){box.textContent=error.message;return;}box.innerHTML=data.length?data.map(s=>\'<div>\'+esc(s.display_name)+\' · @\'+esc(s.username)+\'</div>\').join(\'\'):\'هنوز دانش‌آموزی عضو نشده است.\';}\n  async function joinClass(){const code=$(\'amirJoinCode\').value.trim();if(!code)return alert(\'کد کلاس را وارد کن.\');const {error}=await client.rpc(\'join_class_by_code\',{p_code:code});if(error)return alert(error.message);alert(\'با موفقیت به کلاس پیوستی.\');loadStudentClasses();}\n  async function loadStudentClasses(){const box=$(\'amirStudentClasses\');if(!box||!client)return;const {data,error}=await client.from(\'class_members\').select(\'class_id,classes(title,grade,subject)\').eq(\'student_id\',profile.id);if(error){box.textContent=\'خطا در دریافت کلاس‌ها: \'+error.message;return;}box.innerHTML=\'<b>کلاس‌های من</b>\'+(data.length?data.map(x=>\'<div>\'+esc(x.classes?.title||\'کلاس\')+\' · \'+esc(x.classes?.grade||\'\')+\'</div>\').join(\'\'):\'<div>هنوز عضو کلاسی نیستی.</div>\');}\n  async function logout(){await client.auth.signOut();profile=null;render();}
   function init(){
     inject();
     $('amirAccountOpen').addEventListener('click',()=>{if(profile){if(confirm('از حساب خارج شوی؟'))logout();}else $('amirAuthOverlay').classList.add('open');});
