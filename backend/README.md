@@ -13,7 +13,9 @@ The repository does not contain a Supabase project URL or public client key, and
 
 ## Setup
 1. Create a Supabase project.
-2. Open **SQL Editor**, paste and run `schema.sql`.\n3. Then run `multiuser-v2.sql` in the same SQL Editor. This adds unique student handles, administrator registration directory, class invitation codes, privacy-safe class rosters and student self-enrollment.\n4. In **Project Settings → API**, copy the Project URL and publishable/anon key.
+2. Open **SQL Editor**, paste and run `schema.sql`.
+3. Then run `multiuser-v2.sql` in the same SQL Editor. This adds unique student handles, administrator registration directory, class invitation codes, privacy-safe class rosters and student self-enrollment.
+4. In **Project Settings → API**, copy the Project URL and publishable/anon key.
 
 5. Put those two values in `backend-config.js` and commit the file. These are public client values; database access is protected by RLS.
 6. In Supabase **Authentication → URL Configuration**, add the deployed GitHub Pages URL and local development URL to the allowed redirect URLs.
