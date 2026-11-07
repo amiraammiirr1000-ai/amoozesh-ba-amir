@@ -23,7 +23,7 @@ assert.equal(manifestText, webManifestText, 'root and web manifests must be sync
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
 assert.equal(manifest.dir, 'rtl');
-assert.equal(pkg.version, '2.2.0', 'package version must match the current release');
+assert.equal(pkg.version, '2.3.0', 'package version must match the current release');
 
 for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','sw.js','study-hero.svg']) {
   await access(resolve(root,'web',f), constants.R_OK);
@@ -61,7 +61,18 @@ assert.match(html, /englishExtendedThemes/);
 assert.match(html, /function renderEnglishBook\(/);
 for (const level of ['first-friends-1','first-friends-2','first-friends-3','family-friends-1','family-friends-2','family-friends-3','family-friends-4','family-friends-5','family-friends-6']) assert.ok(html.includes(level), 'English pathway missing: ' + level);
 assert.match(html, /englishWords/);
-assert.match(sw, /amoozesh-ba-amir-v32/);
+assert.match(html, /englishPdfInput/);
+assert.match(html, /englishAudioInput/);
+assert.match(html, /function openEnglishPDF\(/);
+assert.match(html, /function loadEnglishAudio\(/);
+assert.match(html, /function speakEnglish\(/);
+assert.match(html, /en-US/);
+assert.match(html, /americanEnglishExtras/);
+assert.match(html, /American English/);
+assert.match(html, /American Family and Friends/);
+assert.match(html, /function initEnglishStudio\(/);
+
+assert.match(sw, /amoozesh-ba-amir-v33/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
@@ -93,5 +104,5 @@ for (let i=0; i<inlineScripts.length; i++) {
 
 const serverCheck = spawnSync(process.execPath, ['--check', resolve(root,'secure-ai-server/server.mjs')], { encoding: 'utf8' });
 assert.equal(serverCheck.status, 0, 'server syntax check failed: ' + serverCheck.stderr);
-console.log('PASS: synchronized PWA/Capacitor assets, 29 math lessons, English dictionary, First Friends 1–2, Family and Friends 1–6, lesson exams, chapter readiness, worksheet banks and inline JavaScript syntax.');
+console.log('PASS: synchronized PWA/Capacitor assets, 29 math lessons, American English dictionary, First Friends 1–3, American Family and Friends 1–6, local PDF/audio library, US voice controls, lesson exams, worksheets and inline JavaScript syntax.');
 console.log('NOTE: static QA is not a substitute for testing on real Android devices, accessibility, privacy, live-class workflows or release signing.');
