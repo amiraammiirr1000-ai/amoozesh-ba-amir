@@ -1,8 +1,8 @@
 {
   "name": "amoozesh-ba-amir",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "private": true,
-  "description": "آموزش با امیر - سامانه یادگیری، مدیریت کلاس و استودیوی American English، نسخه ۲.۳.۰",
+  "description": "آموزش با امیر - سامانه یادگیری، مدیریت کلاس و استودیوی American English، نسخه ۲.۴.۰",
   "scripts": {
     "qa": "node qa-check.mjs",
     "cap:add:android": "cap add android",
