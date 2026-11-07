@@ -824,7 +824,7 @@ function importFullBackup(){const input=document.createElement('input');input.ty
 <script>
 /* جستجوی قابل‌مشاهده صفحه اول: درس‌ها، ابزارها و بخش‌های برنامه */
 let classSessions=(()=>{try{return JSON.parse(localStorage.getItem('amClassSessionsV1')||'[]')}catch(e){return []}})();
-let classAttendance=(()=>{try{return JSON.parse(localStorage.getItem('amClassAttendanceV1')||'{}')}catch(e){return {}})();
+let classAttendance=(()=>{try{return JSON.parse(localStorage.getItem('amClassAttendanceV1')||'{}')}catch(e){return {}}})();
 function storeClassSessions(){localStorage.setItem('amClassSessionsV1',JSON.stringify(classSessions));}
 function storeClassAttendance(){localStorage.setItem('amClassAttendanceV1',JSON.stringify(classAttendance));}
 function openMeetCreator(){window.open('https://meet.google.com/new','_blank','noopener');}
