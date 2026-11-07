@@ -83,3 +83,12 @@ grant execute on function public.join_class_by_code(text) to authenticated;
 comment on column public.profiles.email is 'Private account email; visible only to the account owner and system administrator via RLS.';
 comment on column public.profiles.username is 'Public handle shown to teachers only inside classes they own.';
 comment on column public.classes.invite_code is 'Shareable class enrollment code; never grants teacher or admin privileges.';
+
+-- Online meeting links must be HTTPS to avoid unsafe custom schemes.
+do $$
+begin
+  if not exists (select 1 from pg_constraint where conname='classes_meeting_url_https_check') then
+    alter table public.classes add constraint classes_meeting_url_https_check
+      check (meeting_url is null or meeting_url ~* '^https://');
+  end if;
+end $$;
