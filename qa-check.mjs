@@ -51,6 +51,17 @@ assert.ok(html.includes("عدد بعدی را بنویس: ۳، ۷، ۱۱، ۱۵�
 assert.match(html, /id="globalSearch"/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
+assert.match(html, /id="studentSearch"/);
+assert.match(html, /function editStudent\(/);
+assert.match(html, /id="classGrade"/);
+assert.match(html, /function studentsForSession\(/);
+assert.match(html, /function openAttendanceForm\(/);
+assert.match(html, /function saveSessionAttendance\(/);
+assert.match(html, /function exportAttendanceCSV\(/);
+assert.match(html, /amClassAttendanceV1/);
+assert.match(html, /function renderTeacherOverview\(/);
+assert.match(html, /recordSkillAnswer\(q,i===q\.a\)/);
+assert.match(html, /onclick="exportAttendanceCSV\(\)">خروجی حضور و غیاب/);
 assert.match(html, /id="aiAccessToken"/);
 assert.match(html, /function exportFullBackup\(/);
 assert.match(html, /function importFullBackup\(/);
