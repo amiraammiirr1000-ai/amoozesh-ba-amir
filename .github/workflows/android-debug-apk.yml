@@ -16,6 +16,9 @@ on:
       - 'package-lock.json'
       - 'qa-check.mjs'
       - 'auth.js'
+      - 'backend-config.js'
+      - 'web/auth.js'
+      - 'web/backend-config.js'
       - 'backend/**'
       - 'capacitor.config.*'
 
