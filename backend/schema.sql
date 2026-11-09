@@ -71,19 +71,19 @@ create index if not exists submissions_student_idx on public.submissions(student
 
 create or replace function public.current_role()
 returns text language sql stable security definer set search_path = public
-as $ select role from public.profiles where id = auth.uid() $;
+as $$ select role from public.profiles where id = auth.uid() $$;
 revoke all on function public.current_role() from public;
 grant execute on function public.current_role() to authenticated;
 
 create or replace function public.is_approved()
 returns boolean language sql stable security definer set search_path = public
-as $ select exists(select 1 from public.profiles where id = auth.uid() and approval_status = 'approved') $;
+as $$ select exists(select 1 from public.profiles where id = auth.uid() and approval_status = 'approved') $$;
 revoke all on function public.is_approved() from public;
 grant execute on function public.is_approved() to authenticated;
 
 create or replace function public.is_class_teacher(p_class uuid)
 returns boolean language sql stable security definer set search_path = public
-as $ select exists(select 1 from public.classes where id = p_class and teacher_id = auth.uid()) $;
+as $$ select exists(select 1 from public.classes where id = p_class and teacher_id = auth.uid()) $$;
 revoke all on function public.is_class_teacher(uuid) from public;
 grant execute on function public.is_class_teacher(uuid) to authenticated;
 
