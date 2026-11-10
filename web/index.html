@@ -1088,6 +1088,70 @@ document.addEventListener('click',event=>{
  const tab=event.target.closest('.navinner button[data-view]');
  if(tab) requestAnimationFrame(()=>tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}));
 });
+
+/* بازیگاه ریاضی: موتور تعاملی دستگاه‌های ۸گانه */
+let activeMathGame=0,mathGameAnswer='',mathGameScore=0,mathGameRound=0;
+const mathGameNames={1:'دستگاه ارزش مکانی',2:'آزمایشگاه بخش‌پذیری',3:'کارآگاه الگوها',4:'محور اعداد صحیح',5:'کارگاه اعشار',6:'صفحه مختصات',7:'آزمایشگاه کسرها',8:'کارگاه جمع کسرها'};
+function openGameLab(){
+ showView('tools');
+ const lab=document.getElementById('gameLab');
+ if(lab){lab.scrollIntoView({behavior:'smooth',block:'start'});lab.style.outline='2px solid var(--accent)';setTimeout(()=>lab.style.outline='',1200);}
+}
+function gameDigits(s){return String(s??'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/\s/g,'').replace(/٫/g,'.').replace(/،/g,',');}
+function startMathGame(id){
+ activeMathGame=Number(id);mathGameRound=0;mathGameScore=0;nextMathGame();
+ const stage=document.getElementById('gameStage');if(stage)stage.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function nextMathGame(){
+ const stage=document.getElementById('gameStage');if(!stage)return;
+ mathGameRound++;
+ let q='',hint='',answer='',placeholder='پاسخ را بنویس';
+ if(activeMathGame===1){
+  const n=Math.floor(10000+Math.random()*89999),digits=String(n),pos=Math.floor(Math.random()*digits.length),d=Number(digits[pos]),power=digits.length-pos-1;
+  const labels=['یکان','دهگان','صدگان','هزارگان','ده‌هزارگان'];
+  q='در عدد '+n.toLocaleString('fa-IR')+'، رقم '+d+' در چه جایگاهی قرار دارد؟';
+  answer=labels[power];hint='به تعداد رقم‌های سمت راست رقم موردنظر نگاه کن.';
+  placeholder='مثلاً صدگان';
+ }else if(activeMathGame===2){
+  const n=Math.floor(100+Math.random()*9900),divs=[2,3,5,9,10],d=divs[Math.floor(Math.random()*divs.length)];
+  q='آیا عدد '+n.toLocaleString('fa-IR')+' بر '+d.toLocaleString('fa-IR')+' بخش‌پذیر است؟ (بله یا خیر)';
+  answer=n%d===0?'بله':'خیر';hint='از رقم یکان یا مجموع رقم‌ها کمک بگیر.';placeholder='بله / خیر';
+ }else if(activeMathGame===3){
+  const step=[2,3,4,5,7,10][Math.floor(Math.random()*6)],start=Math.floor(1+Math.random()*20),a=[0,1,2,3].map(i=>start+i*step);
+  q='عدد بعدی این الگو چیست؟ '+a.join('، ')+'، …';answer=String(start+4*step);hint='اختلاف دو عدد پیاپی را پیدا کن.';
+ }else if(activeMathGame===4){
+  const a=Math.floor(Math.random()*21)-10,b=Math.floor(Math.random()*21)-10;
+  q='علامت درست را وارد کن: '+a+'  ؟  '+b+'  (یکی از < یا > یا =)';answer=a>b?'>':a<b?'<':'=';hint='روی محور اعداد، عددی که راست‌تر است بزرگ‌تر است.';placeholder='< یا > یا =';
+ }else if(activeMathGame===5){
+  const n=Number((Math.floor(11+Math.random()*989)/10).toFixed(1)),factor=[10,100][Math.floor(Math.random()*2)];
+  q=n.toLocaleString('fa-IR')+' × '+factor.toLocaleString('fa-IR)+' چند می‌شود؟';answer=String(Number((n*factor).toFixed(2)));hint='در ضرب در ۱۰ یا ۱۰۰، ممیز به راست جابه‌جا می‌شود.';
+ }else if(activeMathGame===6){
+  const x=Math.floor(Math.random()*9)-4,y=Math.floor(Math.random()*9)-4;
+  q='نقطه A در مختصات ( '+x+' ، '+y+' ) است. مختصات را به شکل x,y وارد کن.';answer=x+','+y;hint='اول مؤلفه افقی x و سپس مؤلفه عمودی y را بنویس.';placeholder='مثلاً ۲،۳';
+ }else if(activeMathGame===7){
+  let a=1+Math.floor(Math.random()*8),b=2+Math.floor(Math.random()*8),c=1+Math.floor(Math.random()*8),d=2+Math.floor(Math.random()*8);
+  while(a/b===c/d){c=(c%8)+1;}
+  q='کدام کسر بزرگ‌تر است؟ فقط علامت را بنویس: '+a+'/'+b+'  ؟  '+c+'/'+d;answer=a*d>c*b?'>':a*d<c*b?'<':'=';hint='برای مقایسه، صورت هر کسر را در مخرج کسر دیگر ضرب کن.';placeholder='< یا > یا =';
+ }else if(activeMathGame===8){
+  const a=1+Math.floor(Math.random()*5),b=2+Math.floor(Math.random()*5),c=1+Math.floor(Math.random()*5),d=2+Math.floor(Math.random()*5);
+  const num=a*d+c*b,den=b*d,g=(x,y)=>y?g(y,x%y):x,gg=g(num,den);
+  q='حاصل را به صورت کسر ساده‌شده بنویس: '+a+'/'+b+' + '+c+'/'+d;answer=(num/gg)+'/'+(den/gg);hint='مخرج مشترک بگیر، صورت‌ها را جمع کن و کسر را ساده کن.';placeholder='مثلاً ۳/۴';
+ }
+ mathGameAnswer=gameDigits(answer);
+ stage.innerHTML='<div class="game-head"><span class="chip">🎮 '+mathGameNames[activeMathGame]+'</span><span class="small">مرحله '+mathGameRound+' · امتیاز '+mathGameScore+'</span></div><h3 style="margin:12px 0">'+q+'</h3><div class="toolbar"><input id="mathGameInput" class="input" placeholder="'+placeholder+'" autocomplete="off" style="flex:1;min-width:150px"><button class="btn gold" onclick="checkMathGame()">بررسی پاسخ</button></div><div id="mathGameFeedback" class="small" role="status" aria-live="polite"></div><div class="btnrow" style="margin-top:10px"><button class="btn outline" onclick="showMathGameHint()">💡 راهنمایی</button><button class="btn light" onclick="nextMathGame()">سؤال بعدی</button><button class="btn outline" onclick="showMathGameMenu()">بازگشت به دستگاه‌ها</button></div>';
+ const inp=document.getElementById('mathGameInput');if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')checkMathGame();});
+}
+function checkMathGame(){
+ const inp=document.getElementById('mathGameInput'),fb=document.getElementById('mathGameFeedback');if(!inp||!fb)return;
+ let value=gameDigits(inp.value).toLowerCase().replace(/ي/g,'ی').replace(/ك/g,'ک');
+ let expected=mathGameAnswer.toLowerCase().replace(/ي/g,'ی').replace(/ك/g,'ک');
+ if(activeMathGame===1)value=value.replace(/ها$/,'');
+ if(activeMathGame===6){value=value.replace(/[()]/g,'').replace(';',',');expected=expected.replace(/\s/g,'');}
+ if(value===expected){mathGameScore+=10;fb.innerHTML='<span style="color:var(--green);font-weight:800">آفرین! پاسخ درست است. ⭐ +۱۰ امتیاز</span><div class="small">برای ادامه، سؤال بعدی را بزن.</div>';inp.disabled=true;}
+ else fb.innerHTML='<span style="color:var(--red)">هنوز درست نیست؛ دوباره تلاش کن.</span>';
+}
+function showMathGameHint(){const fb=document.getElementById('mathGameFeedback');if(fb)fb.textContent='راهنما: '+({1:'به تعداد رقم‌های سمت راست رقم موردنظر نگاه کن.',2:'از رقم یکان یا مجموع رقم‌ها کمک بگیر.',3:'اختلاف دو عدد پیاپی را پیدا کن.',4:'عدد بزرگ‌تر روی محور اعداد در سمت راست قرار می‌گیرد.',5:'در ضرب در ۱۰ یا ۱۰۰، ممیز به راست جابه‌جا می‌شود.',6:'ابتدا x و سپس y را وارد کن.',7:'برای مقایسه کسرها از ضرب ضربدری استفاده کن.',8:'مخرج مشترک بگیر و سپس کسر را ساده کن.'}[activeMathGame]||'با دقت به صورت سؤال نگاه کن.'));}
+function showMathGameMenu(){const stage=document.getElementById('gameStage');if(stage)stage.innerHTML='برای شروع یکی از هشت دستگاه بالا را انتخاب کن.';}
 </script>
 
 </body>
