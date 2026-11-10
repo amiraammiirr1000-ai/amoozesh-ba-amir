@@ -154,7 +154,19 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 .english-label{display:block;font-weight:800;color:var(--navy);font-size:11px;margin:12px 0 6px}.english-select{border-radius:12px!important}.english-note{border:1px dashed #cbd8e6;background:#f5f8fc;border-radius:13px;padding:11px 13px;color:#5b6c80;font-size:10px;line-height:1.8;margin:10px 0}.english-upload-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.english-upload{position:relative;display:flex;flex-direction:column;gap:5px;padding:14px 10px;border:1px dashed #9fb6d0;background:#f6f9fe;border-radius:14px;text-align:center;cursor:pointer}.english-upload span{font-size:25px;color:#3973a8}.english-upload b{font-size:11px;color:#254a70}.english-upload small{font-size:9px;color:var(--muted)}.english-upload input{width:100%;font-size:9px;margin-top:5px}
 .english-status{background:#f2f6fa;color:#5c6c7c;border-radius:10px;padding:9px 11px;font-size:10px;margin:10px 0}.english-pdf-viewer{height:430px;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#edf1f7}.english-pdf-viewer iframe{width:100%;height:100%;border:0}.english-empty{height:100%;min-height:180px;display:grid;place-content:center;text-align:center;color:#718198;font-size:13px;line-height:2}.english-resource{padding:12px 0;border-top:1px solid var(--line);display:grid;gap:5px;font-size:11px}.english-resource b{color:var(--navy)}.english-resource small{color:var(--muted)}.english-resource a{color:#27639b;text-decoration:underline}.english-audio-actions{display:flex;gap:8px;margin-top:12px}.english-primary,.english-secondary{border:0;border-radius:12px;padding:11px 15px;font-weight:900;font-size:11px}.english-primary{background:linear-gradient(120deg,#173e65,#287e89);color:white}.english-secondary{background:#edf2f8;color:#31516f}.english-divider{height:1px;background:var(--line);margin:16px 0}.english-muted{color:var(--muted);font-size:10px}.english-player{width:100%;margin:10px 0}.english-vocab{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:7px}.english-word{background:#f1f6fb;border-radius:10px;padding:9px;text-align:center}.english-word b{display:block;direction:ltr;color:#173e65}.english-word small{color:var(--muted)}.english-unit{border:1px solid var(--line);border-radius:14px;padding:13px;margin:10px 0}.english-unit h4{margin:0 0 9px;color:var(--navy)}.english-practice{background:#f4f8fd;padding:11px;border-radius:11px;margin-top:10px;font-size:11px;line-height:1.8}.english-practice button{margin-top:7px}
 @media(max-width:380px){.english-hero{padding:17px}.english-hero h2{font-size:21px}.english-card{padding:12px}.english-upload-grid{grid-template-columns:1fr}.english-pdf-viewer{height:330px}}
-.american-edition-label{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:linear-gradient(110deg,#eaf1ff,#e9f7f4);border:1px solid #d6e5f2;border-radius:12px;padding:10px 12px;margin:8px 0 12px;color:#1b466e;font-size:11px}.american-edition-label span{font-size:9px;color:#5d7084}</style>
+.american-edition-label{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:linear-gradient(110deg,#eaf1ff,#e9f7f4);border:1px solid #d6e5f2;border-radius:12px;padding:10px 12px;margin:8px 0 12px;color:#1b466e;font-size:11px}.american-edition-label span{font-size:9px;color:#5d7084}
+/* Mobile navigation repair: reliable horizontal touch scrolling and visible controls */
+.nav{position:fixed;left:0;right:0;bottom:0;width:100%;height:calc(68px + env(safe-area-inset-bottom));padding:0 4px env(safe-area-inset-bottom);display:flex;align-items:stretch;justify-content:space-between;overflow:hidden;z-index:100;background:rgba(255,255,255,.97);box-shadow:0 -5px 22px #142d3b16;backdrop-filter:blur(16px)}
+.navinner{display:flex!important;flex:1 1 auto;width:calc(100% - 64px);min-width:0!important;max-width:none;overflow-x:auto!important;overflow-y:hidden;justify-content:flex-start!important;scrollbar-width:thin;scrollbar-color:var(--accent) #e9eef2;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x;scroll-snap-type:x proximity;gap:3px}
+.navinner button{flex:0 0 82px!important;min-width:82px!important;height:60px;white-space:nowrap;scroll-snap-align:center;border-radius:12px 12px 0 0}
+.nav .nav-arrow{display:grid;place-items:center;flex:0 0 28px;width:28px;min-width:28px;height:60px;margin:auto 0;border-radius:10px;background:#edf2f6;color:var(--navy);font-size:24px;font-weight:800;box-shadow:none}
+.nav .nav-arrow:active{background:var(--glow);color:var(--accent)}
+.navinner button .ico{line-height:1.25}
+.app{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+@media(min-width:700px){.nav{height:72px}.navinner{justify-content:center!important}.navinner button{flex-basis:88px!important}.nav .nav-arrow{display:none}}
+@media(prefers-reduced-motion:no-preference){.navinner{scroll-behavior:smooth}}
+
+</style>
 </head>
 <body>
 <div class="app">
@@ -383,7 +395,7 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 </div>
 </section><footer>آموزش با امیر · ریاضی ششم ۱۴۰۵–۱۴۰۶ · هدف یادگیری است.</footer>
 </main>
-<nav class="nav"><div class="navinner">
+<nav class="nav" aria-label="ناوبری اصلی"><button class="nav-arrow nav-prev" type="button" aria-label="گزینه‌های قبلی" onclick="scrollAppNav(-1)">‹</button><div class="navinner" id="appNavInner">
 <button class="active" data-view="home" onclick="showView('home')"><span class="ico">⌂</span>خانه</button><button data-view="english" onclick="showView(&quot;english&quot;)"><span class="ico">🔤</span>انگلیسی</button>
 <button data-view="video" onclick="showView('video')"><span class="ico">▶</span>ویدئو</button>
 <button data-view="tutor" onclick="showView('tutor')"><span class="ico">✦</span>معلم هوشمند</button>
@@ -394,7 +406,7 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 <button data-view="worksheets" onclick="showView('worksheets')"><span class="ico">📝</span>کاربرگ</button>
 <button data-view="whiteboard" onclick="showView('whiteboard')"><span class="ico">✍</span>وایت‌برد</button>
 <button data-view="memory" onclick="showView('memory')"><span class="ico">🧠</span>حافظه</button>
-</div></nav>
+</div><button class="nav-arrow nav-next" type="button" aria-label="گزینه‌های بعدی" onclick="scrollAppNav(1)">›</button></nav>
 </div>
 <script>
 const lessons=[
@@ -1053,5 +1065,18 @@ const oldEnglishInit=initEnglishHub;initEnglishHub=function(){oldEnglishInit();i
 <script src="backend-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js"></script>
+
+<script>
+function scrollAppNav(direction){
+ const rail=document.getElementById('appNavInner');
+ if(!rail)return;
+ rail.scrollBy({left:direction*(rail.clientWidth*.72),behavior:'smooth'});
+}
+document.addEventListener('click',event=>{
+ const tab=event.target.closest('.navinner button[data-view]');
+ if(tab) requestAnimationFrame(()=>tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}));
+});
+</script>
+
 </body>
 </html>
