@@ -166,6 +166,10 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 @media(min-width:700px){.nav{height:72px}.navinner{justify-content:center!important}.navinner button{flex-basis:88px!important}.nav .nav-arrow{display:none}}
 @media(prefers-reduced-motion:no-preference){.navinner{scroll-behavior:smooth}}
 
+
+/* Illustrated learning zones */
+.visual-learning{margin:18px 0 22px}.visual-learning-heading{display:flex;align-items:center;justify-content:space-between;margin:0 2px 12px}.visual-learning-heading span:first-child{font-size:9px;letter-spacing:2px;color:var(--accent);font-weight:900}.visual-learning-heading h2{font-size:19px;margin:2px 0}.visual-learning-heading p{font-size:12px;color:var(--muted);margin:0}.visual-star{font-size:32px;color:#f3b94f}.visual-learning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.visual-card{position:relative;overflow:hidden;text-align:right;padding:0;border:1px solid var(--line);border-radius:18px;background:var(--white);color:var(--ink);box-shadow:0 7px 18px #173c4c0b;min-width:0}.visual-card img{display:block;width:100%;height:104px;object-fit:cover}.visual-card span{display:block;padding:10px 10px 12px}.visual-card b{display:block;font-size:12px}.visual-card small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.visual-card i{position:absolute;left:9px;bottom:10px;font-style:normal;color:var(--accent);font-size:18px}.visual-card:active{transform:scale(.98)}@media(max-width:430px){.visual-learning-grid{gap:7px}.visual-card img{height:82px}.visual-card span{padding:8px 7px 11px}.visual-card b{font-size:11px}.visual-card small{font-size:9px}}
+
 </style>
 </head>
 <body>
@@ -183,6 +187,14 @@ body[data-theme="rose"]{--accent:#d94685;--accent2:#fb7185;--navy:#783b68;--navy
 <section id="home" class="view active">
   <div class="section-head"><h2>داشبورد یادگیری</h2><span class="small">نسخه ۱.۳ · تجربه یادگیری هوشمند و رنگارنگ</span></div>
   <div class="hero-art"><div class="hero-kicker">AMOOZESH BA AMIR · LEARN SMART</div><h2>قهرمان یادگیری باش! ✨</h2><p>هر روز یک قدم جلوتر؛ با تمرین‌های کوتاه، مسیرت را بساز.</p><img class="hero-illustration" src="study-hero.svg" alt="تصویر کتاب، مداد و لوازم‌التحریر آموزشی" loading="eager"></div>
+  <section class="visual-learning" aria-label="مسیرهای یادگیری">
+    <div class="visual-learning-heading"><div><span>LEARNING ZONES</span><h2>دنیای یادگیری تو</h2><p>هر روز یک مهارت تازه کشف کن.</p></div><span class="visual-star">✦</span></div>
+    <div class="visual-learning-grid">
+      <button class="visual-card math-visual" onclick="showView('tools')"><img src="art-math.svg" alt="تصویر ریاضی و کتاب" loading="lazy"><span><b>آزمایشگاه ریاضی</b><small>بازی، تمرین و حل مسئله</small></span><i>←</i></button>
+      <button class="visual-card english-visual" onclick="showView('english')"><img src="art-english.svg" alt="تصویر آموزش زبان" loading="lazy"><span><b>دنیای انگلیسی</b><small>واژگان، شنیدن و گفت‌وگو</small></span><i>←</i></button>
+      <button class="visual-card science-visual" onclick="showView('tutor')"><img src="art-science.svg" alt="تصویر آزمایش علمی" loading="lazy"><span><b>کشف و پرسش</b><small>با معلم هوشمند یاد بگیر</small></span><i>←</i></button>
+    </div>
+  </section>
   <div class="achievement"><span class="medal">🏅</span><div><b>چالش امروز</b><div class="small">یک سؤال حل کن و امتیاز یادگیری بگیر.</div></div><button class="btn gold" onclick="startDailyChallenge()">شروع</button></div>
   <div class="grid stats">
     <div class="card stat"><strong id="statDone">۰</strong><span>درس تکمیل‌شده</span></div>
