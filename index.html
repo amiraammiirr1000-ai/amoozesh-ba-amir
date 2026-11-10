@@ -1147,7 +1147,7 @@ function nextMathGame(){
   q='علامت درست را وارد کن: '+a+'  ؟  '+b+'  (یکی از < یا > یا =)';answer=a>b?'>':a<b?'<':'=';hint='روی محور اعداد، عددی که راست‌تر است بزرگ‌تر است.';placeholder='< یا > یا =';
  }else if(activeMathGame===5){
   const n=Number((Math.floor(11+Math.random()*989)/10).toFixed(1)),factor=[10,100][Math.floor(Math.random()*2)];
-  q=n.toLocaleString('fa-IR')+' × '+factor.toLocaleString('fa-IR)+' چند می‌شود؟';answer=String(Number((n*factor).toFixed(2)));hint='در ضرب در ۱۰ یا ۱۰۰، ممیز به راست جابه‌جا می‌شود.';
+  q=n.toLocaleString('fa-IR')+' × '+factor.toLocaleString('fa-IR')+' چند می‌شود؟';answer=String(Number((n*factor).toFixed(2)));hint='در ضرب در ۱۰ یا ۱۰۰، ممیز به راست جابه‌جا می‌شود.';
  }else if(activeMathGame===6){
   const x=Math.floor(Math.random()*9)-4,y=Math.floor(Math.random()*9)-4;
   q='نقطه A در مختصات ( '+x+' ، '+y+' ) است. مختصات را به شکل x,y وارد کن.';answer=x+','+y;hint='اول مؤلفه افقی x و سپس مؤلفه عمودی y را بنویس.';placeholder='مثلاً ۲،۳';
