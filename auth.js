@@ -9,15 +9,16 @@
   document.head.appendChild(style);
   const bar=document.createElement('div');bar.className='amir-account-bar';bar.innerHTML='<span id="amirAccountStatus" class="small">حالت مهمان · محتوای عمومی</span><button id="amirAccountOpen" class="amir-account-btn">ورود / ثبت‌نام</button>';document.querySelector('.top')?.insertAdjacentElement('afterend',bar);
   const overlay=document.createElement('div');overlay.id='amirAuthOverlay';overlay.className='amir-auth-overlay';
-  overlay.innerHTML='<div class="amir-auth-panel" role="dialog" aria-modal="true"><h2>حساب کاربری آموزش با امیر</h2><p class="small">همه کاربران به محتوای پایه دسترسی دارند.</p><label>نام نمایشی</label><input id="amirAuthName" placeholder="نام نمایشی"><label>آیدی دلخواه (۳ تا ۲۴ حرف انگلیسی، عدد یا زیرخط)</label><input id="amirAuthUsername" maxlength="24" autocomplete="username" placeholder="مثلاً student_ali"><label>ایمیل</label><input id="amirAuthEmail" type="email" autocomplete="email" placeholder="name@example.com"><label>رمز عبور</label><input id="amirAuthPassword" type="password" minlength="8" autocomplete="current-password" placeholder="حداقل ۸ نویسه"><label>نوع حساب</label><select id="amirAuthRole"><option value="student">دانش‌آموز</option><option value="teacher">معلم (پس از تأیید مدیر)</option></select><div id="amirAuthMessage" class="amir-msg">'+(ready?'ثبت‌نام دانش‌آموز آزاد است؛ حساب معلم نیازمند تأیید مدیر کل است.':'اتصال آنلاین هنوز تنظیم نشده؛ برنامه در حالت مهمان/محلی است.')+'</div><div class="amir-actions"><button id="amirAuthLogin" class="btn" '+(ready?'':'disabled')+'>ورود</button><button id="amirAuthSignup" class="btn gold" '+(ready?'':'disabled')+'>ثبت‌نام</button><button id="amirAuthClose" class="btn outline">بستن</button></div></div>';
+  overlay.innerHTML='<div class="amir-auth-panel" role="dialog" aria-modal="true"><h2>حساب کاربری آموزش با امیر</h2><p class="small">همه کاربران به محتوای پایه دسترسی دارند.</p><label>نام نمایشی</label><input id="amirAuthName" placeholder="نام نمایشی"><label>آیدی دلخواه (۳ تا ۲۴ حرف انگلیسی، عدد یا زیرخط)</label><input id="amirAuthUsername" maxlength="24" autocomplete="username" placeholder="مثلاً student_ali"><label>شماره تماس (اختیاری)</label><input id="amirAuthPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="مثلاً 09xxxxxxxxx"><label>ایمیل</label><input id="amirAuthEmail" type="email" autocomplete="email" placeholder="name@example.com"><label>رمز عبور</label><input id="amirAuthPassword" type="password" minlength="8" autocomplete="current-password" placeholder="حداقل ۸ نویسه"><label>نوع حساب</label><select id="amirAuthRole"><option value="student">دانش‌آموز</option><option value="teacher">معلم (پس از تأیید مدیر)</option></select><div id="amirAuthMessage" class="amir-msg">'+(ready?'ثبت‌نام دانش‌آموز آزاد است؛ حساب معلم نیازمند تأیید مدیر کل است.':'اتصال آنلاین هنوز تنظیم نشده؛ برنامه در حالت مهمان/محلی است.')+'</div><div class="amir-actions"><button id="amirAuthLogin" class="btn" '+(ready?'':'disabled')+'>ورود</button><button id="amirAuthSignup" class="btn gold" '+(ready?'':'disabled')+'>ثبت‌نام</button><button id="amirAuthClose" class="btn outline">بستن</button></div></div>';
   document.body.appendChild(overlay);$('amirAccountOpen').onclick=()=>profile?logout():overlay.classList.add('open');$('amirAuthClose').onclick=()=>overlay.classList.remove('open');overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.remove('open')});$('amirAuthLogin').onclick=login;$('amirAuthSignup').onclick=signup;
  }
  const message=t=>{if($('amirAuthMessage'))$('amirAuthMessage').textContent=t};
  async function login(){const {error}=await client.auth.signInWithPassword({email:$('amirAuthEmail').value.trim(),password:$('amirAuthPassword').value});if(error)return message(error.message);await loadProfile()}
  async function signup(){
-  const email=$('amirAuthEmail').value.trim(),password=$('amirAuthPassword').value,name=$('amirAuthName').value.trim(),username=$('amirAuthUsername').value.trim().toLowerCase(),role=$('amirAuthRole').value;
+  const email=$('amirAuthEmail').value.trim(),password=$('amirAuthPassword').value,name=$('amirAuthName').value.trim(),username=$('amirAuthUsername').value.trim().toLowerCase(),phone=$('amirAuthPhone').value.trim(),role=$('amirAuthRole').value;
+  if(phone&&!/^[+0-9()\s-]{7,20}$/.test(phone))return message('شماره تماس را با ارقام و قالب معتبر وارد کن.');
   if(!name||!email||password.length<8||!/^[a-z0-9_]{3,24}$/.test(username))return message('نام، ایمیل، آیدی معتبر و رمز حداقل ۸ نویسه لازم است.');
-  const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+window.location.pathname,data:{display_name:name,username,requested_role:role}}});if(error)return message(error.message);
+  const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+window.location.pathname,data:{display_name:name,username,phone:phone||null,requested_role:role}}});if(error)return message(error.message);
   if(data.session)await loadProfile();else message(role==='teacher'?'درخواست معلم ثبت شد؛ پس از تأیید ایمیل و مدیر کل فعال می‌شود.':'حساب ساخته شد؛ ایمیل را برای تأیید بررسی کن.');
  }
  async function loadProfile(){
@@ -45,27 +46,37 @@
    $('amirCreateClass').onclick=createClass;loadTeacherClasses();
   }
   if(profile.role==='admin'){
-   rolePanel('amirAdminPanel','مدیریت کاربران','<p class="small">اطلاعات ثبت‌نامی فقط برای مدیر کل نمایش داده می‌شود. معلم فقط آیدی و نام نمایشی اعضای کلاس خودش را می‌بیند.</p><div class="amir-notice-box"><h4>🔔 اعلان‌های مدیر کل</h4><div id="amirAdminNotifications">در حال بررسی اعلان‌ها…</div></div><h4>درخواست‌های معلمان</h4><div id="amirPendingTeachers">در حال بارگذاری…</div><h4>همه کاربران</h4><div id="amirAllUsers">در حال بارگذاری کاربران…</div>');
+   rolePanel('amirAdminPanel','مدیریت کاربران','<p class="small">اطلاعات ثبت‌نامی فقط برای مدیر کل نمایش داده می‌شود. معلم فقط آیدی و نام نمایشی اعضای کلاس خودش را می‌بیند.</p><div class="amir-notice-box"><h4>🔔 اعلان‌های مدیر کل</h4><div class="amir-actions"><button id="amirEnableAlerts" class="amir-account-btn">فعال‌سازی صدا و اعلان گوشی</button><span id="amirAlertStatus" class="small">اعلان مرورگر هنوز فعال نشده است.</span></div><div id="amirAdminNotifications">در حال بررسی اعلان‌ها…</div></div><h4>درخواست‌های معلمان</h4><div id="amirPendingTeachers">در حال بارگذاری…</div><h4>همه کاربران</h4><div id="amirAllUsers">در حال بارگذاری کاربران…</div>');
+   $('amirEnableAlerts').onclick=enableAdminAlerts;
    loadAdminNotifications();
    loadAllUsers();loadPending();
    if(adminPollTimer)clearInterval(adminPollTimer);
    adminPollTimer=setInterval(()=>loadAdminNotifications(true),30000);
   }
  }
+
+ function enableAdminAlerts(){
+  const status=$('amirAlertStatus');
+  try{if('Notification' in window){Notification.requestPermission().then(p=>{if(status)status.textContent=p==='granted'?'اعلان مرورگر فعال شد.':'مجوز اعلان داده نشد؛ پنل باز باشد تا هشدار داخل برنامه را ببینی.';});}else if(status)status.textContent='این مرورگر از اعلان سیستمی پشتیبانی نمی‌کند.';
+   const Ctx=window.AudioContext||window.webkitAudioContext;if(Ctx){const ctx=new Ctx();if(ctx.state==='suspended')ctx.resume();if(status&&(!('Notification' in window)))status.textContent+=' صدا آماده است.';window.amirAlertAudio=ctx;beepAdmin();}
+  }catch(e){if(status)status.textContent='فعال‌سازی اعلان در این مرورگر ممکن نشد.';}
+ }
+ function beepAdmin(){try{const ctx=window.amirAlertAudio||(window.AudioContext?new AudioContext():null);if(!ctx)return;window.amirAlertAudio=ctx;const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.12,ctx.currentTime+.025);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.42);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.44);}catch(e){}}
+ function notifyAdmin(n){beepAdmin();if('Notification' in window&&Notification.permission==='granted'){try{const notice=new Notification(n.title||'درخواست معلم جدید',{body:n.body||'درخواست تازه‌ای ثبت شده است.',icon:'./icon-192.png',tag:'amir-'+n.id});notice.onclick=()=>{window.focus();notice.close();};}catch(e){}}}
  async function loadAdminNotifications(isPoll=false){
   const box=$('amirAdminNotifications');if(!box||!profile||profile.role!=='admin')return;
   const {data,error}=await client.from('admin_notifications').select('id,title,body,created_at,read_at').order('created_at',{ascending:false}).limit(30);
   if(error){box.textContent='اعلان‌ها هنوز راه‌اندازی نشده‌اند: '+error.message;return}
   const newlyArrived=isPoll?data.filter(n=>!n.read_at&&!knownAdminNotifications.has(n.id)):[];
   data.forEach(n=>knownAdminNotifications.add(n.id));
-  if(newlyArrived.length){alert('🔔 درخواست جدید معلم\n'+newlyArrived[0].body);loadPending();}
+  if(newlyArrived.length){alert('🔔 درخواست جدید معلم\n'+newlyArrived[0].body);notifyAdmin(newlyArrived[0]);loadPending();}
   box.innerHTML=data.length?data.map(n=>'<div class="amir-list-row"><b>'+esc(n.title)+'</b><div>'+esc(n.body)+'</div><div class="small">'+new Date(n.created_at).toLocaleString('fa-IR')+'</div>'+(n.read_at?'':'<button class="amir-account-btn" data-notice-read="'+n.id+'">خواندم</button>')+'</div>').join(''):'اعلان جدیدی وجود ندارد.';
   box.querySelectorAll('[data-notice-read]').forEach(b=>b.onclick=async()=>{const {error}=await client.from('admin_notifications').update({read_at:new Date().toISOString()}).eq('id',b.dataset.noticeRead);if(error)alert('ثبت وضعیت اعلان ناموفق بود: '+error.message);else loadAdminNotifications();});
  }
  async function loadAllUsers(){
-  const box=$('amirAllUsers');if(!box)return;const {data,error}=await client.from('profiles').select('display_name,username,email,role,approval_status,created_at').order('created_at',{ascending:false}).limit(500);
+  const box=$('amirAllUsers');if(!box)return;const {data,error}=await client.from('profiles').select('display_name,username,email,phone,role,approval_status,created_at').order('created_at',{ascending:false}).limit(500);
   if(error){box.textContent='خطا: '+error.message;return}
-  box.innerHTML=data.length?data.map(p=>'<div class="amir-list-row"><b>'+esc(p.display_name)+'</b> · @'+esc(p.username)+'<div class="small">'+esc(p.email||'')+' · '+esc(p.role)+' · '+esc(p.approval_status)+' · '+new Date(p.created_at).toLocaleDateString('fa-IR')+'</div></div>').join(''):'هنوز کاربری ثبت‌نام نکرده است.';
+  box.innerHTML=data.length?data.map(p=>'<div class="amir-list-row"><b>'+esc(p.display_name)+'</b> · @'+esc(p.username)+'<div class="small">'+esc(p.email||'')+(p.phone?' · '+esc(p.phone):'')+' · '+esc(p.role)+' · '+esc(p.approval_status)+' · '+new Date(p.created_at).toLocaleDateString('fa-IR')+'</div></div>').join(''):'هنوز کاربری ثبت‌نام نکرده است.';
  }
  async function loadPending(){
   const box=$('amirPendingTeachers');if(!box)return;const {data,error}=await client.from('profiles').select('id,display_name,username,created_at').eq('role','teacher').eq('approval_status','pending').order('created_at');
