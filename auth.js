@@ -1,11 +1,11 @@
 /* آموزش با امیر — multi-user client. Database RLS is the security boundary. */
 (function(){
  const cfg=window.AMIR_BACKEND_CONFIG||{}, ready=!!(cfg.supabaseUrl&&cfg.supabaseAnonKey&&window.supabase?.createClient);
- let client=null,profile=null; const $=id=>document.getElementById(id);
+ let client=null,profile=null,adminPollTimer=null;let knownAdminNotifications=new Set(); const $=id=>document.getElementById(id);
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function mount(){
   if($('amirAuthOverlay'))return;
-  const style=document.createElement('style');style.textContent='.amir-account-bar{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin:0 16px 10px}.amir-account-btn{border:1px solid #dce6ea;border-radius:12px;background:#fff;color:#18313d;padding:8px 12px;font:700 12px inherit}.amir-auth-overlay{position:fixed;inset:0;background:#0b1729b8;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px}.amir-auth-overlay.open{display:flex}.amir-auth-panel{background:var(--white,#fff);color:var(--ink,#18313d);border-radius:22px;padding:20px;width:min(100%,430px);max-height:90vh;overflow:auto}.amir-auth-panel label{display:block;font-size:12px;margin:9px 0 4px}.amir-auth-panel input,.amir-auth-panel select{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--white);color:var(--ink)}.amir-hidden-role{display:none!important}.amir-role-panel{border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0;background:var(--white)}.amir-list-row{padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}.amir-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.amir-msg{font-size:12px;padding:9px;border-radius:10px;background:#eef5fa;margin-top:10px}.amir-role-panel .input{margin:4px 0}';
+  const style=document.createElement('style');style.textContent='.amir-account-bar{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin:0 16px 10px}.amir-account-btn{border:1px solid #dce6ea;border-radius:12px;background:#fff;color:#18313d;padding:8px 12px;font:700 12px inherit}.amir-auth-overlay{position:fixed;inset:0;background:#0b1729b8;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px}.amir-auth-overlay.open{display:flex}.amir-auth-panel{background:var(--white,#fff);color:var(--ink,#18313d);border-radius:22px;padding:20px;width:min(100%,430px);max-height:90vh;overflow:auto}.amir-auth-panel label{display:block;font-size:12px;margin:9px 0 4px}.amir-auth-panel input,.amir-auth-panel select{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--white);color:var(--ink)}.amir-hidden-role{display:none!important}.amir-role-panel{border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0;background:var(--white)}.amir-list-row{padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}.amir-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.amir-msg{font-size:12px;padding:9px;border-radius:10px;background:#eef5fa;margin-top:10px}.amir-role-panel .input{margin:4px 0}.amir-notice-box{border:1px solid #f0d98a;background:#fff9e8;border-radius:14px;padding:10px;margin:10px 0}';
   document.head.appendChild(style);
   const bar=document.createElement('div');bar.className='amir-account-bar';bar.innerHTML='<span id="amirAccountStatus" class="small">حالت مهمان · محتوای عمومی</span><button id="amirAccountOpen" class="amir-account-btn">ورود / ثبت‌نام</button>';document.querySelector('.top')?.insertAdjacentElement('afterend',bar);
   const overlay=document.createElement('div');overlay.id='amirAuthOverlay';overlay.className='amir-auth-overlay';
@@ -45,9 +45,22 @@
    $('amirCreateClass').onclick=createClass;loadTeacherClasses();
   }
   if(profile.role==='admin'){
-   rolePanel('amirAdminPanel','مدیریت کاربران','<p class="small">اطلاعات ثبت‌نامی فقط برای مدیر کل نمایش داده می‌شود. معلم فقط آیدی و نام نمایشی اعضای کلاس خودش را می‌بیند.</p><div id="amirAllUsers">در حال بارگذاری کاربران…</div><h4>درخواست‌های معلمان</h4><div id="amirPendingTeachers">در حال بارگذاری…</div>');
+   rolePanel('amirAdminPanel','مدیریت کاربران','<p class="small">اطلاعات ثبت‌نامی فقط برای مدیر کل نمایش داده می‌شود. معلم فقط آیدی و نام نمایشی اعضای کلاس خودش را می‌بیند.</p><div class="amir-notice-box"><h4>🔔 اعلان‌های مدیر کل</h4><div id="amirAdminNotifications">در حال بررسی اعلان‌ها…</div></div><h4>درخواست‌های معلمان</h4><div id="amirPendingTeachers">در حال بارگذاری…</div><h4>همه کاربران</h4><div id="amirAllUsers">در حال بارگذاری کاربران…</div>');
+   loadAdminNotifications();
    loadAllUsers();loadPending();
+   if(adminPollTimer)clearInterval(adminPollTimer);
+   adminPollTimer=setInterval(()=>loadAdminNotifications(true),30000);
   }
+ }
+ async function loadAdminNotifications(isPoll=false){
+  const box=$('amirAdminNotifications');if(!box||!profile||profile.role!=='admin')return;
+  const {data,error}=await client.from('admin_notifications').select('id,title,body,created_at,read_at').order('created_at',{ascending:false}).limit(30);
+  if(error){box.textContent='اعلان‌ها هنوز راه‌اندازی نشده‌اند: '+error.message;return}
+  const newlyArrived=isPoll?data.filter(n=>!n.read_at&&!knownAdminNotifications.has(n.id)):[];
+  data.forEach(n=>knownAdminNotifications.add(n.id));
+  if(newlyArrived.length){alert('🔔 درخواست جدید معلم\n'+newlyArrived[0].body);loadPending();}
+  box.innerHTML=data.length?data.map(n=>'<div class="amir-list-row"><b>'+esc(n.title)+'</b><div>'+esc(n.body)+'</div><div class="small">'+new Date(n.created_at).toLocaleString('fa-IR')+'</div>'+(n.read_at?'':'<button class="amir-account-btn" data-notice-read="'+n.id+'">خواندم</button>')+'</div>').join(''):'اعلان جدیدی وجود ندارد.';
+  box.querySelectorAll('[data-notice-read]').forEach(b=>b.onclick=async()=>{const {error}=await client.from('admin_notifications').update({read_at:new Date().toISOString()}).eq('id',b.dataset.noticeRead);if(error)alert('ثبت وضعیت اعلان ناموفق بود: '+error.message);else loadAdminNotifications();});
  }
  async function loadAllUsers(){
   const box=$('amirAllUsers');if(!box)return;const {data,error}=await client.from('profiles').select('display_name,username,email,role,approval_status,created_at').order('created_at',{ascending:false}).limit(500);
