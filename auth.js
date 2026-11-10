@@ -17,7 +17,7 @@
  async function signup(){
   const email=$('amirAuthEmail').value.trim(),password=$('amirAuthPassword').value,name=$('amirAuthName').value.trim(),username=$('amirAuthUsername').value.trim().toLowerCase(),role=$('amirAuthRole').value;
   if(!name||!email||password.length<8||!/^[a-z0-9_]{3,24}$/.test(username))return message('نام، ایمیل، آیدی معتبر و رمز حداقل ۸ نویسه لازم است.');
-  const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name,username,requested_role:role}}});if(error)return message(error.message);
+  const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+window.location.pathname,data:{display_name:name,username,requested_role:role}}});if(error)return message(error.message);
   if(data.session)await loadProfile();else message(role==='teacher'?'درخواست معلم ثبت شد؛ پس از تأیید ایمیل و مدیر کل فعال می‌شود.':'حساب ساخته شد؛ ایمیل را برای تأیید بررسی کن.');
  }
  async function loadProfile(){
