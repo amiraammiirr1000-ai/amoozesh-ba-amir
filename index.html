@@ -1173,7 +1173,7 @@ function checkMathGame(){
  if(value===expected){mathGameScore+=10;fb.innerHTML='<span style="color:var(--green);font-weight:800">آفرین! پاسخ درست است. ⭐ +۱۰ امتیاز</span><div class="small">برای ادامه، سؤال بعدی را بزن.</div>';inp.disabled=true;}
  else fb.innerHTML='<span style="color:var(--red)">هنوز درست نیست؛ دوباره تلاش کن.</span>';
 }
-function showMathGameHint(){const fb=document.getElementById('mathGameFeedback');if(fb)fb.textContent='راهنما: '+({1:'به تعداد رقم‌های سمت راست رقم موردنظر نگاه کن.',2:'از رقم یکان یا مجموع رقم‌ها کمک بگیر.',3:'اختلاف دو عدد پیاپی را پیدا کن.',4:'عدد بزرگ‌تر روی محور اعداد در سمت راست قرار می‌گیرد.',5:'در ضرب در ۱۰ یا ۱۰۰، ممیز به راست جابه‌جا می‌شود.',6:'ابتدا x و سپس y را وارد کن.',7:'برای مقایسه کسرها از ضرب ضربدری استفاده کن.',8:'مخرج مشترک بگیر و سپس کسر را ساده کن.'}[activeMathGame]||'با دقت به صورت سؤال نگاه کن.'));}
+function showMathGameHint(){const fb=document.getElementById('mathGameFeedback');if(fb)fb.textContent='راهنما: '+({1:'به تعداد رقم‌های سمت راست رقم موردنظر نگاه کن.',2:'از رقم یکان یا مجموع رقم‌ها کمک بگیر.',3:'اختلاف دو عدد پیاپی را پیدا کن.',4:'عدد بزرگ‌تر روی محور اعداد در سمت راست قرار می‌گیرد.',5:'در ضرب در ۱۰ یا ۱۰۰، ممیز به راست جابه‌جا می‌شود.',6:'ابتدا x و سپس y را وارد کن.',7:'برای مقایسه کسرها از ضرب ضربدری استفاده کن.',8:'مخرج مشترک بگیر و سپس کسر را ساده کن.'}[activeMathGame]||'با دقت به صورت سؤال نگاه کن.')}
 function showMathGameMenu(){const stage=document.getElementById('gameStage');if(stage)stage.innerHTML='برای شروع یکی از هشت دستگاه بالا را انتخاب کن.';}
 </script>
 
