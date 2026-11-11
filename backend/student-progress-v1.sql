@@ -37,10 +37,19 @@ begin
  select progress into v_old from public.student_progress where user_id=v_user;
  v_old:=coalesce(v_old,'{"done":[],"scores":[],"points":0,"gameStats":{}}'::jsonb);
  select coalesce(jsonb_agg(to_jsonb(n) order by n),'[]'::jsonb) into v_done
- from (select distinct value::integer n from (
-  select value from jsonb_array_elements_text(case when jsonb_typeof(v_old->'done')='array' then v_old->'done' else '[]'::jsonb)
-  union all select value from jsonb_array_elements_text(v_in->'done')
- ) d where value ~ '^[0-9]{1,6}$') x;
+ from (
+  select distinct x.value::integer as n
+  from (
+   select old_done.value
+   from jsonb_array_elements_text(
+    case when jsonb_typeof(v_old->'done')='array' then v_old->'done' else '[]'::jsonb end
+   ) as old_done(value)
+   union all
+   select new_done.value
+   from jsonb_array_elements_text(v_in->'done') as new_done(value)
+  ) as x
+  where x.value ~ '^[0-9]{1,6}$'
+ ) as merged_done;
  v_scores:=case when jsonb_array_length(v_in->'scores')>jsonb_array_length(case when jsonb_typeof(v_old->'scores')='array' then v_old->'scores' else '[]'::jsonb)
   then v_in->'scores' else case when jsonb_typeof(v_old->'scores')='array' then v_old->'scores' else '[]'::jsonb end end;
  select coalesce(jsonb_object_agg(k,jsonb_build_object(
