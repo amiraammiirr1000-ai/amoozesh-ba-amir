@@ -364,7 +364,7 @@ body[data-theme="midnight"] .dashboard-action{background:#17243a;border-color:#3
  <button class="tool-tile" onclick="startMathGame(6)">📍 <b>صفحه مختصات لمسی</b><small>نقطه‌یابی و تقارن روی شبکه</small></button>
  <button class="tool-tile" onclick="startMathGame(7)">🍕 <b>آزمایشگاه کسرها</b><small>مدل تصویری، ساده‌سازی و درصد</small></button>
  <button class="tool-tile" onclick="startMathGame(8)">⚖️ <b>کارگاه مقایسه و جمع کسرها</b><small>مقایسه، جمع و تفریق کسرها</small></button>
- </div><div id="gameStage" class="mutedbox" style="margin-top:12px">برای شروع یکی از دستگاه‌ها را انتخاب کن.</div></div>
+ </div><div id="gameStage" class="mutedbox" style="margin-top:12px">برای شروع یکی از دستگاه‌ها را انتخاب کن.</div><div id="gameProgress" class="mutedbox" style="margin-top:10px" aria-live="polite"></div></div>
  <div class="card" style="margin-top:12px"><h3>مسیر پیشنهادی مطالعه</h3><ol class="feature-list"><li>درس‌نامه را بخوان و مثال حل‌شده را بررسی کن.</li><li>یک تمرین را خودت روی وایت‌برد حل کن.</li><li>کاربرگ بساز و بدون دیدن پاسخ‌ها تمرین کن.</li><li>اشتباه یا نکته مهم را در دفتر حافظه ذخیره کن.</li><li>در پایان آزمون بده و گزارش پیشرفت را ببین.</li></ol><div class="mutedbox">حافظه این نسخه روی همین دستگاه و در همین مرورگر ذخیره می‌شود؛ هنوز بین گوشی‌ها همگام‌سازی نمی‌شود.</div></div>
 </section>
 <section id="whiteboard" class="view">
@@ -498,7 +498,8 @@ const chapterQuizBanks=Object.fromEntries(curriculum.map(c=>[c.n,(c.lessonIds||[
 function renderCurriculum(){const root=document.getElementById('curriculumMap');if(!root)return;root.innerHTML=curriculum.map(c=>{const links=(c.lessonIds||[]).map(id=>{const l=lessons.find(x=>x.id===id);return l?'<button class="btn outline" onclick="openLesson('+id+')">'+fa(id)+'. '+l.title+'</button>':'';}).join('');return '<article class="chapter-card '+(c.n===1?'open':'')+'" id="chapterCard'+c.n+'"><button class="chapter-toggle" onclick="toggleChapter('+c.n+')" aria-expanded="'+(c.n===1?'true':'false')+'"><span class="chapter-number">'+c.n+'</span><span class="chapter-heading"><strong>'+c.icon+' فصل '+fa(c.n)+': '+c.title+'</strong><small>'+c.status+' · '+fa(c.topics.length)+' بخش</small></span><span class="chapter-arrow">⌄</span></button><div class="chapter-body"><div>'+c.topics.map(t=>'<span class="topic-pill">'+t+'</span>').join('')+'</div><div class="chapter-explain"><b>راهنمای یادگیری</b><p>'+c.learn+'</p><b>مثال آموزشی</b><p>'+c.example+'</p><b>تمرین نمونه</b><p>'+c.practice+'</p></div>'+(c.ready?'<div class="chapter-lessons"><b>درس‌های این فصل</b><div class="chapter-lesson-links">'+links+'</div><button class="btn gold full" style="margin-top:8px" onclick="startChapterQuiz('+c.n+')">آزمون پایان فصل</button></div>':'<div class="curriculum-foot">این فصل در صف تکمیل درس‌نامه و آزمون مستقل قرار دارد.</div>')+'</div></article>';}).join('');}
 function toggleChapter(n){const card=document.getElementById('chapterCard'+n);if(!card)return;card.classList.toggle('open');const b=card.querySelector('.chapter-toggle');b.setAttribute('aria-expanded',card.classList.contains('open')?'true':'false');}
 let state=loadState(), currentLesson=1, currentChapter=0, qIndex=0, answers=[], quizMode="chapter";
-function loadState(){try{return JSON.parse(localStorage.getItem("amirMathState"))||{done:[],scores:[],points:0,note:""};}catch(e){return {done:[],scores:[],points:0,note:""};}}
+state.gameStats=state.gameStats||{};
+function loadState(){try{return JSON.parse(localStorage.getItem("amirMathState"))||{done:[],scores:[],points:0,note:"",gameStats:{}};}catch(e){return {done:[],scores:[],points:0,note:"",gameStats:{}};}}
 function persist(){localStorage.setItem("amirMathState",JSON.stringify(state));renderStats();}
 function fa(n){return String(n).replace(/[0-9]/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);}
 function renderLessons(){document.getElementById("lessonList").innerHTML=lessons.map(l=>`<div class="card lesson"><div class="lesson-icon">${l.icon}</div><div style="flex:1"><h3>${l.id}. ${l.title}</h3><p>${l.desc}<br>${l.pages}</p>${state.done.includes(l.id)?'<span class="tag">تکمیل‌شده ✓</span> ':''}<button class="btn" onclick="openLesson(${l.id})" style="margin-top:8px">ورود به درس</button></div></div>`).join("");}
@@ -1117,10 +1118,16 @@ let activeMathGame=0,mathGameAnswer='',mathGameScore=0,mathGameRound=0;
 const mathGameNames={1:'دستگاه ارزش مکانی',2:'آزمایشگاه بخش‌پذیری',3:'کارآگاه الگوها',4:'محور اعداد صحیح',5:'کارگاه اعشار',6:'صفحه مختصات',7:'آزمایشگاه کسرها',8:'کارگاه جمع کسرها'};
 function openGameLab(){
  showView('tools');
+ renderMathGameProgress();
  const lab=document.getElementById('gameLab');
  if(lab){lab.scrollIntoView({behavior:'smooth',block:'start'});lab.style.outline='2px solid var(--accent)';setTimeout(()=>lab.style.outline='',1200);}
 }
-function gameDigits(s){return String(s??'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/\s/g,'').replace(/٫/g,'.').replace(/،/g,',');}
+function gameDigits(s){return String(s??'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[\s\u200c\u200f]/g,'').replace(/٫/g,'.').replace(/،/g,',').replace(/؛/g,',');}
+function renderMathGameProgress(){
+ const el=document.getElementById('gameProgress');if(!el)return;
+ const rows=Object.keys(mathGameNames).map(id=>{const st=state.gameStats[id]||{};return '<div style="display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)"><b>'+mathGameNames[id]+'</b><span class="small">'+fa(st.correct||0)+' پاسخ درست · '+fa(st.attempts||0)+' تلاش</span></div>';}).join('');
+ el.innerHTML='<b>📊 کارنامه بازیگاه من</b><div class="small" style="margin-top:6px">امتیازهای بازی در همین دستگاه ذخیره می‌شوند.</div><div style="margin-top:6px">'+rows+'</div>';
+}
 function startMathGame(id){
  activeMathGame=Number(id);mathGameRound=0;mathGameScore=0;nextMathGame();
  const stage=document.getElementById('gameStage');if(stage)stage.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -1165,13 +1172,15 @@ function nextMathGame(){
  const inp=document.getElementById('mathGameInput');if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')checkMathGame();});
 }
 function checkMathGame(){
- const inp=document.getElementById('mathGameInput'),fb=document.getElementById('mathGameFeedback');if(!inp||!fb)return;
+ const inp=document.getElementById('mathGameInput'),fb=document.getElementById('mathGameFeedback');if(!inp||!fb||inp.disabled)return;
+ const stats=state.gameStats[activeMathGame]||(state.gameStats[activeMathGame]={attempts:0,correct:0});stats.attempts=(stats.attempts||0)+1;
  let value=gameDigits(inp.value).toLowerCase().replace(/ي/g,'ی').replace(/ك/g,'ک');
  let expected=mathGameAnswer.toLowerCase().replace(/ي/g,'ی').replace(/ك/g,'ک');
  if(activeMathGame===1)value=value.replace(/ها$/,'');
  if(activeMathGame===6){value=value.replace(/[()]/g,'').replace(';',',');expected=expected.replace(/\s/g,'');}
- if(value===expected){mathGameScore+=10;fb.innerHTML='<span style="color:var(--green);font-weight:800">آفرین! پاسخ درست است. ⭐ +۱۰ امتیاز</span><div class="small">برای ادامه، سؤال بعدی را بزن.</div>';inp.disabled=true;}
+ if(value===expected){mathGameScore+=10;stats.correct=(stats.correct||0)+1;state.points=(Number(state.points)||0)+10;fb.innerHTML='<span style="color:var(--green);font-weight:800">آفرین! پاسخ درست است. ⭐ +۱۰ امتیاز</span><div class="small">برای ادامه، سؤال بعدی را بزن.</div>';inp.disabled=true;}
  else fb.innerHTML='<span style="color:var(--red)">هنوز درست نیست؛ دوباره تلاش کن.</span>';
+ persist();renderMathGameProgress();
 }
 function showMathGameHint(){const fb=document.getElementById('mathGameFeedback');if(fb)fb.textContent='راهنما: '+({1:'به تعداد رقم‌های سمت راست رقم موردنظر نگاه کن.',2:'از رقم یکان یا مجموع رقم‌ها کمک بگیر.',3:'اختلاف دو عدد پیاپی را پیدا کن.',4:'عدد بزرگ‌تر روی محور اعداد در سمت راست قرار می‌گیرد.',5:'در ضرب در ۱۰ یا ۱۰۰، ممیز به راست جابه‌جا می‌شود.',6:'ابتدا x و سپس y را وارد کن.',7:'برای مقایسه کسرها از ضرب ضربدری استفاده کن.',8:'مخرج مشترک بگیر و سپس کسر را ساده کن.'}[activeMathGame]||'با دقت به صورت سؤال نگاه کن.')}
 function showMathGameMenu(){const stage=document.getElementById('gameStage');if(stage)stage.innerHTML='برای شروع یکی از هشت دستگاه بالا را انتخاب کن.';}
