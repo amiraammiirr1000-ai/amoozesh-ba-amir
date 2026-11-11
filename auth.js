@@ -13,14 +13,15 @@
   document.body.appendChild(overlay);$('amirAccountOpen').onclick=()=>profile?logout():overlay.classList.add('open');$('amirAuthClose').onclick=()=>overlay.classList.remove('open');overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.remove('open')});$('amirAuthLogin').onclick=login;$('amirAuthSignup').onclick=signup;
  }
  const message=t=>{if($('amirAuthMessage'))$('amirAuthMessage').textContent=t};
- let progressSyncTimer=null,progressSyncBusy=false;
+ let progressSyncTimer=null,progressSyncBusy=false,progressSyncPending=false;
  function setProgressSyncStatus(t){const el=$('amirProgressSyncStatus');if(el)el.textContent=t;}
  async function syncStudentProgress(){
-  if(progressSyncBusy||!client||!profile||profile.role!=='student'||profile.approval_status!=='approved'||!window.AmirProgress)return;
-  progressSyncBusy=true;setProgressSyncStatus('در حال همگام‌سازی پیشرفت…');
+  if(!client||!profile||profile.role!=='student'||profile.approval_status!=='approved'||!window.AmirProgress)return;
+  if(progressSyncBusy){progressSyncPending=true;return;}
+  progressSyncBusy=true;progressSyncPending=false;setProgressSyncStatus('در حال همگام‌سازی پیشرفت…');
   try{const {data,error}=await client.rpc('merge_student_progress',{p_progress:window.AmirProgress.snapshot()});if(error)throw error;if(data&&typeof data==='object')window.AmirProgress.apply(data);setProgressSyncStatus('پیشرفت این حساب با فضای ابری همگام است ✓');}
   catch(e){setProgressSyncStatus('همگام‌سازی ابری فعلاً انجام نشد؛ اطلاعات روی همین دستگاه محفوظ است. '+(e.message||''));}
-  finally{progressSyncBusy=false;}
+  finally{progressSyncBusy=false;if(progressSyncPending){progressSyncPending=false;setTimeout(syncStudentProgress,350);}}
  }
  function queueProgressSync(){if(progressSyncTimer)clearTimeout(progressSyncTimer);progressSyncTimer=setTimeout(syncStudentProgress,900);}
 
