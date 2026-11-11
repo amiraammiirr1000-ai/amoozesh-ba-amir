@@ -50,8 +50,15 @@ begin
   ) as x
   where x.value ~ '^[0-9]{1,6}$'
  ) as merged_done;
- v_scores:=case when jsonb_array_length(v_in->'scores')>jsonb_array_length(case when jsonb_typeof(v_old->'scores')='array' then v_old->'scores' else '[]'::jsonb end)
-  then v_in->'scores' else case when jsonb_typeof(v_old->'scores')='array' then v_old->'scores' else '[]'::jsonb end end;
+ if jsonb_typeof(v_old->'scores')='array' then
+  if jsonb_array_length(v_in->'scores')>jsonb_array_length(v_old->'scores') then
+   v_scores:=v_in->'scores';
+  else
+   v_scores:=v_old->'scores';
+  end if;
+ else
+  v_scores:=v_in->'scores';
+ end if;
  select coalesce(jsonb_object_agg(k,jsonb_build_object(
   'attempts',greatest(coalesce((old_value->>'attempts')::integer,0),coalesce((new_value->>'attempts')::integer,0)),
   'correct',greatest(coalesce((old_value->>'correct')::integer,0),coalesce((new_value->>'correct')::integer,0))
