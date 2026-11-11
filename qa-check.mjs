@@ -145,4 +145,5 @@ assert.equal(authCheck.status, 0, 'auth.js syntax check failed: ' + authCheck.st
 const serverCheck = spawnSync(process.execPath, ['--check', resolve(root,'secure-ai-server/server.mjs')], { encoding: 'utf8' });
 assert.equal(serverCheck.status, 0, 'server syntax check failed: ' + serverCheck.stderr);
 console.log('PASS: synchronized PWA/Capacitor assets, multi-user role client, class invites, HTTPS meeting links, privacy RPCs, 29 math lessons, English studio, lesson exams, worksheets and inline JavaScript syntax.');
-console.log('NOTE: static QA is not a substitute for testing on real Android devices, accessibility, privacy, live-class workflows or release signing.');
+console.log('PASS: static project QA. Game execution tests run separately through game-lab-check.mjs.');
+console.log('NOTE: automated checks are not a substitute for testing on real Android devices, accessibility, privacy, live-class workflows or release signing.');
