@@ -1,0 +1,21 @@
+{
+  "name": "amoozesh-ba-amir",
+  "version": "2.4.0",
+  "private": true,
+  "description": "آموزش با امیر - سامانه یادگیری، مدیریت کلاس و استودیوی American English، نسخه ۲.۴.۰",
+  "scripts": {
+    "qa": "node qa-check.mjs && node game-lab-check.mjs && node cloud-progress-check.mjs",
+    "cap:add:android": "cap add android",
+    "cap:sync": "cap sync android",
+    "android": "cap open android",
+    "test:ai": "npm --prefix secure-ai-server test",
+    "qa:all": "npm run qa && npm run test:ai"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}

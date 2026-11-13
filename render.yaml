@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: amoozesh-ba-amir-ai
+    runtime: node
+    rootDir: secure-ai-server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: TUTOR_ACCESS_TOKEN
+        generateValue: true
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+      - key: APP_ORIGIN
+        value: https://localhost,capacitor://localhost
+      - key: TRUST_PROXY
+        value: "1"

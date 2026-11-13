@@ -1,0 +1,20 @@
+{
+  "name": "آموزش با امیر | یادگیری هوشمند",
+  "short_name": "آموزش با امیر",
+  "lang": "fa-IR",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7ff",
+  "theme_color": "#123b50",
+  "description": "سامانه فارسی آموزش، درس‌نامه، آزمون، مدیریت کلاس و استودیوی انگلیسی آمریکایی؛ نسخه ۲.۳.۰",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

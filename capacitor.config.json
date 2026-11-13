@@ -1,0 +1,9 @@
+{
+  "appId": "ir.amoozeshbaamir.app",
+  "appName": "آموزش با امیر",
+  "webDir": "web",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

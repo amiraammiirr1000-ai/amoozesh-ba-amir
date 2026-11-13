@@ -1,0 +1,153 @@
+
+name: Android Signed Release APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Get project
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run project quality checks
+        run: npm run qa
+
+      - name: Create Android project
+        run: npx cap add android
+
+      - name: Sync app files
+        run: npx cap sync android
+
+      - name: Create branded Android launcher icons
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from PIL import Image, ImageDraw
+          import os
+          size=512
+          im=Image.new('RGBA',(size,size),(18,55,75,255)); d=ImageDraw.Draw(im)
+          d.rounded_rectangle((0,0,511,511),radius=112,fill=(18,55,75,255))
+          d.ellipse((330,35,485,190),fill=(255,255,255,12))
+          d.polygon([(55,202),(245,218),(245,397),(55,378)],fill=(255,224,151,255),outline=(255,246,210,255),width=9)
+          d.polygon([(267,218),(457,202),(457,378),(267,397)],fill=(255,255,255,255),outline=(220,235,240,255),width=9)
+          d.line((256,220,256,398),fill=(195,139,47,255),width=10)
+          for y in (265,310):
+              d.line((92,y,220,y+8),fill=(188,142,59,255),width=9)
+              d.line((292,y+8,420,y),fill=(166,190,210,255),width=9)
+          d.polygon([(310,70),(350,153),(393,70),(367,164),(414,190),(351,180),(310,235),(319,168),(266,127),(333,137)],fill=(245,197,81,255))
+          d.text((256,448),'AMIR',anchor='mm',fill=(255,255,255,255),stroke_width=1)
+          # Adaptive icon foreground, plus legacy density icons
+          fg=Image.new('RGBA',(432,432),(0,0,0,0)); q=ImageDraw.Draw(fg)
+          q.polygon([(38,175),(210,188),(210,345),(38,330)],fill=(255,224,151,255),outline=(255,246,210,255),width=8)
+          q.polygon([(222,188),(394,175),(394,330),(222,345)],fill=(255,255,255,255),outline=(220,235,240,255),width=8)
+          q.line((216,190,216,347),fill=(195,139,47,255),width=9)
+          for y in (235,278):
+              q.line((70,y,185,y+7),fill=(188,142,59,255),width=8)
+              q.line((247,y+7,362,y),fill=(166,190,210,255),width=8)
+          q.polygon([(262,36),(297,110),(335,36),(312,119),(354,143),(298,135),(262,184),(270,126),(222,88),(282,98)],fill=(245,197,81,255))
+          os.makedirs('android/app/src/main/res/drawable-nodpi',exist_ok=True)
+          os.makedirs('android/app/src/main/res/drawable',exist_ok=True)
+          os.makedirs('android/app/src/main/res/mipmap-anydpi-v26',exist_ok=True)
+          fg.save('android/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png')
+          open('android/app/src/main/res/drawable/ic_launcher_background.xml','w').write('<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle"><solid android:color="#12374b"/></shape>')
+          open('android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml','w').write('<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@drawable/ic_launcher_background"/><foreground android:drawable="@drawable/ic_launcher_foreground"/></adaptive-icon>')
+          targets={'mdpi':48,'hdpi':72,'xhdpi':96,'xxhdpi':144,'xxxhdpi':192}
+          for density,px in targets.items():
+              folder=f'android/app/src/main/res/mipmap-{density}'
+              os.makedirs(folder,exist_ok=True)
+              out=im.resize((px,px),Image.Resampling.LANCZOS)
+              out.save(os.path.join(folder,'ic_launcher.png'))
+              out.save(os.path.join(folder,'ic_launcher_round.png'))
+          PY
+
+      - name: Set Android app version
+        run: |
+          sed -i -E 's/versionCode [0-9]+/versionCode 34/' android/app/build.gradle
+          sed -i -E 's/versionName "[^"]+"/versionName "2.4.0"/' android/app/build.gradle
+          grep -E 'versionCode|versionName' android/app/build.gradle
+
+      - name: Configure release signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for name in ANDROID_KEYSTORE_BASE64 ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            if [ -z "${!name:-}" ]; then echo "::error::Missing GitHub Actions secret: $name"; exit 1; fi
+          done
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/release-signing.keystore
+          test -s android/app/release-signing.keystore
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('android/app/build.gradle')
+          s=p.read_text()
+          if 'signingConfigs {' not in s:
+              block = '''
+              signingConfigs {
+                  release {
+                      storeFile file(System.getenv("ANDROID_KEYSTORE_PATH"))
+                      storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                      keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+                  }
+              }
+              '''
+              s=re.sub(r'(android\s*\{)',r'\1'+block,s,count=1)
+          s,n=re.subn(r'(buildTypes\s*\{\s*release\s*\{)',r'\1\n            signingConfig signingConfigs.release',s,count=1)
+          if n != 1: raise SystemExit('Could not configure release signing in app/build.gradle')
+          p.write_text(s)
+          PY
+
+      - name: Build signed release APK
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/app/release-signing.keystore
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace --console=plain
+
+      - name: Verify APK signature and checksum
+        run: |
+          set -euo pipefail
+          APK=android/app/build/outputs/apk/release/app-release.apk
+          test -s "$APK"
+          APKSIGNER="$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -n 1)"
+          test -n "$APKSIGNER"
+          "$APKSIGNER" verify --verbose --print-certs "$APK"
+          sha256sum "$APK" | tee android/app/build/outputs/apk/release/SHA256SUMS.txt
+
+      - name: Upload signed release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: amoozesh-ba-amir-signed-release
+          path: |
+            android/app/build/outputs/apk/release/app-release.apk
+            android/app/build/outputs/apk/release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
