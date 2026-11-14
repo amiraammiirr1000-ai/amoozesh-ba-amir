@@ -4,7 +4,7 @@
   "private": true,
   "description": "آموزش با امیر - سامانه یادگیری، مدیریت کلاس و استودیوی American English، نسخه ۲.۴.۰",
   "scripts": {
-    "qa": "node qa-check.mjs && node game-lab-check.mjs && node cloud-progress-check.mjs && node english-studio-check.mjs && node math-game-engine-check.mjs && node math-worksheets-check.mjs",
+    "qa": "node qa-check.mjs && node game-lab-check.mjs && node cloud-progress-check.mjs && node english-studio-check.mjs && node math-game-engine-check.mjs && node math-worksheets-check.mjs && node math-game-runtime-check.mjs",
     "cap:add:android": "cap add android",
     "cap:sync": "cap sync android",
     "android": "cap open android",
