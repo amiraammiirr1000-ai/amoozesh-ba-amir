@@ -125,7 +125,7 @@ assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
 assert.match(gameModule, /window\.openGameLab/);
 
-assert.match(sw, /amoozesh-ba-amir-v41/);
+assert.match(sw, /amoozesh-ba-amir-v42/);
 const englishModule = await read('english-studio-v3.js');
 assert.match(englishModule, /window\.openEnglishUnit/);
 assert.match(englishModule, /window\.checkEnglishUnit/);
@@ -137,7 +137,7 @@ assert.match(englishModule, /amirEnglishScoresV2/);
 
 
 
-assert.match(sw, /amoozesh-ba-amir-v41/);
+assert.match(sw, /amoozesh-ba-amir-v42/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
