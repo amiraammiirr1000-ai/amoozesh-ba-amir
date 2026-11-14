@@ -19,6 +19,7 @@ vm.createContext(context);vm.runInContext(source,context);
 window.initEnglishHub();
 assert.ok(els.englishBookContent.innerHTML.includes('۸ درس'));
 window.openEnglishUnit(1);
+els.engWriting1.value='My name is Amir.';
 for(const token of ['واژگان کلیدی','SUPPLEMENTARY LESSON','نکته گرامری','مکالمه نمونه','درک مطلب','تمرین نوشتاری','تمرین شنیداری'])assert.ok(els.englishUnitDetail.innerHTML.includes(token),'missing unit content '+token);
 window.checkEnglishUnit(1);assert.ok(store.amirEnglishScoresV2.includes('"score":3')||store.amirEnglishScoresV2.includes('"score":2'));
 window.saveEnglishWriting(1);assert.ok(store.amirEnglishWritingV2.includes('My name is Amir.'));
