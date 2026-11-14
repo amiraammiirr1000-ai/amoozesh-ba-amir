@@ -53,7 +53,7 @@ assert.equal(manifestText, webManifestText, 'root and web manifests must be sync
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
 assert.equal(manifest.dir, 'rtl');
-assert.equal(pkg.version, '2.9.3', 'package version must match the current release');
+assert.equal(pkg.version, '2.9.4', 'package version must match the current release');
 
 for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','sw.js','study-hero.svg']) {
   await access(resolve(root,'web',f), constants.R_OK);
@@ -125,7 +125,7 @@ assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
 assert.match(gameModule, /window\.openGameLab/);
 
-assert.match(sw, /amoozesh-ba-amir-v45/);
+assert.match(sw, /amoozesh-ba-amir-v46/);
 const englishModule = await read('english-studio-v3.js');
 assert.match(englishModule, /window\.openEnglishUnit/);
 assert.match(englishModule, /window\.checkEnglishUnit/);
@@ -142,7 +142,7 @@ assert.match(englishModule, /eng-level-extension/);
 
 
 
-assert.match(sw, /amoozesh-ba-amir-v45/);
+assert.match(sw, /amoozesh-ba-amir-v46/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
