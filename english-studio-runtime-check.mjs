@@ -13,7 +13,7 @@ const document={getElementById:id=>els[id]||null,addEventListener(){},querySelec
 const voices=[{name:'US English Voice',lang:'en-US'}];
 const speechSynthesis={cancel(){},getVoices(){return voices},speak(){spoken++},onvoiceschanged:null};
 class Utterance{constructor(text){this.text=text;this.lang='';this.rate=1;this.voice=null}}
-const window={addEventListener(){},removeEventListener(){},print(){printed++}};
+const window={speechSynthesis,addEventListener(){},removeEventListener(){},print(){printed++}};
 const context={window,document,localStorage:{getItem(k){return store[k]??null},setItem(k,v){store[k]=v}},speechSynthesis,SpeechSynthesisUtterance:Utterance,englishWords:[['hello','سلام','Hello!']],alert(){},Date,JSON,Math,String,Number,Object,Array};
 vm.createContext(context);vm.runInContext(source,context);
 window.initEnglishHub();
