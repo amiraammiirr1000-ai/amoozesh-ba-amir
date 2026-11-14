@@ -53,7 +53,7 @@ assert.equal(manifestText, webManifestText, 'root and web manifests must be sync
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
 assert.equal(manifest.dir, 'rtl');
-assert.equal(pkg.version, '2.6.0', 'package version must match the current release');
+assert.equal(pkg.version, '2.7.0', 'package version must match the current release');
 
 for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','sw.js','study-hero.svg']) {
   await access(resolve(root,'web',f), constants.R_OK);
@@ -109,6 +109,12 @@ assert.match(html, /American English/);
 assert.match(html, /American Family and Friends/);
 assert.match(html, /english-studio-v3\.js/);
 assert.match(html, /math-game-engine-v2\.js/);
+assert.match(html, /math-worksheets-v2\.js/);
+const worksheetModule = await read('math-worksheets-v2.js');
+assert.match(worksheetModule, /worksheetBanks\.decimals/);
+assert.match(worksheetModule, /worksheetBanks\.symmetry/);
+assert.match(worksheetModule, /worksheetBanks\.coordinates/);
+
 const gameModule = await read('math-game-engine-v2.js');
 assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
