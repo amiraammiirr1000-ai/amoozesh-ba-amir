@@ -120,7 +120,7 @@ assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
 assert.match(gameModule, /window\.openGameLab/);
 
-assert.match(sw, /amoozesh-ba-amir-v39/);
+assert.match(sw, /amoozesh-ba-amir-v40/);
 const englishModule = await read('english-studio-v3.js');
 assert.match(englishModule, /window\.openEnglishUnit/);
 assert.match(englishModule, /window\.checkEnglishUnit/);
@@ -128,7 +128,7 @@ assert.match(englishModule, /amirEnglishFavoritesV2/);
 assert.match(englishModule, /SUPPLEMENTARY LESSON/);
 
 
-assert.match(sw, /amoozesh-ba-amir-v37/);
+assert.match(sw, /amoozesh-ba-amir-v40/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
