@@ -108,6 +108,12 @@ assert.match(html, /americanEnglishExtras/);
 assert.match(html, /American English/);
 assert.match(html, /American Family and Friends/);
 assert.match(html, /english-studio-v3\.js/);
+assert.match(html, /math-game-engine-v2\.js/);
+const gameModule = await read('math-game-engine-v2.js');
+assert.match(gameModule, /window\.startMathGame/);
+assert.match(gameModule, /window\.checkMathGame/);
+assert.match(gameModule, /window\.openGameLab/);
+
 assert.match(sw, /amoozesh-ba-amir-v38/);
 const englishModule = await read('english-studio-v3.js');
 assert.match(englishModule, /window\.openEnglishUnit/);

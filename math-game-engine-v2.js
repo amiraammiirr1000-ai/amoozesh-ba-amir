@@ -1,0 +1,34 @@
+/* Math Game Engine v2 — accessible, finite rounds, per-game progress. */
+(function(){
+"use strict";
+let gameId=0,round=0,score=0,answer="",hint="",locked=false,attemptsThisRound=0;
+const names={1:"ارزش مکانی",2:"بخش‌پذیری",3:"الگوهای عددی",4:"اعداد صحیح",5:"اعداد اعشاری",6:"مختصات",7:"مقایسه کسرها",8:"جمع کسرها"};
+const norm=s=>String(s??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[−–—]/g,"-").replace(/[⁄／]/g,"/").replace(/٫/g,".").replace(/[،؛]/g,",").replace(/[\s\u200c\u200f]/g,"").replace(/ي/g,"ی").replace(/ك/g,"ک").toLowerCase();
+const el=id=>document.getElementById(id);
+const fa=n=>typeof window.fa==="function"?window.fa(n):String(n);
+function stats(){if(!window.state.gameStats)window.state.gameStats={};return window.state.gameStats}
+function save(){if(typeof window.persist==="function")window.persist();if(typeof window.renderStats==="function")window.renderStats()}
+function makeQuestion(){
+ let q="",a="",h="",p="پاسخ را بنویس";
+ const r=(n)=>Math.floor(Math.random()*n);
+ if(gameId===1){const n=10000+r(90000),s=String(n),pos=r(5),d=Number(s[pos]),power=4-pos,labels=["یکان","دهگان","صدگان","هزارگان","ده‌هزارگان"];q="در عدد "+n.toLocaleString("fa-IR")+"، رقم "+d+" در چه جایگاهی است؟";a=labels[power];h="از سمت راست، جایگاه‌ها را یکان، دهگان، صدگان، هزارگان و ده‌هزارگان بشمار.";}
+ if(gameId===2){const n=100+r(9900),d=[2,3,5,9,10][r(5)];q="آیا "+n.toLocaleString("fa-IR")+" بر "+d.toLocaleString("fa-IR")+" بخش‌پذیر است؟";a=n%d===0?"بله":"خیر";h="برای ۲، ۵ و ۱۰ به رقم یکان نگاه کن؛ برای ۳ و ۹ مجموع رقم‌ها را بررسی کن.";p="بله یا خیر";}
+ if(gameId===3){const step=[2,3,4,5,7,10][r(6)],start=1+r(20);q="عدد بعدی را پیدا کن: "+[0,1,2,3].map(i=>start+i*step).join("، ")+"، …";a=String(start+4*step);h="اختلاف دو جمله پیاپی را پیدا کن.";}
+ if(gameId===4){const x=r(21)-10,y=r(21)-10;q="علامت درست را وارد کن: "+x+"  ؟  "+y;a=x>y?">":x<y?"<":"=";h="روی محور، عددی که سمت راست‌تر است بزرگ‌تر است.";p="< یا > یا =";}
+ if(gameId===5){const x=Number((11+r(989))/10).toFixed(1),m=[10,100][r(2)];q=x.replace(".",",")+" × "+m+" = ؟";a=String(Number((Number(x)*m).toFixed(2)));h="در ضرب در ۱۰ یا ۱۰۰، ممیز به سمت راست جابه‌جا می‌شود.";}
+ if(gameId===6){const x=r(9)-4,y=r(9)-4;q="مختصات نقطه A را به ترتیب x,y وارد کن: ("+x+" ، "+y+")";a=x+","+y;h="عدد اول مؤلفه افقی x و عدد دوم مؤلفه عمودی y است.";p="مثلاً ۲،۳";}
+ if(gameId===7){let x=1+r(8),y=2+r(8),z=1+r(8),w=2+r(8);while(x*w===z*y){z=z%8+1}q="کدام کسر بزرگ‌تر است؟ "+x+"/"+y+"  ؟  "+z+"/"+w;a=x*w>z*y?">":x*w<z*y?"<":"=";h="برای مقایسه، صورت هر کسر را در مخرج کسر دیگر ضرب کن.";p="< یا > یا =";}
+ if(gameId===8){let x=1+r(5),y=2+r(5),z=1+r(5),w=2+r(5);const num=x*w+z*y,den=y*w;function gcd(a,b){return b?gcd(b,a%b):a}const g=gcd(num,den);q="حاصل را به صورت کسر ساده‌شده بنویس: "+x+"/"+y+" + "+z+"/"+w;a=(num/g)+"/"+(den/g);h="مخرج مشترک بگیر، صورت‌ها را جمع کن و کسر را ساده کن.";p="مثلاً ۳/۴";}
+ return {q,a:norm(a),h,p};
+}
+function renderProgress(){const box=el("gameProgress");if(!box)return;const s=stats();box.innerHTML="<b>کارنامه بازیگاه</b><div class=\"small\">آمار هر دستگاه ذخیره می‌شود.</div>"+Object.keys(names).map(k=>{const x=s[k]||{};return "<div class=\"game-progress-row\"><b>"+names[k]+"</b><span>"+fa(x.correct||0)+" پاسخ درست از "+fa(x.attempts||0)+" تلاش</span></div>"}).join("")}
+function showMenu(){const stage=el("gameStage");if(stage)stage.innerHTML='<div class="game-menu-message">یکی از هشت بازی بالا را انتخاب کن. هر دور ۱۰ سؤال دارد.</div>';renderProgress()}
+function start(id){gameId=Number(id);if(!names[gameId])return;round=0;score=0;locked=false;next()}
+function next(){if(!gameId)return;round++;if(round>10){finish();return}const data=makeQuestion();answer=data.a;hint=data.h;locked=false;attemptsThisRound=0;const stage=el("gameStage");if(!stage)return;stage.innerHTML='<div class="game-head"><span class="chip">🎮 '+names[gameId]+'</span><span class="small">مرحله '+fa(round)+' از ۱۰ · امتیاز '+fa(score)+'</span></div><div class="game-progress-track"><span style="width:'+((round-1)*10)+'%"></span></div><h3 class="game-question">'+data.q+'</h3><div class="toolbar"><input id="mathGameInput" class="input" placeholder="'+data.p+'" autocomplete="off" style="flex:1;min-width:140px"><button id="mathGameCheckBtn" class="btn gold" onclick="checkMathGame()">بررسی پاسخ</button></div><div id="mathGameFeedback" class="small" role="status" aria-live="polite"></div><div class="btnrow"><button class="btn outline" onclick="showMathGameHint()">💡 راهنمایی</button><button class="btn light" onclick="nextMathGame()">سؤال بعدی</button><button class="btn outline" onclick="showMathGameMenu()">بازگشت</button></div>';const input=el("mathGameInput");if(input){input.focus();input.addEventListener("keydown",e=>{if(e.key==="Enter")check()})}}
+function check(){const input=el("mathGameInput"),fb=el("mathGameFeedback");if(!input||!fb||locked)return;attemptsThisRound++;const s=stats(),row=s[gameId]||(s[gameId]={attempts:0,correct:0});row.attempts=(row.attempts||0)+1;let v=norm(input.value);if(gameId===2){if(["آره","اره","yes"].includes(v))v="بله";if(["نه","no"].includes(v))v="خیر"}if(gameId===1)v=v.replace(/ها$/,"");if(gameId===5&&v!==""&&Number.isFinite(Number(v))&&Number.isFinite(Number(answer)))v=String(Number(v));if(gameId===6)v=v.replace(/[();]/g,",").replace(/^,|,$/g,"");if(v===answer){locked=true;score+=10;row.correct=(row.correct||0)+1;window.state.points=(Number(window.state.points)||0)+10;input.disabled=true;const b=el("mathGameCheckBtn");if(b)b.disabled=true;fb.innerHTML='<span class="game-correct">آفرین! پاسخ درست است. +۱۰ امتیاز ⭐</span><p>برای ادامه، «سؤال بعدی» را بزن.</p>'}else{fb.innerHTML='<span class="game-wrong">هنوز درست نیست؛ دوباره تلاش کن.</span><p>راهنمایی را ببین یا پاسخ را دوباره بررسی کن.</p>'}save();renderProgress()}
+function hintNow(){const fb=el("mathGameFeedback");if(fb)fb.textContent="راهنما: "+hint}
+function finish(){const stage=el("gameStage"),s=stats(),row=s[gameId]||{};if(stage)stage.innerHTML='<div class="game-finish"><h3>آفرین! این دور تمام شد 🎉</h3><p>امتیاز این دور: <b>'+fa(score)+'</b> از ۱۰۰</p><p>پاسخ‌های درست ثبت‌شده: '+fa(row.correct||0)+'</p><button class="btn gold" onclick="startMathGame('+gameId+')">دور جدید</button><button class="btn outline" onclick="showMathGameMenu()">انتخاب بازی دیگر</button></div>';renderProgress()}
+window.openGameLab=function(){if(typeof window.showView==="function")window.showView("tools");renderProgress();const x=el("gameLab");if(x){x.scrollIntoView({behavior:"smooth",block:"start"});x.classList.add("game-lab-open");setTimeout(()=>x.classList.remove("game-lab-open"),900)}};
+window.startMathGame=start;window.nextMathGame=next;window.checkMathGame=check;window.showMathGameHint=hintNow;window.showMathGameMenu=showMenu;window.renderMathGameProgress=renderProgress;window.gameDigits=norm;
+document.addEventListener("DOMContentLoaded",renderProgress);
+})();
