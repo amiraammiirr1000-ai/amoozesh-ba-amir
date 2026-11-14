@@ -134,6 +134,9 @@ assert.match(englishModule, /SUPPLEMENTARY LESSON/);
 assert.match(englishModule, /window\.printEnglishUnit/);
 assert.match(englishModule, /window\.saveEnglishWriting/);
 assert.match(englishModule, /amirEnglishScoresV2/);
+assert.match(englishModule, /Upper elementary \/ B1/);
+assert.match(englishModule, /eng-level-extension/);
+
 
 
 
