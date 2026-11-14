@@ -107,7 +107,14 @@ assert.match(html, /en-US/);
 assert.match(html, /americanEnglishExtras/);
 assert.match(html, /American English/);
 assert.match(html, /American Family and Friends/);
-assert.match(html, /function initEnglishStudio\(/);
+assert.match(html, /english-studio-v3\.js/);
+assert.match(sw, /amoozesh-ba-amir-v38/);
+const englishModule = await read('english-studio-v3.js');
+assert.match(englishModule, /window\.openEnglishUnit/);
+assert.match(englishModule, /window\.checkEnglishUnit/);
+assert.match(englishModule, /amirEnglishFavoritesV2/);
+assert.match(englishModule, /SUPPLEMENTARY LESSON/);
+
 
 assert.match(sw, /amoozesh-ba-amir-v37/);
 assert.match(html, /id="classSessionList"/);
