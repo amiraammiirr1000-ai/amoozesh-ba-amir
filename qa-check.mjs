@@ -53,7 +53,7 @@ assert.equal(manifestText, webManifestText, 'root and web manifests must be sync
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
 assert.equal(manifest.dir, 'rtl');
-assert.equal(pkg.version, '2.9.0', 'package version must match the current release');
+assert.equal(pkg.version, '2.9.1', 'package version must match the current release');
 
 for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','sw.js','study-hero.svg']) {
   await access(resolve(root,'web',f), constants.R_OK);
