@@ -1,5 +1,5 @@
-const CACHE = 'amoozesh-ba-amir-v48';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './study-hero.svg', './art-math.svg', './art-english.svg', './art-science.svg', './primary-grades-v1.js', './app-home-v2.js'];
+const CACHE = 'amoozesh-ba-amir-v49';
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './study-hero.svg', './art-math.svg', './art-english.svg', './art-science.svg', './primary-grades-v1.js', './app-home-v2.js', './app-home-v3.js', './dictionary-openjam.js', './biamoz-library.js'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', event => {
