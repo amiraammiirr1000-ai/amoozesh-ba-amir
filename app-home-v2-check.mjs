@@ -1,0 +1,14 @@
+import { readFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const html=await readFile(new URL('./index.html',import.meta.url),'utf8');
+const web=await readFile(new URL('./web/index.html',import.meta.url),'utf8');
+const moduleText=await readFile(new URL('./app-home-v2.js',import.meta.url),'utf8');
+assert.equal(html,web,'root and web entry pages must stay synchronized');
+assert.ok(html.includes('<script src="app-home-v2.js"></script>'),'home module must be loaded');
+for(const folder of ['courses','files','practice','tools','class','personal']) assert.ok(moduleText.includes("id:'"+folder+"'"),'folder missing: '+folder);
+for(const action of ['math6','primary','english','dictionary','worksheet','englishFiles','games','quiz','whiteboard','memory','tutor','teacher','profile','about']) assert.ok(moduleText.includes("'"+action+"'"),'route missing: '+action);
+for(const id of ['statDone','statScore','statPoints','lessonTotal','progressLabel','lessonList','curriculumMap']) assert.ok(html.includes('id="'+id+'"'),'existing learning element missing: '+id);
+for(const phrase of ['پوشه‌های اصلی','هر چیزی، در پوشه خودش','کتابخانه منظم','YOUR LEARNING LIBRARY']) assert.ok(moduleText.includes(phrase),'home/folder UX copy missing: '+phrase);
+assert.ok(moduleText.includes('window.openLibraryFolder'),'folder navigation must be available');
+assert.ok(moduleText.includes('window.routeLibraryAction'),'folder action routing must be available');
+console.log('Home v2 and folder navigation checks passed.');
