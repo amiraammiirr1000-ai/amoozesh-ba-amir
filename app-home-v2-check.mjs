@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 const html=await readFile(new URL('./index.html',import.meta.url),'utf8');
 const web=await readFile(new URL('./web/index.html',import.meta.url),'utf8');
 const moduleText=await readFile(new URL('./app-home-v2.js',import.meta.url),'utf8');
@@ -11,4 +12,6 @@ for(const id of ['statDone','statScore','statPoints','lessonTotal','progressLabe
 for(const phrase of ['پوشه‌های اصلی','هر چیزی، در پوشه خودش','کتابخانه منظم','YOUR LEARNING LIBRARY']) assert.ok(moduleText.includes(phrase),'home/folder UX copy missing: '+phrase);
 assert.ok(moduleText.includes('window.openLibraryFolder'),'folder navigation must be available');
 assert.ok(moduleText.includes('window.routeLibraryAction'),'folder action routing must be available');
+const syntax=spawnSync(process.execPath,['--check',new URL('./app-home-v2.js',import.meta.url).pathname],{encoding:'utf8'});
+assert.equal(syntax.status,0,'home module JavaScript syntax error: '+syntax.stderr);
 console.log('Home v2 and folder navigation checks passed.');
