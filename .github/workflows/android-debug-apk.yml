@@ -1,5 +1,5 @@
 
-name: Android Debug APK
+name: Android Debug APK # 2.9.9 home folders, Openjam dictionary, Biamoz library
 
 on:
   workflow_dispatch:
@@ -7,6 +7,8 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'web/index.html'
+      - 'web/sw.js'
       - 'icon.svg'
       - 'manifest.webmanifest'
       - 'sw.js'
