@@ -52,5 +52,5 @@ window.__legacyEnglishDictionary=old;
 window.searchEnglishDictionary=search;
 window.showFavoriteWords=function(){const fav=(()=>{try{return JSON.parse(localStorage.getItem('amirEnglishFavoritesV2')||'[]')}catch{return []}})();if(!fav.length){status('هنوز واژه‌ای نشان‌دار نکرده‌ای.');return}renderRows(fav.map(english=>({english,translations:[]})));status('واژه‌های نشان‌دارشده روی دستگاه شما.')};
 document.addEventListener('click',e=>{const b=e.target.closest('.openjam-word');if(b)detail(b.dataset.word)});
-const input=document.getElementById('dictionarySearch');if(input){input.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>search(input.value),300)});search('')}
+const input=document.getElementById('dictionarySearch');if(input)search('')
 })();
