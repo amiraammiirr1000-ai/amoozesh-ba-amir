@@ -1,0 +1,11 @@
+import { readFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const moduleText=await readFile(new URL('./primary-grades-v1.js',import.meta.url),'utf8');
+const html=await readFile(new URL('./index.html',import.meta.url),'utf8');
+const web=await readFile(new URL('./web/index.html',import.meta.url),'utf8');
+assert.equal(html,web,'root and web pages must remain synchronized');
+assert.match(html,/<script src="primary-grades-v1\.js"><\/script>/,'grade pathways script must be loaded');
+for(const grade of [1,2,3,4,5]) assert.match(moduleText,new RegExp('^'+grade+':\\{name:'),'grade '+grade+' content missing');
+for(const term of ['هدف یادگیری','مثال حل‌شده','تمرین‌های خودت را حل کن','amirPrimaryGradeProgressV1','window.print']) assert.ok(moduleText.includes(term),'missing learning feature: '+term);
+assert.equal((moduleText.match(/\['/g)||[]).length>20,true,'curriculum must contain multiple lesson units');
+console.log('Primary grades 1–5 curriculum checks passed.');
