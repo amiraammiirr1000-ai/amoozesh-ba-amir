@@ -22,7 +22,7 @@ function renderDetail(d,queried){
 async function search(q=''){
  const box=resultBox();if(!box)return;
  const query=String(q||'').trim();const my=++seq;
- if(!query){status('فرهنگ لغت Openjam شامل بیش از ۱۹ هزار واژه و بیش از ۳۲ هزار معنی فارسی است. برای جست‌وجو، واژه انگلیسی یا معنی فارسی را بنویس.');box.innerHTML='<div class="mutedbox">جست‌وجوی انگلیسی به فارسی و فارسی به انگلیسی · معنی‌های چندگانه · تلفظ آمریکایی · مثال و سطح CEFR</div>';const c=document.getElementById('dictionaryCount');if(c)c.textContent='۱۹٬۲۸۲ واژه';return}
+ if(!query){status('فرهنگ لغت آنلاین انگلیسی–فارسی؛ برای جست‌وجو، واژه انگلیسی یا معنی فارسی را بنویس.');box.innerHTML='<div class="mutedbox">جست‌وجوی انگلیسی به فارسی و فارسی به انگلیسی · معنی‌های چندگانه · تلفظ آمریکایی · مثال و سطح CEFR</div>';const c=document.getElementById('dictionaryCount');if(c)c.textContent='فرهنگ لغت آنلاین';return}
  status('در حال جست‌وجو در فرهنگ لغت جامع…');
  try{
   const from=/[\u0600-\u06FF]/.test(query)?'fa':'en';
