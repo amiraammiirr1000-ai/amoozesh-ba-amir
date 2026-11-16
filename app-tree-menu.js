@@ -31,11 +31,13 @@ panel.innerHTML=`
 <details class="aba-tree-group"><summary>🇺🇸 زبان انگلیسی</summary><div class="aba-tree-items">
 <button class="aba-tree-item" data-view="english" data-tab="dictionary">دیکشنری انگلیسی–فارسی</button>
 <button class="aba-tree-item" data-view="english" data-tab="courses">دوره‌ها و مسیرهای آموزشی</button>
+<button class="aba-tree-item" data-view="english" data-tab="learning">۵۰۴ واژه و داستان‌های انگلیسی</button>
 <button class="aba-tree-item" data-view="english" data-tab="library">کتابخانه PDF شخصی</button>
 <button class="aba-tree-item" data-view="english" data-tab="audio">استودیو صوتی و تلفظ</button>
 </div></details>
 <details class="aba-tree-group"><summary>📝 تمرین، آزمون و فایل‌ها</summary><div class="aba-tree-items">
 <button class="aba-tree-item" data-view="worksheets">کاربرگ‌ها و ساخت برگه تمرین</button>
+<button class="aba-tree-item" data-view="english" data-tab="learning">کتابخانهٔ داستان‌ها و منابع ابتدایی</button>
 <button class="aba-tree-item" data-view="quiz">آزمون و خودآزمایی</button>
 <button class="aba-tree-item" data-view="shop">فروشگاه و محصولات آموزشی</button>
 <button class="aba-tree-item" data-view="memory">یادداشت‌ها و حافظه یادگیری</button>
