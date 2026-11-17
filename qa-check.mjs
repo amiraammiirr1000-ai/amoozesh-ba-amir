@@ -169,7 +169,15 @@ for (const name of ['navigation-history-v1.js','learning-tools-suite-v1.js','whi
   const source = await read(name);
   const check = spawnSync(process.execPath, ['--check','-'], { input: source, encoding: 'utf8' });
   assert.equal(check.status, 0, name + ' syntax check failed: ' + check.stderr);
-  assert.match(html, new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, '\\const inlineScripts = [...html.matchAll')));
+  assert.ok(html.includes(name), name + ' script tag missing from HTML');
+  assert.ok(sw.includes(name), name + ' missing from service worker cache');
+}
+assert.ok(html.includes('visual-polish-v15.css'), 'v15 stylesheet missing from HTML');
+assert.ok(sw.includes('visual-polish-v15.css'), 'v15 stylesheet missing from cache');
+assert.ok((await read('learning-tools-suite-v1.js')).includes('abaLearningSuite'));
+assert.ok((await read('whiteboard-pro-v1.js')).includes('abaWbSave'));
+
+const inlineScripts = [...html.matchAll')));
   assert.ok(sw.includes(name), name + ' missing from service worker cache');
 }
 assert.match(html, /visual-polish-v15\\.css/);
