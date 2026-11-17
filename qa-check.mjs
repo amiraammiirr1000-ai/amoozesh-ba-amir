@@ -177,14 +177,6 @@ assert.ok(sw.includes('visual-polish-v15.css'), 'v15 stylesheet missing from cac
 assert.ok((await read('learning-tools-suite-v1.js')).includes('abaLearningSuite'));
 assert.ok((await read('whiteboard-pro-v1.js')).includes('abaWbSave'));
 
-const inlineScripts = [...html.matchAll')));
-  assert.ok(sw.includes(name), name + ' missing from service worker cache');
-}
-assert.match(html, /visual-polish-v15\\.css/);
-assert.ok(sw.includes('visual-polish-v15.css'), 'v15 stylesheet missing from cache');
-assert.match(html, /abaLearningSuite/);
-assert.match(html, /abaWbSave/);
-
 const inlineScripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc\s*=/.test(m[1]) && m[2].trim());
 assert.ok(inlineScripts.length > 0, 'inline application script must exist');
