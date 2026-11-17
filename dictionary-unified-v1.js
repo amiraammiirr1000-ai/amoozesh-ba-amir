@@ -219,7 +219,7 @@ function render504Course(){
  root.innerHTML='<div class="mutedbox" style="margin:10px 0">۵۰۴ واژه در ۴۲ درس · لمس هر واژه، معنی و مثال را در دیکشنری باز می‌کند. پس از دریافت بانک، درس‌ها بدون اینترنت هم قابل استفاده‌اند.</div>'+groups.map(group=>{
   const words=byGroup[group].sort((a,b)=>a.order-b.order),n=Number(group.split('-')[1]);
   return '<details class="eng-unit-card" style="display:block;margin:9px 0"><summary style="cursor:pointer;font-weight:800">درس '+String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[Number(d)])+' <span class="small">· ۱۲ واژه</span></summary><div class="eng-word-grid" style="margin-top:10px">'+words.map(w=>'<button type="button" class="eng-word-card aba-504-open" data-word="'+esc(w.english)+'"><b dir="ltr">'+esc(w.english)+'</b><small>'+esc(w.order)+'/12</small></button>').join('')+'</div></details>';
- }).join('')+'<p class="small">منبع فهرست ۵۰۴: پروژه Openjam، مخزن عمومی و مجوز MIT. این فهرست، بازنشر صفحات یا متن کتاب تجاری نیست.</p>';
+ }).join('')+'<p class="small">منبع فهرست ۵۰۴: <a href="https://github.com/amirj4m/openjam" target="_blank" rel="noopener">پروژه Openjam</a> با مجوز MIT. این فهرست، بازنشر صفحات یا متن کتاب تجاری نیست.</p>';
 }
 function switchToDictionary(word){
  const view=$('english');if(!view)return;
