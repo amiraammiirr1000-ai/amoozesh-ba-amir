@@ -125,7 +125,7 @@ assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
 assert.match(gameModule, /window\.openGameLab/);
 
-assert.match(sw, /amoozesh-ba-amir-v49/);
+assert.match(sw, /amoozesh-ba-amir-v51/);
 const englishModule = await read('english-studio-v3.js');
 assert.match(englishModule, /window\.openEnglishUnit/);
 assert.match(englishModule, /window\.checkEnglishUnit/);
@@ -142,7 +142,7 @@ assert.match(englishModule, /eng-level-extension/);
 
 
 
-assert.match(sw, /amoozesh-ba-amir-v49/);
+assert.match(sw, /amoozesh-ba-amir-v51/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
@@ -163,6 +163,19 @@ assert.match(html, /function exportFullBackup\(/);
 assert.match(html, /function importFullBackup\(/);
 assert.match(sw, /url\.origin !== self\.location\.origin/);
 assert.match(sw, /pathname\.includes\('\/api\/'\)/);
+
+
+for (const name of ['navigation-history-v1.js','learning-tools-suite-v1.js','whiteboard-pro-v1.js']) {
+  const source = await read(name);
+  const check = spawnSync(process.execPath, ['--check','-'], { input: source, encoding: 'utf8' });
+  assert.equal(check.status, 0, name + ' syntax check failed: ' + check.stderr);
+  assert.match(html, new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, '\\const inlineScripts = [...html.matchAll')));
+  assert.ok(sw.includes(name), name + ' missing from service worker cache');
+}
+assert.match(html, /visual-polish-v15\\.css/);
+assert.ok(sw.includes('visual-polish-v15.css'), 'v15 stylesheet missing from cache');
+assert.match(html, /abaLearningSuite/);
+assert.match(html, /abaWbSave/);
 
 const inlineScripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc\s*=/.test(m[1]) && m[2].trim());
