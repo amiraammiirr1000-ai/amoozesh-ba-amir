@@ -1,4 +1,4 @@
-/* Student Growth Suite v1: adaptive study, local gamification, family-friendly reports, voice and accessibility. */
+/* Student Growth Suite v1: adaptive study, local gamification, voice and accessibility. */
 (()=>{'use strict';
 const KEY='abaGrowthSuiteV1', ACCESS='abaAccessibilityV1';
 const $=id=>document.getElementById(id);
@@ -11,7 +11,6 @@ const access=read(ACCESS,{font:100,contrast:false,motion:false});
 function award(correct,topic){
  const day=today();if(data.lastDay!==day){const prev=new Date();prev.setDate(prev.getDate()-1);const p=prev.toLocaleDateString('en-CA');data.streak=data.lastDay===p?data.streak+1:1;data.lastDay=day;data.days=[...new Set([...(data.days||[]),day])].slice(-60)}
  data.answers++;if(correct){data.correct++;data.xp+=10}else data.xp+=2;
- data.events.push({at:Date.now(),correct:!!correct,topic:String(topic||'تمرین')});data.events=data.events.slice(-300);
  if(data.correct>=1&&!data.badges.includes('first'))data.badges.push('first');
  if(data.correct>=10&&!data.badges.includes('ten'))data.badges.push('ten');
  if(data.streak>=3&&!data.badges.includes('streak3'))data.badges.push('streak3');
@@ -38,11 +37,10 @@ function addViews(){
  const main=document.querySelector('main.content');if(!main)return;
  const add=(id,title,html)=>{if($(id))return;const v=document.createElement('section');v.id=id;v.className='view';v.innerHTML='<div class="section-head"><h2>'+title+'</h2><button class="btn light" type="button" data-back-home>بازگشت</button></div>'+html;main.append(v)};
  add('adaptive','مسیر یادگیری اختصاصی','<div class="card"><div id="abaAdaptiveRecommendation"></div><div class="aba-growth-actions"><button type="button" id="abaAdaptiveStart">شروع تمرین پیشنهادی</button><button type="button" id="abaAdaptiveRefresh">به‌روزرسانی تحلیل</button></div></div><div class="card"><h3>نقاط قوت و نیازمند تمرین</h3><div id="abaAdaptiveSkills"></div><p class="small">پیشنهادها از پاسخ‌های ثبت‌شده در همین حساب/دستگاه ساخته می‌شوند؛ برای دقت بیشتر، چند آزمون از موضوعات مختلف حل کن.</p></div>');
- add('familyReport','گزارش خانواده','<div class="card"><p class="small">گزارش محلیِ همین دستگاه؛ این صفحه هنوز جایگزین حساب مستقل والدین و اتصال امن والد به حساب فرزند نیست.</p><div class="aba-growth-grid" id="abaFamilyStats"></div></div><div class="card"><h3>گزارش مهارت‌ها</h3><div id="abaFamilySkills"></div></div><div class="card"><h3>فعالیت‌های اخیر</h3><div id="abaFamilyEvents"></div></div>');
  add('accessibility','تنظیمات دسترس‌پذیری','<div class="card aba-access-panel"><label>اندازه نوشته: <input id="abaFontScale" type="range" min="90" max="140" step="5" value="100"> <b id="abaFontLabel">۱۰۰٪</b></label><label><input id="abaContrast" type="checkbox"> کنتراست بالا</label><label><input id="abaMotion" type="checkbox"> کاهش حرکت و انیمیشن</label><p class="small">پشتیبانی صفحه‌خوان با عنوان‌های معنایی و برچسب کنترل‌ها رعایت شده؛ کیفیت نهایی باید با TalkBack روی گوشی واقعی آزموده شود.</p></div>');
  const nav=document.querySelector('.navinner');if(nav){
   const addNav=(id,label,ico)=>{if(nav.querySelector('[data-view="'+id+'"]'))return;const b=document.createElement('button');b.dataset.view=id;b.type='button';b.innerHTML='<span class="ico">'+ico+'</span>'+label;b.addEventListener('click',()=>window.showView?.(id));nav.append(b)};
-  addNav('adaptive','مسیر من','🧭');addNav('familyReport','گزارش خانواده','👨‍👩‍👧');addNav('accessibility','دسترس‌پذیری','♿');
+  addNav('adaptive','مسیر من','🧭');addNav('accessibility','دسترس‌پذیری','♿');
  }
  document.querySelectorAll('[data-back-home]').forEach(b=>b.addEventListener('click',()=>window.history?.state?.aba?history.back():window.showView?.('home')));
 }
@@ -51,9 +49,6 @@ function render(){
  const rec=recommend(),r=$('abaAdaptiveRecommendation');
  if(r)r.innerHTML='<span class="tag">پیشنهاد هوشمند</span><h3>'+safe(rec.title)+'</h3><p>'+safe(rec.detail)+'</p><div class="small">تمرین پیشنهادی: '+safe(rec.topic)+'</div>';
  const skills=$('abaAdaptiveSkills');if(skills){const rows=skillRows();skills.innerHTML=rows.length?rows.map(x=>'<div class="aba-growth-row"><b>'+safe(x.name)+'</b><div class="aba-growth-progress"><i style="width:'+x.rate+'%"></i></div><small>'+x.rate+'٪ موفقیت · '+x.total+' پاسخ</small></div>').join(''):'هنوز داده کافی نیست؛ از آزمون‌ها و کاربرگ‌ها شروع کن.'}
- const stats=$('abaFamilyStats');if(stats)stats.innerHTML=[['امتیاز تجربه',data.xp],['سطح',Math.floor(data.xp/100)+1],['روزهای پیوسته',data.streak],['پاسخ درست',data.correct],['کل پاسخ‌ها',data.answers],['روزهای مطالعه',(data.days||[]).length]].map(x=>'<div class="aba-growth-stat"><b>'+x[1]+'</b><small>'+x[0]+'</small></div>').join('');
- const fs=$('abaFamilySkills');if(fs)fs.innerHTML=skillRows().map(x=>'<div class="aba-growth-row"><b>'+safe(x.name)+'</b><div class="aba-growth-progress"><i style="width:'+x.rate+'%"></i></div><small>'+x.correct+' پاسخ درست از '+x.total+'</small></div>').join('')||'هنوز مهارتی ثبت نشده است.';
- const ev=$('abaFamilyEvents');if(ev)ev.innerHTML=data.events.slice(-8).reverse().map(x=>'<div class="aba-growth-row">'+(x.correct?'✅':'📝')+' '+safe(x.topic)+' · '+(x.correct?'درست':'نیازمند مرور')+' · '+new Date(x.at).toLocaleString('fa-IR')+'</div>').join('')||'فعالیتی ثبت نشده است.';
  const badgeNames={first:'اولین پاسخ درست 🥇',ten:'۱۰ پاسخ درست 🌟',streak3:'۳ روز پیوسته 🔥',xp100:'۱۰۰ امتیاز ⭐'};
  const badgeHost=$('abaGrowthBadges');if(badgeHost)badgeHost.innerHTML=data.badges.map(b=>'<span class="aba-growth-badge">'+badgeNames[b]+'</span>').join('')||'هنوز نشانی دریافت نشده است.';
  const missionHost=$('abaGrowthMissions');if(missionHost)missionHost.innerHTML='<div class="aba-growth-row"><b>ماموریت روزانه</b><p>یک تمرین را با دقت پاسخ بده.</p><label><input type="checkbox" id="abaMissionPractice" '+(mission.includes('practice')?'checked':'')+'> انجام شد</label></div><div class="small">استریک: '+data.streak+' روز · امتیاز: '+data.xp+'</div>';
@@ -76,8 +71,8 @@ function mount(){
  $('abaFontScale')?.addEventListener('input',e=>{access.font=Number(e.target.value);localStorage.setItem(ACCESS,JSON.stringify(access));applyAccess()});
  $('abaContrast')?.addEventListener('change',e=>{access.contrast=e.target.checked;localStorage.setItem(ACCESS,JSON.stringify(access));applyAccess()});
  $('abaMotion')?.addEventListener('change',e=>{access.motion=e.target.checked;localStorage.setItem(ACCESS,JSON.stringify(access));applyAccess()});
- const profile=document.getElementById('profile');if(profile&&!$('abaGrowthSummary')){const card=document.createElement('div');card.id='abaGrowthSummary';card.className='card';card.innerHTML='<h3>پیشرفت و انگیزه</h3><div id="abaGrowthBadges" class="aba-growth-badges"></div><div id="abaGrowthMissions"></div><div class="aba-growth-actions"><button type="button" id="abaGoAdaptive">مسیر یادگیری</button><button type="button" id="abaGoFamily">گزارش خانواده</button><button type="button" id="abaGoAccess">دسترس‌پذیری</button></div>';profile.append(card)}
- $('abaGoAdaptive')?.addEventListener('click',()=>showView('adaptive'));$('abaGoFamily')?.addEventListener('click',()=>showView('familyReport'));$('abaGoAccess')?.addEventListener('click',()=>showView('accessibility'));
+ const profile=document.getElementById('profile');if(profile&&!$('abaGrowthSummary')){const card=document.createElement('div');card.id='abaGrowthSummary';card.className='card';card.innerHTML='<h3>پیشرفت و انگیزه</h3><div id="abaGrowthBadges" class="aba-growth-badges"></div><div id="abaGrowthMissions"></div><div class="aba-growth-actions"><button type="button" id="abaGoAdaptive">مسیر یادگیری</button><button type="button" id="abaGoAccess">دسترس‌پذیری</button></div>';profile.append(card)}
+ $('abaGoAdaptive')?.addEventListener('click',()=>showView('adaptive'));$('abaGoAccess')?.addEventListener('click',()=>showView('accessibility'));
  applyAccess();render();addQuestionReadButtons();
  const mo=new MutationObserver(()=>{addQuestionReadButtons();});mo.observe(document.body,{childList:true,subtree:true});
  if(navigator.onLine===false){const note=document.createElement('div');note.className='card';note.textContent='حالت آفلاین فعال است؛ محتوای ذخیره‌شده و فایل‌های دانلودشده در دسترس‌اند.';document.querySelector('.content')?.prepend(note)}
