@@ -50,7 +50,7 @@ export function createApp(config = {}) {
   app.post('/api/tutor', async (req, res) => {
     try {
       if (accessToken.length < 32) return res.status(503).json({ error: 'Tutor access protection is not configured' });
-      const match = /^Bearer\\s+(.+)$/i.exec(req.get('authorization') || '');
+      const match = /^Bearer\s+(.+)$/i.exec(req.get('authorization') || '');
       const supplied = Buffer.from(match?.[1] || '');
       const expected = Buffer.from(accessToken);
       if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) return res.status(401).json({ error: 'Invalid access token' });
