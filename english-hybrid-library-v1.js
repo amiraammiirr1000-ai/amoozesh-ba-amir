@@ -8,6 +8,7 @@ const extras=[
 ['apple','سیب','I eat an apple every day.'],['book','کتاب','This book is interesting.'],['school','مدرسه','My school is near my home.'],['friend','دوست','My friend is kind.'],['family','خانواده','My family is important to me.'],['water','آب','Drink enough water.'],['beautiful','زیبا','The garden is beautiful.'],['different','متفاوت','We have different ideas.'],['difficult','دشوار','This question is difficult.'],['easy','آسان','The first exercise is easy.'],['learn','یاد گرفتن','We learn something new every day.'],['teach','آموزش دادن','Teachers help students learn.'],['read','خواندن','I read before bed.'],['write','نوشتن','Write your answer here.'],['speak','صحبت کردن','Please speak slowly.'],['listen','گوش دادن','Listen to the story.'],['travel','سفر کردن','They travel in summer.'],['healthy','سالم','Fruit is healthy.'],['happy','خوشحال','The children are happy.'],['important','مهم','Practice is important.']
 ];
 const local=[...new Map([...words,...extras].map(w=>[w[0].toLowerCase(),w])).values()];
+window.ABA_HYBRID_LOCAL_WORDS=local;
 const favKey='abaHybridDictFavV1';
 const readFav=()=>{try{return JSON.parse(localStorage.getItem(favKey)||'[]')}catch{return []}};
 const saveFav=a=>{try{localStorage.setItem(favKey,JSON.stringify(a))}catch{}};
