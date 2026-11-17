@@ -1,6 +1,10 @@
 /* Universal in-app back navigation for every main view and English sub-tab. */
 (()=>{'use strict';
 const labels={home:'خانه',lesson:'درس',quiz:'آزمون',video:'ویدئو',tutor:'معلم هوشمند',teacher:'پنل معلم',shop:'فروشگاه',profile:'حساب کاربری',about:'درباره برنامه',tools:'ابزارهای یادگیری',whiteboard:'تخته هوشمند',worksheets:'کاربرگ‌ها',memory:'یادداشت‌ها',english:'آموزش انگلیسی'};
+const style=document.createElement('style');
+style.textContent='.aba-global-backbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;padding:8px 2px;border-bottom:1px solid var(--line);min-height:46px}.aba-global-backbar[hidden]{display:none}.aba-global-back{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid var(--line);border-radius:13px;background:var(--white);color:var(--ink);font-weight:800;font-size:12px;box-shadow:0 4px 12px #173c4c0b}.aba-global-back:first-letter{font-size:22px}.aba-back-context{font-size:11px;color:var(--muted);font-weight:800}body[data-theme="midnight"] .aba-global-back{background:#202c42;color:var(--ink)}@media(max-width:390px){.aba-global-backbar{margin-bottom:10px}.aba-global-back{padding:7px 10px}}';
+document.head.appendChild(style);
+const tabLabels={dictionary:'دیکشنری',courses:'دوره‌ها',library:'کتابخانه',audio:'استودیو صوتی',learning:'۵۰۴ و داستان‌ها'};
 const original=window.showView;
 if(typeof original!=='function')return;
 let current=document.querySelector('.view.active')?.id||'home';
@@ -12,7 +16,7 @@ function ensureBar(id){
  if(!bar){bar=document.createElement('div');bar.className='aba-global-backbar';view.prepend(bar)}
  const canTabBack=id==='english'&&tabStack.length>0;
  const previous=stack.length>1?stack[stack.length-2]:'home';
- const label=canTabBack?'بازگشت به '+(tabStack[tabStack.length-1]||'دیکشنری'):(previous==='home'?'بازگشت به خانه':'بازگشت به '+(labels[previous]||'صفحه قبل'));
+ const label=canTabBack?'بازگشت به '+(tabLabels[tabStack[tabStack.length-1]]||'دیکشنری'):(previous==='home'?'بازگشت به خانه':'بازگشت به '+(labels[previous]||'صفحه قبل'));
  bar.innerHTML='<button type="button" class="aba-global-back" aria-label="بازگشت">‹ <span>'+label+'</span></button><span class="aba-back-context">'+(labels[id]||'')+'</span>';
  bar.hidden=id==='home'&&!canTabBack;
 }
