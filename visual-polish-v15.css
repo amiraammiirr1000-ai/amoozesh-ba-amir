@@ -1,0 +1,42 @@
+/* Visual polish v15 — warmer surfaces, clear hierarchy and more tactile controls. */
+:root{--aba-shadow:0 12px 30px rgba(26,48,82,.085);--aba-shadow-hover:0 18px 38px rgba(26,48,82,.14)}
+body{background:radial-gradient(ellipse at 4% 0%,#e0edff 0,transparent 30%),radial-gradient(ellipse at 100% 18%,#ffe7ef 0,transparent 27%),linear-gradient(180deg,#f7f9ff,#f2f7fb 62%,#f8f7ff)}
+.content{padding-top:18px}
+.view.active{animation:abaViewIn .22s ease-out}
+@keyframes abaViewIn{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.section-head{margin:19px 0 12px;align-items:center}
+.section-head h2{font-size:17px;font-weight:900;letter-spacing:-.2px}
+.section-head .tag{background:linear-gradient(120deg,#fff2c7,#ffe4c9);color:#79520b;border:1px solid #f6d99a;padding:4px 10px}
+.card{border:1px solid rgba(207,220,235,.8);box-shadow:var(--aba-shadow);border-radius:22px}
+.card h3{font-weight:900;letter-spacing:-.2px}
+.tool-grid{gap:12px}
+.tool-tile{position:relative;overflow:hidden;min-height:124px;padding:15px 14px;border-radius:20px;border:1px solid #e0e6f3;background:linear-gradient(145deg,#fff 0%,#f7f8ff 100%);box-shadow:0 7px 18px rgba(45,60,100,.055);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.tool-tile:after{content:"";position:absolute;width:75px;height:75px;border-radius:50%;left:-26px;bottom:-34px;background:linear-gradient(135deg,#7568e8,#ff9cbd);opacity:.09;pointer-events:none}
+.tool-tile .tile-ico{width:43px;height:43px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#e8eaff,#fff0f5);font-size:23px;margin-bottom:8px}
+.tool-tile b{font-size:13px;line-height:1.7}
+.tool-tile small{display:block;margin-top:3px;line-height:1.65}
+@media(hover:hover){.tool-tile:hover{transform:translateY(-3px);box-shadow:var(--aba-shadow-hover);border-color:#b9b6f5}}
+.tool-tile:active{transform:scale(.985)}
+.btn{border-radius:14px;min-height:42px;font-weight:850}
+.btn.outline{border:1px solid #dce3ef;background:linear-gradient(145deg,#fff,#f8faff)}
+.input,select.input,textarea.input{border-radius:14px;border:1px solid #d8e2ef;background:#fff;transition:border-color .15s,box-shadow .15s}
+.input:focus,select.input:focus,textarea.input:focus{outline:none;border-color:#8278ed;box-shadow:0 0 0 3px #8278ed20}
+.wb-wrap{border-radius:20px;box-shadow:inset 0 0 0 1px #e9edf4,0 8px 22px #1b36520b}
+.wb-canvas{height:clamp(300px,54vh,560px);background-size:26px 26px}
+#gameStage{border:1px solid #e4e8f2;border-radius:18px;padding:15px;background:linear-gradient(145deg,#fff,#f6f7ff);min-height:90px}
+.game-question{font-size:18px;line-height:2}
+.game-progress-track{height:7px;border-radius:99px;background:#e9eaf4;overflow:hidden}
+.game-progress-track span{display:block;height:100%;background:linear-gradient(90deg,#6c63ff,#ff8ab4);border-radius:inherit}
+.option{border-radius:15px;transition:background .15s,border-color .15s,transform .15s}
+.option:active{transform:scale(.99)}
+.global-search,.search-panel{border-radius:18px}
+.worksheet{box-shadow:0 7px 18px #29395d0b}
+.nav{box-shadow:0 -8px 26px #263c5b0c}
+.nav button.active{font-weight:900}
+.aba-global-back{background:linear-gradient(145deg,#fff,#f4f6ff)!important;border-color:#dce2f0!important}
+body[data-theme="midnight"]{background:#0e1728}
+body[data-theme="midnight"] .tool-tile,body[data-theme="midnight"] .aba-widget,body[data-theme="midnight"] #gameStage{background:linear-gradient(145deg,#17243a,#202d49);border-color:#34425e;color:#edf2ff}
+body[data-theme="midnight"] .input,body[data-theme="midnight"] select.input{background:#18243a;color:#edf2ff;border-color:#34425e}
+@media(max-width:430px){.content{padding:13px}.section-head{margin:15px 0 9px}.tool-tile{min-height:116px;padding:12px}.tool-tile .tile-ico{width:39px;height:39px}.wb-canvas{height:340px}}
+@media(orientation:landscape) and (max-height:600px){.wb-canvas{height:230px}}
+@media(prefers-reduced-motion:reduce){.view.active{animation:none}.tool-tile,.option{transition:none}}
