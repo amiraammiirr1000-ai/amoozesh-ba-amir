@@ -125,7 +125,7 @@ assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
 assert.match(gameModule, /window\.openGameLab/);
 
-assert.match(sw, /amoozesh-ba-amir-v52/);
+assert.match(sw, /amoozesh-ba-amir-v54/);
 const englishModule = await read('english-studio-v3.js');
 assert.match(englishModule, /window\.openEnglishUnit/);
 assert.match(englishModule, /window\.checkEnglishUnit/);
@@ -142,7 +142,7 @@ assert.match(englishModule, /eng-level-extension/);
 
 
 
-assert.match(sw, /amoozesh-ba-amir-v52/);
+assert.match(sw, /amoozesh-ba-amir-v54/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
@@ -165,7 +165,7 @@ assert.match(sw, /url\.origin !== self\.location\.origin/);
 assert.match(sw, /pathname\.includes\('\/api\/'\)/);
 
 
-for (const name of ['navigation-history-v1.js','learning-tools-suite-v1.js','whiteboard-pro-v1.js']) {
+for (const name of ['navigation-history-v1.js','learning-tools-suite-v1.js','whiteboard-pro-v1.js','student-growth-suite-v1.js']) {
   const source = await read(name);
   const check = spawnSync(process.execPath, ['--check','-'], { input: source, encoding: 'utf8' });
   assert.equal(check.status, 0, name + ' syntax check failed: ' + check.stderr);
@@ -176,6 +176,14 @@ assert.ok(html.includes('visual-polish-v15.css'), 'v15 stylesheet missing from H
 assert.ok(sw.includes('visual-polish-v15.css'), 'v15 stylesheet missing from cache');
 assert.ok((await read('learning-tools-suite-v1.js')).includes('abaLearningSuite'));
 assert.ok((await read('whiteboard-pro-v1.js')).includes('abaWbSave'));
+const growthSuite = await read('student-growth-suite-v1.js');
+assert.match(growthSuite, /function recommend\(/);
+assert.match(growthSuite, /function award\(/);
+assert.match(growthSuite, /familyReport/);
+assert.match(growthSuite, /speechSynthesis/);
+assert.match(growthSuite, /aba-high-contrast/);
+assert.match(growthSuite, /aba-reduce-motion/);
+assert.ok(html.includes('student-growth-suite-v1.js'), 'growth suite script missing');
 
 const pdfLibrary = await read('grade6-pdf-library-v1.js');
 assert.ok(html.includes('grade6-pdf-library-v1.js'), 'grade 6 PDF library script missing');
