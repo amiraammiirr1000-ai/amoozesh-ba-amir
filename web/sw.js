@@ -1,5 +1,5 @@
-const CACHE = 'amoozesh-ba-amir-v49';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './study-hero.svg', './art-math.svg', './art-english.svg', './art-science.svg', './primary-grades-v1.js', './app-home-v2.js', './app-home-v3.js', './dictionary-openjam.js', './app-tree-menu.js', './english-hybrid-library-v1.js', './biamoz-library.js', './visual-polish-v14.css', './navigation-history-v1.js', './dictionary-unified-v1.js', './grade6-ch1-worksheet-pack.js', './504-essential-words.json'];
+const CACHE = 'amoozesh-ba-amir-v50';
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './study-hero.svg', './art-math.svg', './art-english.svg', './art-science.svg', './primary-grades-v1.js', './app-home-v2.js', './app-home-v3.js', './dictionary-openjam.js', './app-tree-menu.js', './english-hybrid-library-v1.js', './biamoz-library.js', './visual-polish-v14.css', './navigation-history-v1.js', './learning-tools-suite-v1.js', './whiteboard-pro-v1.js', './dictionary-unified-v1.js', './grade6-ch1-worksheet-pack.js', './504-essential-words.json'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', event => {
