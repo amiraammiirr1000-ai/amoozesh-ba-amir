@@ -5,6 +5,7 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import A4
+from pypdf import PdfWriter
 import arabic_reshaper
 from bidi.algorithm import get_display
 
@@ -68,11 +69,11 @@ for idx,(ch,title,kind,pages) in enumerate(LESSONS,1):
     slug=f'grade6-lesson-{idx:02d}.pdf'
     for out in OUTS: draw_pdf(out/slug,str(ch),title,pages,kind)
 for ch,name in CHAPTERS.items():
-    c=canvas.Canvas(str(OUTS[0]/f'grade6-chapter-{ch}.pdf'),pagesize=A4)
-    c.setFont('NotoArabic',18); c.drawRightString(550,790,fa('آموزش با امیر | دفترچه تمرین فصل '+str(ch)))
-    c.setFont('NotoArabic',14); c.drawRightString(550,755,fa(name))
-    c.setFont('NotoArabic',11); c.drawRightString(550,715,fa('این دفترچه از کاربرگ‌های تألیفی درس‌های این فصل تشکیل می‌شود.'))
-    c.setFont('NotoArabic',10); c.drawRightString(550,680,fa('برای دریافت برگهٔ هر درس، فایل مستقل همان درس را در کتابخانه انتخاب کنید.'))
-    c.save()
-    (OUTS[1]/f'grade6-chapter-{ch}.pdf').write_bytes((OUTS[0]/f'grade6-chapter-{ch}.pdf').read_bytes())
-print(f'Generated {len(LESSONS)} original lesson PDFs and 7 chapter indexes in both web and app assets.')
+    writer=PdfWriter()
+    for idx,(lesson_ch,title,kind,pages) in enumerate(LESSONS,1):
+        if lesson_ch==ch:
+            writer.append(str(OUTS[0]/f'grade6-lesson-{idx:02d}.pdf'))
+    chapter_path=OUTS[0]/f'grade6-chapter-{ch}.pdf'
+    with chapter_path.open('wb') as target: writer.write(target)
+    (OUTS[1]/chapter_path.name).write_bytes(chapter_path.read_bytes())
+print(f'Generated {len(LESSONS)} original lesson PDFs and 7 complete chapter booklets in both web and app assets.');
