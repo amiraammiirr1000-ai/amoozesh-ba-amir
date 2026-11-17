@@ -67,6 +67,8 @@ function addQuestionReadButtons(){
 }
 function mount(){
  addStyle();addViews();
+ const tutorInput=$('tutorInput');if(tutorInput&&!$('abaVoiceAnswer')){const mic=document.createElement('button');mic.id='abaVoiceAnswer';mic.type='button';mic.className='aba-read-btn';mic.textContent='🎙️ پاسخ صوتی';mic.setAttribute('aria-label','گفتار فارسی را به متن تبدیل کن');tutorInput.insertAdjacentElement('afterend',mic);mic.addEventListener('click',()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('تبدیل گفتار به متن در این مرورگر پشتیبانی نمی‌شود.');return}const rec=new SR();rec.lang='fa-IR';rec.interimResults=false;rec.maxAlternatives=1;mic.textContent='در حال شنیدن…';rec.onresult=e=>{tutorInput.value=(tutorInput.value+' '+e.results[0][0].transcript).trim();tutorInput.focus();mic.textContent='🎙️ پاسخ صوتی'};rec.onerror=()=>{mic.textContent='🎙️ پاسخ صوتی';alert('تشخیص صدا انجام نشد؛ اجازه میکروفون و اتصال مرورگر را بررسی کن.')};rec.onend=()=>{mic.textContent='🎙️ پاسخ صوتی'};rec.start()})}
+ const mainNav=document.querySelector('.navinner');if(mainNav)mainNav.setAttribute('aria-label','ناوبری اصلی برنامه');
  const old=window.recordSkillAnswer;
  if(typeof old==='function'&&!old.__abaGrowthWrapped){const wrapped=function(q,ok){const out=old.apply(this,arguments);award(!!ok,(window.AmirSkillNameForQuestion?.(q))||(q&& (q.topic||q.skill||q.title))||'تمرین');return out};wrapped.__abaGrowthWrapped=true;window.recordSkillAnswer=wrapped}
  $('abaAdaptiveStart')?.addEventListener('click',()=>goWorksheet(recommend().topic));
