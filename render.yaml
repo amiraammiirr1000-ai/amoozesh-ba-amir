@@ -2,6 +2,7 @@ services:
   - type: web
     name: amoozesh-ba-amir-ai
     runtime: node
+    plan: free
     rootDir: secure-ai-server
     buildCommand: npm install
     startCommand: npm start
@@ -14,7 +15,9 @@ services:
         generateValue: true
       - key: OPENAI_MODEL
         value: gpt-4.1-mini
+      - key: OPENAI_BASE_URL
+        sync: false
       - key: APP_ORIGIN
-        value: https://localhost,capacitor://localhost
+        value: https://amiraammiirr1000-ai.github.io,capacitor://localhost,http://localhost
       - key: TRUST_PROXY
         value: "1"
