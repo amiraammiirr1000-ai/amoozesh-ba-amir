@@ -182,8 +182,8 @@ assert.ok(html.includes('grade6-pdf-library-v1.js'), 'grade 6 PDF library script
 assert.ok(sw.includes('grade6-pdf-library-v1.js'), 'grade 6 PDF library missing from offline cache');
 assert.ok(html.includes('data-view="library"'), 'library navigation button missing');
 assert.ok(pdfLibrary.includes('chap.sch.ir'), 'official textbook source link missing');
-assert.ok(pdfLibrary.includes('بخش «کاربرگ‌ها»'), 'worksheet guidance missing');
-assert.ok(pdfLibrary.includes('کاربرگ فصل 1 تا 7'), 'Biamoz chapter resource link missing');
+assert.ok(pdfLibrary.includes('کاربرگ‌ساز') && pdfLibrary.includes('data-wstopic'), 'lesson worksheet integration missing');
+assert.ok(pdfLibrary.includes('۲۲۲ صفحه') && pdfLibrary.includes('biamoz.com'), 'Biamoz resource links missing');
 
 const inlineScripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc\s*=/.test(m[1]) && m[2].trim());
