@@ -179,11 +179,12 @@ assert.ok((await read('whiteboard-pro-v1.js')).includes('abaWbSave'));
 const growthSuite = await read('student-growth-suite-v1.js');
 assert.match(growthSuite, /function recommend\(/);
 assert.match(growthSuite, /function award\(/);
-assert.match(growthSuite, /familyReport/);
+assert.doesNotMatch(growthSuite, /familyReport|abaFamilyEvents|abaFamilyStats/, 'family monitoring/report view must remain excluded');
 assert.match(growthSuite, /speechSynthesis/);
 assert.match(growthSuite, /aba-high-contrast/);
 assert.match(growthSuite, /aba-reduce-motion/);
 assert.ok(html.includes('student-growth-suite-v1.js'), 'growth suite script missing');
+assert.equal(growthSuite, await read('web/student-growth-suite-v1.js'), 'root and Android web growth modules must be synchronized');
 
 const pdfLibrary = await read('grade6-pdf-library-v1.js');
 assert.ok(html.includes('grade6-pdf-library-v1.js'), 'grade 6 PDF library script missing');
