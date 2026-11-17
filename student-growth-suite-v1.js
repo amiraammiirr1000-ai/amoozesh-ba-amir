@@ -21,7 +21,7 @@ function award(correct,topic){
  persist();render();
 }
 function skillRows(){
- const s=window.skillResults||{};
+ const s=window.AmirSkillResults?.()||window.skillResults||{};
  return Object.entries(s).filter(([,v])=>v&&v.total>0).map(([name,v])=>({name,total:v.total,correct:v.correct||0,rate:Math.round((v.correct||0)/v.total*100)})).sort((a,b)=>a.rate-b.rate);
 }
 function recommend(){
@@ -68,7 +68,7 @@ function addQuestionReadButtons(){
 function mount(){
  addStyle();addViews();
  const old=window.recordSkillAnswer;
- if(typeof old==='function'&&!old.__abaGrowthWrapped){const wrapped=function(q,ok){const out=old.apply(this,arguments);award(!!ok,(q&& (q.topic||q.skill||q.title))||'تمرین');return out};wrapped.__abaGrowthWrapped=true;window.recordSkillAnswer=wrapped}
+ if(typeof old==='function'&&!old.__abaGrowthWrapped){const wrapped=function(q,ok){const out=old.apply(this,arguments);award(!!ok,(window.AmirSkillNameForQuestion?.(q))||(q&& (q.topic||q.skill||q.title))||'تمرین');return out};wrapped.__abaGrowthWrapped=true;window.recordSkillAnswer=wrapped}
  $('abaAdaptiveStart')?.addEventListener('click',()=>goWorksheet(recommend().topic));
  $('abaAdaptiveRefresh')?.addEventListener('click',render);
  $('abaFontScale')?.addEventListener('input',e=>{access.font=Number(e.target.value);localStorage.setItem(ACCESS,JSON.stringify(access));applyAccess()});
