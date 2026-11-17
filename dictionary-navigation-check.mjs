@@ -18,7 +18,7 @@ for(const file of ['grade6-ch1-worksheet-pack.js','dictionary-unified-v1.js','na
  execFileSync(process.execPath,['--check',file],{stdio:'pipe'});
 }
 assert.ok(sw.includes('./504-essential-words.json'),'service worker must cache the 504 dataset');
-assert.ok(index.includes('504-essential-words.json'),'app must reference the offline 504 dataset');
+assert.ok(read('./dictionary-unified-v1.js').includes("'./504-essential-words.json'"),'dictionary module must load the offline 504 dataset');
 const dict=read('./dictionary-unified-v1.js');
 assert.ok(dict.includes("'/books/504-essential/words?lang=fa&limit=500&offset='"),'dictionary must sync 504 translations from the documented Openjam endpoint');
 assert.ok(dict.includes("'/search?q='")&&dict.includes("'/words/'"),'dictionary must use search and word detail endpoints');
