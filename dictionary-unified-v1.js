@@ -199,9 +199,17 @@ async function openDetail(word){
  renderDetail({english:word,senses:[]},word);
 }
 function initSyncButton(){
- const tools=document.querySelector('#english-pane-dictionary .english-tools');if(!tools||$('abaDictSync504'))return;
- const b=document.createElement('button');b.type='button';b.id='abaDictSync504';b.className='english-chip';b.textContent='⬇ ذخیره ۵۰۴ واژه برای آفلاین';
- b.addEventListener('click',()=>sync504(true));tools.appendChild(b);
+ const tools=document.querySelector('#english-pane-dictionary .english-tools');
+ if(tools&&!$('abaDictSync504')){
+  const b=document.createElement('button');b.type='button';b.id='abaDictSync504';b.className='english-chip';b.textContent='⬇ ذخیره ۵۰۴ واژه برای آفلاین';
+  b.addEventListener('click',()=>sync504(true));tools.appendChild(b);
+ }
+ const oldStart=$('aba504Start');
+ if(oldStart){
+  const card=oldStart.parentElement;
+  card.innerHTML='<div><small>504 ESSENTIAL · ۴۲ درس</small><b>دوره کامل ۵۰۴ واژه</b><span>فهرست کامل ۵۰۴ واژه، معنی‌های فارسی و مثال‌ها با دریافت بانک آفلاین</span></div><button type="button" class="btn gold" id="aba504SyncCourse">دریافت بانک واژگان</button>';
+  $('aba504SyncCourse').addEventListener('click',()=>sync504(true));
+ }
 }
 function render504Course(){
  const root=$('aba504Words');if(!root||!bookWords.length)return;
