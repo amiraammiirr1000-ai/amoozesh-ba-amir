@@ -177,6 +177,14 @@ assert.ok(sw.includes('visual-polish-v15.css'), 'v15 stylesheet missing from cac
 assert.ok((await read('learning-tools-suite-v1.js')).includes('abaLearningSuite'));
 assert.ok((await read('whiteboard-pro-v1.js')).includes('abaWbSave'));
 
+const pdfLibrary = await read('grade6-pdf-library-v1.js');
+assert.ok(html.includes('grade6-pdf-library-v1.js'), 'grade 6 PDF library script missing');
+assert.ok(sw.includes('grade6-pdf-library-v1.js'), 'grade 6 PDF library missing from offline cache');
+assert.ok(html.includes('data-view="library"'), 'library navigation button missing');
+assert.ok(pdfLibrary.includes('chap.sch.ir'), 'official textbook source link missing');
+assert.ok(pdfLibrary.includes('بخش «کاربرگ‌ها»'), 'worksheet guidance missing');
+assert.ok(pdfLibrary.includes('کاربرگ فصل 1 تا 7'), 'Biamoz chapter resource link missing');
+
 const inlineScripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc\s*=/.test(m[1]) && m[2].trim());
 assert.ok(inlineScripts.length > 0, 'inline application script must exist');
