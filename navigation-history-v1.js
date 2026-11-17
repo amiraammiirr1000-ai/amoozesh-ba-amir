@@ -1,56 +1,15 @@
-/* Universal in-app back navigation for every main view and English sub-tab. */
+/* Navigation v2: each page and English tab is one browser-history step. */
 (()=>{'use strict';
-const labels={home:'خانه',lesson:'درس',quiz:'آزمون',video:'ویدئو',tutor:'معلم هوشمند',teacher:'پنل معلم',shop:'فروشگاه',profile:'حساب کاربری',about:'درباره برنامه',tools:'ابزارهای یادگیری',whiteboard:'تخته هوشمند',worksheets:'کاربرگ‌ها',memory:'یادداشت‌ها',english:'آموزش انگلیسی'};
-const style=document.createElement('style');
-style.textContent='.aba-global-backbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;padding:8px 2px;border-bottom:1px solid var(--line);min-height:46px}.aba-global-backbar[hidden]{display:none}.aba-global-back{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid var(--line);border-radius:13px;background:var(--white);color:var(--ink);font-weight:800;font-size:12px;box-shadow:0 4px 12px #173c4c0b}.aba-global-back:first-letter{font-size:22px}.aba-back-context{font-size:11px;color:var(--muted);font-weight:800}body[data-theme="midnight"] .aba-global-back{background:#202c42;color:var(--ink)}@media(max-width:390px){.aba-global-backbar{margin-bottom:10px}.aba-global-back{padding:7px 10px}}';
-document.head.appendChild(style);
-const tabLabels={dictionary:'دیکشنری',courses:'دوره‌ها',library:'کتابخانه',audio:'استودیو صوتی',learning:'۵۰۴ و داستان‌ها'};
-const original=window.showView;
-if(typeof original!=='function')return;
-let current=document.querySelector('.view.active')?.id||'home';
-let stack=[current],tabStack=[],replaying=false;
-try{history.replaceState({abaAppRoot:true,abaView:current},'',location.href)}catch(e){}
-function ensureBar(id){
- const view=document.getElementById(id);if(!view)return;
- let bar=view.querySelector(':scope > .aba-global-backbar');
- if(!bar){bar=document.createElement('div');bar.className='aba-global-backbar';view.prepend(bar)}
- const canTabBack=id==='english'&&tabStack.length>0;
- const previous=stack.length>1?stack[stack.length-2]:'home';
- const label=canTabBack?'بازگشت به '+(tabLabels[tabStack[tabStack.length-1]]||'دیکشنری'):(previous==='home'?'بازگشت به خانه':'بازگشت به '+(labels[previous]||'صفحه قبل'));
- bar.innerHTML='<button type="button" class="aba-global-back" aria-label="بازگشت">‹ <span>'+label+'</span></button><span class="aba-back-context">'+(labels[id]||'')+'</span>';
- bar.hidden=id==='home'&&!canTabBack;
-}
-function updateAll(){document.querySelectorAll('.view').forEach(v=>ensureBar(v.id))}
-function goBack(){
- if(current==='english'&&tabStack.length){
-  const target=tabStack.pop();const tab=document.querySelector('.english-tab[data-etab="'+target+'"]');
-  if(tab){replaying=true;tab.click();replaying=false;ensureBar('english');return}
- }
- if(stack.length>1){history.back();return}
- if(current!=='home'){current='home';stack=['home'];original('home');ensureBar('home')}
-}
-window.showView=function(id){
- if(!document.getElementById(id)){return original(id)}
- if(id!==current){
-  stack.push(id);current=id;
-  try{history.pushState({abaAppView:true,abaView:id},'',location.href)}catch(e){}
- }
- const result=original(id);updateAll();return result;
-};
-document.addEventListener('click',e=>{
- const back=e.target.closest('.aba-global-back');if(back){goBack();return}
-},true);
-document.addEventListener('click',e=>{
- const tab=e.target.closest('.english-tab[data-etab]');
- if(!tab||replaying)return;
- const active=document.querySelector('.english-tab.active[data-etab]');
- if(active&&active!==tab)tabStack.push(active.dataset.etab);
- queueMicrotask(()=>ensureBar('english'));
-},true);
-window.addEventListener('popstate',()=>{
- if(stack.length>1)stack.pop();
- current=stack[stack.length-1]||'home';
- original(current);updateAll();
-});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',updateAll,{once:true});else updateAll();
+const labels={home:'خانه',lesson:'درس',quiz:'آزمون',video:'ویدئو',tutor:'معلم هوشمند',teacher:'پنل معلم',shop:'فروشگاه',profile:'حساب کاربری',about:'درباره برنامه',tools:'ابزارهای یادگیری',whiteboard:'تخته هوشمند',worksheets:'کاربرگ‌ها',memory:'دفتر حافظه',english:'آموزش انگلیسی'};
+const st=document.createElement('style');st.textContent='.aba-global-backbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;padding:7px 2px;border-bottom:1px solid var(--line);min-height:48px}.aba-global-backbar[hidden]{display:none}.aba-global-back{display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border:1px solid var(--line);border-radius:14px;background:var(--white);color:var(--ink);font-weight:850;font-size:12px;box-shadow:0 4px 12px #173c4c0b}.aba-back-arrow{font-size:25px;line-height:1}.aba-back-context{font-size:11px;color:var(--muted);font-weight:800}.aba-global-back:active{transform:scale(.97)}';document.head.append(st);
+const original=window.showView;if(typeof original!=='function')return;
+let current=document.querySelector('.view.active')?.id||'home',suppress=false;
+const tab=()=>document.querySelector('.english-tab.active[data-etab]')?.dataset.etab||'dictionary';
+try{history.replaceState({aba:true,view:current,tab:tab()},'',location.href)}catch(e){}
+function update(){document.querySelectorAll('.view').forEach(v=>{let b=v.querySelector(':scope > .aba-global-backbar');if(!b){b=document.createElement('div');b.className='aba-global-backbar';v.prepend(b)}b.innerHTML='<button type="button" class="aba-global-back" aria-label="بازگشت به صفحه قبل"><span class="aba-back-arrow">‹</span><span>بازگشت</span></button><span class="aba-back-context">'+(labels[v.id]||'')+'</span>';b.hidden=v.id==='home'})}
+function restore(s){const id=s?.aba&&document.getElementById(s.view)?s.view:'home';current=id;suppress=true;original(id);if(id==='english'&&s?.tab){const t=document.querySelector('.english-tab[data-etab="'+s.tab+'"]');if(t)t.click()}suppress=false;update()}
+window.showView=function(id){if(!document.getElementById(id))return original(id);if(id!==current&&!suppress){current=id;try{history.pushState({aba:true,view:id,tab:tab()},'',location.href)}catch(e){}}else current=id;const result=original(id);update();return result};
+document.addEventListener('click',e=>{if(e.target.closest('.aba-global-back')){e.preventDefault();if(history.state?.aba&&history.state.view!=='home'||history.state?.tab!=='dictionary')history.back();else if(current!=='home')history.back();return}const t=e.target.closest('.english-tab[data-etab]');if(!t||suppress)return;queueMicrotask(()=>{const next=tab();if(history.state?.aba&&history.state.view==='english'&&history.state.tab!==next)try{history.pushState({aba:true,view:'english',tab:next},'',location.href)}catch(e){}})},true);
+window.addEventListener('popstate',e=>restore(e.state));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&current!=='home'&&history.state?.aba)history.back()});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',update,{once:true});else update();
 })();
