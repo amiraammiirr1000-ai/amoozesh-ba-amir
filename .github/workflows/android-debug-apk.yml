@@ -32,6 +32,7 @@ on:
       - 'whiteboard-pro-v1.js'
       - 'visual-polish-v15.css'
       - 'grade6-ch1-worksheet-pack.js'
+      - 'grade6-pdf-library-v1.js'
       - '504-essential-words.json'
       - 'english-hybrid-library-v1.js'
       - 'app-tree-menu.js'
