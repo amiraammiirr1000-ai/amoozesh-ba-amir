@@ -8,6 +8,7 @@ on:
     paths:
       - 'index.html'
       - 'web/index.html'
+      - 'web/manifest.webmanifest'
       - 'web/sw.js'
       - 'icon.svg'
       - 'manifest.webmanifest'
