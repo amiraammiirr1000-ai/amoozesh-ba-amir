@@ -124,5 +124,5 @@
  async function logout(){await client.auth.signOut();profile=null;render()}
  function init(){mount();window.addEventListener('amir:progress-changed',queueProgressSync);if(!ready)return;client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);client.auth.onAuthStateChange((_e,session)=>{if(!session){profile=null;window.AmirProgress?.switchUser(null);render()}else setTimeout(loadProfile,0)});loadProfile()}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
- window.AmirAuth={get profile(){return profile},get client(){return client},get ready(){return ready},refresh:loadProfile};
+ window.AmirAuth={get profile(){return profile},get client(){return client},get ready(){return ready},async getAccessToken(){if(!client)return null;const {data,error}=await client.auth.getSession();if(error)throw error;return data.session?.access_token||null;},refresh:loadProfile};
 })();
