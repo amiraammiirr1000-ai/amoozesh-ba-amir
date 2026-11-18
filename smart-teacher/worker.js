@@ -35,7 +35,7 @@ export default {
       return json({
         ok: true,
         configured: Boolean(env.DEEPSEEK_API_KEY),
-        accessProtected: Boolean(env.APP_ACCESS_TOKEN && env.APP_ACCESS_TOKEN.length >= 32),
+        accessProtected: Boolean(env.SUPABASE_URL && env.SUPABASE_ANON_KEY),
         service: "amoozesh-ba-amir-smart-teacher",
         provider: "DeepSeek"
       }, 200, origin);
@@ -44,10 +44,26 @@ export default {
       return json({ error: "مسیر درخواست پیدا نشد." }, 404, origin);
     }
 
-    const secret = env.APP_ACCESS_TOKEN || "";
-    if (secret.length < 32) return json({ error: "تنظیم امنیت سرور کامل نشده است." }, 503, origin);
+    if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+      return json({ error: "تنظیم احراز هویت Supabase روی سرور کامل نشده است." }, 503, origin);
+    }
     const auth = request.headers.get("Authorization") || "";
-    if (auth !== `Bearer ${secret}`) return json({ error: "دسترسی مجاز نیست." }, 401, origin);
+    if (!auth.startsWith("Bearer ")) return json({ error: "برای استفاده از معلم هوشمند ابتدا وارد حساب کاربری شو." }, 401, origin);
+    let authCheck;
+    try {
+      authCheck = await fetch(env.SUPABASE_URL.replace(/\\/$/, "") + "/auth/v1/user", {
+        method: "GET",
+        headers: {
+          "apikey": env.SUPABASE_ANON_KEY,
+          "Authorization": auth
+        }
+      });
+    } catch {
+      return json({ error: "بررسی نشست کاربر در Supabase ناموفق بود." }, 502, origin);
+    }
+    if (!authCheck.ok) return json({ error: "نشست ورود معتبر نیست یا منقضی شده است؛ دوباره وارد حساب شو." }, 401, origin);
+    const user = await authCheck.json().catch(() => null);
+    if (!user || !user.id) return json({ error: "هویت کاربر تأیید نشد." }, 401, origin);
 
     if (!env.DEEPSEEK_API_KEY) return json({ error: "کلید DeepSeek در تنظیمات محرمانه سرور ثبت نشده است." }, 503, origin);
     let body;
