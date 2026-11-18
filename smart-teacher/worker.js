@@ -51,7 +51,7 @@ export default {
     if (!auth.startsWith("Bearer ")) return json({ error: "برای استفاده از معلم هوشمند ابتدا وارد حساب کاربری شو." }, 401, origin);
     let authCheck;
     try {
-      authCheck = await fetch(env.SUPABASE_URL.replace(/\\/$/, "") + "/auth/v1/user", {
+      authCheck = await fetch(env.SUPABASE_URL.replace(/\/+$/, "") + "/auth/v1/user", {
         method: "GET",
         headers: {
           "apikey": env.SUPABASE_ANON_KEY,
