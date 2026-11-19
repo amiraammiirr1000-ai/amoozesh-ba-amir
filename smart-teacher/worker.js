@@ -34,10 +34,10 @@ export default {
     if (url.pathname === "/health" && request.method === "GET") {
       return json({
         ok: true,
-        configured: Boolean(env.DEEPSEEK_API_KEY),
+        configured: Boolean(env.GROQ_API_KEY),
         accessProtected: Boolean(env.SUPABASE_URL && env.SUPABASE_ANON_KEY),
         service: "amoozesh-ba-amir-smart-teacher",
-        provider: "DeepSeek"
+        provider: "Groq"
       }, 200, origin);
     }
     if (url.pathname !== "/api/tutor" || request.method !== "POST") {
@@ -65,7 +65,7 @@ export default {
     const user = await authCheck.json().catch(() => null);
     if (!user || !user.id) return json({ error: "هویت کاربر تأیید نشد." }, 401, origin);
 
-    if (!env.DEEPSEEK_API_KEY) return json({ error: "کلید DeepSeek در تنظیمات محرمانه سرور ثبت نشده است." }, 503, origin);
+    if (!env.GROQ_API_KEY) return json({ error: "کلید Groq در تنظیمات محرمانه سرور ثبت نشده است." }, 503, origin);
     let body;
     try { body = await request.json(); } catch { return json({ error: "درخواست معتبر نیست." }, 400, origin); }
     const question = typeof body.question === "string" ? body.question.trim() : "";
@@ -73,16 +73,16 @@ export default {
 
     let upstream;
     try {
-      upstream = await fetch("https://api.deepseek.com/chat/completions", {
+      upstream = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${env.DEEPSEEK_API_KEY}`,
+          "Authorization": `Bearer ${env.GROQ_API_KEY}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: env.DEEPSEEK_MODEL || "deepseek-chat",
+          model: env.GROQ_MODEL || "openai/gpt-oss-120b",
           temperature: 0.35,
-          max_tokens: 1000,
+          max_completion_tokens: 1200,
           messages: [
             { role: "system", content: INSTRUCTIONS },
             { role: "user", content: question }
