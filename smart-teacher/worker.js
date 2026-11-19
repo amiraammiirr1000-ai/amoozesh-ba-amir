@@ -36,6 +36,8 @@ export default {
       return json({
         ok: true,
         configured: Boolean(env.GROQ_API_KEY),
+        keyStartsCorrectly: String(env.GROQ_API_KEY || "").trim().startsWith("gsk_"),
+        keyHasWhitespace: /\\s/.test(String(env.GROQ_API_KEY || "")),
         accessProtected: Boolean(env.SUPABASE_URL && env.SUPABASE_ANON_KEY),
         service: "amoozesh-ba-amir-smart-teacher",
         provider: "Groq"
