@@ -1,0 +1,6 @@
+name = "amoozesh-ba-amir-ai"
+main = "smart-teacher/worker.js"
+compatibility_date = "2026-11-19"
+
+[observability]
+enabled = true
