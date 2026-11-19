@@ -92,7 +92,7 @@ export default {
         })
       });
     } catch {
-      return json({ error: "ارتباط با سرویس DeepSeek برقرار نشد." }, 502, origin);
+      return json({ error: "ارتباط با سرویس Groq برقرار نشد." }, 502, origin);
     }
     const data = await upstream.json().catch(() => ({}));
     if (!upstream.ok) {
