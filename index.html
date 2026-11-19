@@ -268,15 +268,20 @@ body[data-theme="midnight"] .dashboard-action{background:#17243a;border-color:#3
 </section>
 
 <section id="tutor" class="view">
-  <div class="section-head"><h2>معلم هوشمند امیر</h2><span class="tag">دستیار آموزشی آفلاین</span></div>
+  <div class="section-head"><h2>معلم هوشمند امیر</h2><span class="tag">دستیار آموزشی</span></div>
   <div class="card">
-    <p class="small">دستیار به‌صورت آفلاین آماده است. پس از استقرار سرور امن روی HTTPS و تنظیم کلید API در پنل میزبان، نشانی پایه سرور را اینجا ذخیره کن تا پرسش‌ها به مدل آنلاین فرستاده شوند. کلید API را هرگز در این صفحه وارد نکن.</p>
-    <div class="ai-connection-box" style="border:1px solid var(--line);border-radius:15px;padding:12px;margin:10px 0;background:color-mix(in srgb,var(--accent) 5%,var(--white))">
-      <label for="aiEndpoint" class="small">نشانی سرور معلم هوشمند</label>
-      <input id="aiEndpoint" class="input" type="url" inputmode="url" placeholder="https://amoozesh-ba-amir-ai.amir-aammiirr-1000.workers.dev" autocomplete="url" style="direction:ltr;margin:6px 0">
-      <p class="small">اتصال با نشست امن حساب کاربری انجام می‌شود؛ هیچ کلید یا توکن محرمانه‌ای را در این صفحه وارد نکن.</p>
-      <div class="btnrow"><button type="button" class="btn" onclick="saveAIEndpoint()">ذخیره نشانی</button><button type="button" class="btn outline" onclick="testAIConnection()">آزمایش اتصال</button><button type="button" class="btn light" onclick="clearAIEndpoint()">حذف نشانی</button></div>
-      <div id="aiConnectionStatus" class="small" role="status" aria-live="polite" style="margin-top:7px">حالت فعلی: آفلاین؛ با ذخیره سرور معتبر، اتصال آنلاین آزمایش می‌شود.</div>
+    <p class="small">سؤالت را بنویس؛ معلم هوشمند تلاش می‌کند مفهومی و مرحله‌به‌مرحله راهنمایی‌ات کند.</p>
+    <div style="margin:8px 0 12px">
+      <button type="button" class="btn light" aria-expanded="false" aria-controls="aiConnectionSettings" onclick="toggleAISettings()">⚙ تنظیمات اتصال و عیب‌یابی</button>
+      <div id="aiConnectionSettings" class="ai-connection-box hidden" style="border:1px solid var(--line);border-radius:15px;padding:12px;margin:10px 0;background:color-mix(in srgb,var(--accent) 5%,var(--white))">
+        <b>تنظیمات معلم هوشمند</b>
+        <p class="small">این بخش برای تنظیم سرور و بررسی اتصال است. در استفاده روزمره نیازی به باز کردن آن نداری.</p>
+        <label for="aiEndpoint" class="small">نشانی سرور</label>
+        <input id="aiEndpoint" class="input" type="url" inputmode="url" placeholder="https://amoozesh-ba-amir-ai.amir-aammiirr-1000.workers.dev" autocomplete="url" style="direction:ltr;margin:6px 0">
+        <p class="small">ورود امن با حساب کاربری انجام می‌شود. کلید API یا توکن محرمانه را اینجا وارد نکن.</p>
+        <div class="btnrow"><button type="button" class="btn" onclick="saveAIEndpoint()">ذخیره نشانی</button><button type="button" class="btn outline" onclick="testAIConnection()">آزمایش اتصال</button><button type="button" class="btn light" onclick="clearAIEndpoint()">حذف نشانی</button></div>
+        <div id="aiConnectionStatus" class="small" role="status" aria-live="polite" style="margin-top:7px">وضعیت اتصال هنوز بررسی نشده است.</div>
+      </div>
     </div>
     <div class="tutor-tools"><button type="button" onclick="quickTutor('الگوی ۴، ۷، ۱۰، ۱۳ را توضیح بده')">🔢 الگوها</button><button type="button" onclick="quickTutor('آیا ۷۲۶ بر ۳ و ۹ بخش‌پذیر است؟')">➗ بخش‌پذیری</button><button type="button" onclick="quickTutor('ارزش مکانی عدد ۲۴۵۰۰۰ را توضیح بده')">🔟 ارزش مکانی</button><button type="button" onclick="quickTutor('کدام بزرگ‌تر است: ۳- یا ۱-؟')">➖ اعداد صحیح</button><button type="button" onclick="showTutorHistory()">🕘 تاریخچه پرسش‌ها</button></div><div id="tutorHistory" class="mutedbox hidden"></div>
     <div class="chatlog" id="chatlog"><div class="bubble bot">سلام قهرمان! 😊 من دستیار آموزشی آموزش با امیر هستم. اگر اتصال سرور و کلید API فعال باشد، به هوش مصنوعی آنلاین وصل می‌شوم؛ در غیر این صورت از راهنمای آفلاین استفاده می‌کنم. مثلاً بپرس: «الگوی عددی چیست؟» یا «قانون بخش‌پذیری بر ۳ را توضیح بده.»</div></div>
@@ -933,6 +938,7 @@ function normalizedEndpoint(raw){
   if(u.username||u.password||u.search||u.hash)throw new Error('نشانی نباید نام کاربری، رمز، پارامتر یا بخش # داشته باشد.');
   return u.origin+u.pathname.replace(/\/+$/,'');
 }
+function toggleAISettings(){const panel=document.getElementById('aiConnectionSettings'),button=document.querySelector('[aria-controls="aiConnectionSettings"]');if(!panel||!button)return;const opening=panel.classList.contains('hidden');panel.classList.toggle('hidden',!opening);button.setAttribute('aria-expanded',String(opening));}
 function setAIStatus(msg,ok=false){const el=document.getElementById('aiConnectionStatus');if(el){el.textContent=msg;el.style.color=ok?'var(--green)':'var(--muted)';}}
 function saveAIEndpoint(){try{const v=normalizedEndpoint(document.getElementById('aiEndpoint').value);if(v)localStorage.setItem(AMIR_AI_ENDPOINT_KEY,v);else localStorage.removeItem(AMIR_AI_ENDPOINT_KEY);document.getElementById('aiEndpoint').value=v;setAIStatus(v?'نشانی ذخیره شد. برای بررسی سرور، «آزمایش اتصال» را بزن.':'نشانی حذف شد؛ دستیار در حالت آفلاین کار می‌کند.',!!v);}catch(e){setAIStatus(e.message);}}
 function clearAIEndpoint(){localStorage.removeItem(AMIR_AI_ENDPOINT_KEY);const el=document.getElementById('aiEndpoint');if(el)el.value='';setAIStatus('نشانی سرور حذف شد؛ دستیار در حالت آفلاین کار می‌کند.');}
