@@ -1,3 +1,4 @@
+// Groq-backed smart teacher Worker; deployed through Cloudflare Git integration.
 const APP_ORIGINS = new Set([
   "https://amiraammiirr1000-ai.github.io",
   "capacitor://localhost",
