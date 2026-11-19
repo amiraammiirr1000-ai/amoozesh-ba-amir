@@ -66,7 +66,8 @@ export default {
     const user = await authCheck.json().catch(() => null);
     if (!user || !user.id) return json({ error: "هویت کاربر تأیید نشد." }, 401, origin);
 
-    if (!env.GROQ_API_KEY) return json({ error: "کلید Groq در تنظیمات محرمانه سرور ثبت نشده است." }, 503, origin);
+    const groqApiKey = String(env.GROQ_API_KEY || "").trim();
+    if (!groqApiKey) return json({ error: "کلید Groq در تنظیمات محرمانه سرور ثبت نشده است." }, 503, origin);
     let body;
     try { body = await request.json(); } catch { return json({ error: "درخواست معتبر نیست." }, 400, origin); }
     const question = typeof body.question === "string" ? body.question.trim() : "";
@@ -77,7 +78,7 @@ export default {
       upstream = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${env.GROQ_API_KEY}`,
+          "Authorization": `Bearer ${groqApiKey}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
