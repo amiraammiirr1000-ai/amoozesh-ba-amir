@@ -57,7 +57,7 @@ const pkg = JSON.parse(await read('package.json'));
 
 assert.equal(html, webHtml, 'root and web index.html must be synchronized');
 assert.equal(sw, webSw, 'root and web service worker must be synchronized');
-assert.match(sw, /amoozesh-ba-amir-v56/, 'PWA cache version must advance when app assets change');
+assert.match(sw, /amoozesh-ba-amir-v57/, 'PWA cache version must advance when app assets change');
 assert.equal(manifestText, webManifestText, 'root and web manifests must be synchronized');
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
@@ -135,7 +135,7 @@ assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
 assert.match(gameModule, /window\.openGameLab/);
 
-assert.match(sw, /amoozesh-ba-amir-v56/);
+assert.match(sw, /amoozesh-ba-amir-v57/);
 const englishModule = await read('english-studio-v3.js');
 assert.match(englishModule, /window\.openEnglishUnit/);
 assert.match(englishModule, /window\.checkEnglishUnit/);
@@ -152,7 +152,7 @@ assert.match(englishModule, /eng-level-extension/);
 
 
 
-assert.match(sw, /amoozesh-ba-amir-v56/);
+assert.match(sw, /amoozesh-ba-amir-v57/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
@@ -176,7 +176,7 @@ assert.match(sw, /url\.origin !== self\.location\.origin/);
 assert.match(sw, /pathname\.includes\('\/api\/'\)/);
 
 
-for (const name of ['navigation-history-v1.js','learning-tools-suite-v1.js','whiteboard-pro-v1.js','student-growth-suite-v1.js']) {
+for (const name of ['navigation-history-v1.js','learning-tools-suite-v1.js','whiteboard-pro-v1.js','student-growth-suite-v1.js','smart-tutor-input-v1.js']) {
   const source = await read(name);
   const check = spawnSync(process.execPath, ['--check','-'], { input: source, encoding: 'utf8' });
   assert.equal(check.status, 0, name + ' syntax check failed: ' + check.stderr);
