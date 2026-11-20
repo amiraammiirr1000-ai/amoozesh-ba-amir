@@ -56,6 +56,7 @@ const pkg = JSON.parse(await read('package.json'));
 
 assert.equal(html, webHtml, 'root and web index.html must be synchronized');
 assert.equal(sw, webSw, 'root and web service worker must be synchronized');
+assert.match(sw, /amoozesh-ba-amir-v56/, 'PWA cache version must advance when app assets change');
 assert.equal(manifestText, webManifestText, 'root and web manifests must be synchronized');
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
