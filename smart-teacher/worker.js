@@ -2,6 +2,7 @@
 const APP_ORIGINS = new Set([
   "https://amiraammiirr1000-ai.github.io",
   "capacitor://localhost",
+  "https://localhost",
   "http://localhost"
 ]);
 
