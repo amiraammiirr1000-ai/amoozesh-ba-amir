@@ -1,0 +1,12 @@
+/* Visual polish v16 — focused AI tutor and mobile keyboard-safe composer */
+#tutor .card{display:flex;flex-direction:column;gap:10px}
+#tutor .chatlog{height:min(48dvh,520px);min-height:220px;overflow-y:auto;overscroll-behavior:contain;scroll-behavior:smooth;padding:14px;background:linear-gradient(160deg,#f5f7ff,#f7fbff)}
+#tutor .bubble{max-width:94%;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.95;font-size:14px;padding:12px 14px;border-radius:16px}
+#tutor .bubble.bot{background:#fff;border:1px solid #e4e8f3;box-shadow:0 4px 14px #263b6b0c}
+#tutor .bubble.user{background:linear-gradient(135deg,#e9e8ff,#eaf4ff);border:1px solid #d9ddff}
+#tutor .tutor-composer{position:sticky;bottom:0;z-index:8;display:flex;align-items:flex-end;gap:8px;padding:9px;background:rgba(255,255,255,.96);border:1px solid #e0e5f1;border-radius:18px;box-shadow:0 -5px 22px #263b6b12;backdrop-filter:blur(14px);margin-top:4px}
+#tutor .tutor-message-input{flex:1;min-height:46px;max-height:120px;resize:none;line-height:1.7;padding:10px 12px;border-radius:13px;overflow-y:auto}
+#tutor .tutor-send{flex:0 0 auto;min-width:82px;min-height:46px;margin:0;border-radius:13px}
+#tutor .tutor-send:disabled{opacity:.65}
+@media(max-width:600px){#tutor .chatlog{height:min(46dvh,460px);min-height:190px}#tutor .tutor-composer{position:sticky;bottom:0;margin-left:-2px;margin-right:-2px;padding:7px}#tutor .tutor-send{min-width:72px;padding:9px}#tutor .bubble{font-size:13px}}
+@media(prefers-reduced-motion:reduce){#tutor .chatlog{scroll-behavior:auto}}
