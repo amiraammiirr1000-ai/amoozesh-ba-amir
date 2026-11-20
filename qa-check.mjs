@@ -92,6 +92,7 @@ assert.match(html, /function startChapterQuiz\(n\)/);
 assert.match(html, /function getQuestions\(\)[\s\S]*lessonQuestionBanks\[currentLesson\]/, 'lesson quiz must use the selected lesson bank');
 assert.ok(html.includes("عدد بعدی را بنویس: ۳، ۷، ۱۱، ۱۵، …','۱۹'"), 'pattern worksheet answer must be correct');
 assert.match(html, /id="globalSearch"/);
+assert.match(html, /function showView\(id\)\{const navId=id;if\(id==="library"\)id="worksheets"/, 'library navigation must open the real PDF and worksheet library');
 assert.match(html, /function openGameLab\(/, 'math game lab must open');
 assert.match(html, /function startMathGame\(id\)/, 'math game engine must be active');
 assert.match(html, /function checkMathGame\(/, 'math game answers must be checked');
