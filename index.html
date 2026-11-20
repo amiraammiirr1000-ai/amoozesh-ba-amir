@@ -236,12 +236,12 @@ body[data-theme="midnight"] .dashboard-action{background:#17243a;border-color:#3
   <section class="home-section" aria-label="انتخاب پایه">
     <div class="home-section-title"><div><span>YOUR GRADE</span><h2>پایه تحصیلی</h2><p>پایه موردنظرت را انتخاب کن.</p></div><span class="home-section-symbol">01</span></div>
     <div class="home-grade-grid">
-      <button class="home-grade-card" disabled aria-disabled="true"><span>۱</span><b>اول</b><small>به‌زودی</small></button>
-      <button class="home-grade-card" disabled aria-disabled="true"><span>۲</span><b>دوم</b><small>به‌زودی</small></button>
-      <button class="home-grade-card" disabled aria-disabled="true"><span>۳</span><b>سوم</b><small>به‌زودی</small></button>
-      <button class="home-grade-card" disabled aria-disabled="true"><span>۴</span><b>چهارم</b><small>به‌زودی</small></button>
-      <button class="home-grade-card" disabled aria-disabled="true"><span>۵</span><b>پنجم</b><small>به‌زودی</small></button>
-      <button class="home-grade-card is-active" onclick="showView('home')" aria-current="page"><span>۶</span><b>ششم</b><small>مسیر فعال</small></button>
+      <button class="home-grade-card" type="button" onclick="openGrade(1)"><span>۱</span><b>اول</b><small>درس‌های مکمل</small></button>
+      <button class="home-grade-card" type="button" onclick="openGrade(2)"><span>۲</span><b>دوم</b><small>درس‌های مکمل</small></button>
+      <button class="home-grade-card" type="button" onclick="openGrade(3)"><span>۳</span><b>سوم</b><small>درس‌های مکمل</small></button>
+      <button class="home-grade-card" type="button" onclick="openGrade(4)"><span>۴</span><b>چهارم</b><small>درس‌های مکمل</small></button>
+      <button class="home-grade-card" type="button" onclick="openGrade(5)"><span>۵</span><b>پنجم</b><small>درس‌های مکمل</small></button>
+      <button class="home-grade-card is-active" type="button" onclick="openGrade(6)" aria-current="page"><span>۶</span><b>ششم</b><small>مسیر اصلی</small></button>
     </div>
   </section>
 
