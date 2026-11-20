@@ -7,7 +7,7 @@ on:
     branches: [main]
     paths:
       - 'index.html'
-      - 'web/index.html'
+      - 'web/**'
       - 'web/manifest.webmanifest'
       - 'web/sw.js'
       - 'icon.svg'
