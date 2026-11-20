@@ -30,6 +30,7 @@ function openGrade(n){
  if(n===6){showView('home');setTimeout(()=>{const d=document.querySelector('.home-v2-resources');d?.setAttribute('open','');document.getElementById('lessonList')?.scrollIntoView({behavior:'smooth',block:'start'})},100);return}
  showView('tools');if(typeof window.openPrimaryGradesHub==='function'){window.openPrimaryGradesHub();setTimeout(()=>document.querySelector('[data-grade="'+n+'"]')?.click(),80)}
 }
+window.openGrade=openGrade;
 function buildGradeView(){
  const main=document.querySelector('main.content');if(!main||document.getElementById('gradeFolderView'))return;
  const v=document.createElement('section');v.id='gradeFolderView';v.className='view';
