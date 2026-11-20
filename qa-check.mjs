@@ -158,7 +158,8 @@ assert.match(html, /targetGrade:document.getElementById\('classGrade'\)\.value/)
 assert.match(html, /function setAllPresent\(sessionId\)/);
 assert.match(html, /recordSkillAnswer\(q,i===q\.a\)/);
 assert.match(html, /onclick="exportAttendanceCSV\(\)">خروجی حضور و غیاب/);
-assert.match(html, /id="aiAccessToken"/);
+assert.match(html, /window\.AmirAuth\?\.getAccessToken\?\.\(\)/, 'AI tutor must use the authenticated Supabase session token');
+assert.doesNotMatch(html, /id="aiAccessToken"/, 'client-side API token fields must not be exposed');
 assert.match(html, /function exportFullBackup\(/);
 assert.match(html, /function importFullBackup\(/);
 assert.match(sw, /url\.origin !== self\.location\.origin/);
