@@ -212,39 +212,80 @@ body[data-theme="midnight"] .dashboard-action{background:#17243a;border-color:#3
   <div id="appSearchResults" class="global-search-results" role="status" aria-live="polite"><span class="small">نام درس، ابزار یا بخش موردنظر را بنویس.</span></div>
 </section>
 <section id="home" class="view active">
-  <div class="section-head"><h2>داشبورد یادگیری</h2><span class="small">نسخه ۱.۳ · تجربه یادگیری هوشمند و رنگارنگ</span></div>
-  <div class="hero-art"><div class="hero-kicker">AMOOZESH BA AMIR · LEARN SMART</div><h2>قهرمان یادگیری باش! ✨</h2><p>هر روز یک قدم جلوتر؛ با تمرین‌های کوتاه، مسیرت را بساز.</p><img class="hero-illustration" src="study-hero.svg" alt="تصویر کتاب، مداد و لوازم‌التحریر آموزشی" loading="eager"></div>
-  <section class="visual-learning" aria-label="مسیرهای یادگیری">
-    <div class="visual-learning-heading"><div><span>LEARNING ZONES</span><h2>دنیای یادگیری تو</h2><p>هر روز یک مهارت تازه کشف کن.</p></div><span class="visual-star">✦</span></div>
-    <div class="visual-learning-grid">
-      <button class="visual-card math-visual" onclick="showView('tools')"><img src="art-math.svg" alt="تصویر ریاضی و کتاب" loading="lazy"><span><b>آزمایشگاه ریاضی</b><small>بازی، تمرین و حل مسئله</small></span><i>←</i></button>
-      <button class="visual-card english-visual" onclick="showView('english')"><img src="art-english.svg" alt="تصویر آموزش زبان" loading="lazy"><span><b>دنیای انگلیسی</b><small>واژگان، شنیدن و گفت‌وگو</small></span><i>←</i></button>
-      <button class="visual-card science-visual" onclick="showView('tutor')"><img src="art-science.svg" alt="تصویر آزمایش علمی" loading="lazy"><span><b>کشف و پرسش</b><small>با معلم هوشمند یاد بگیر</small></span><i>←</i></button>
+  <div class="home-welcome">
+    <div><span class="home-eyebrow">AMOOZESH BA AMIR</span><h1>یادگیری، قدم‌به‌قدم و باانگیزه</h1><p>درس بخوان، تمرین کن و پیشرفتت را ببین.</p></div>
+    <span class="home-welcome-mark" aria-hidden="true">✦</span>
+  </div>
+
+  <div class="home-hero">
+    <img src="https://images.unsplash.com/photo-1758685733926-00cba008215b?auto=format&fit=crop&fm=jpg&q=82&w=1400" alt="معلم در حال کمک به دانش‌آموز برای حل تمرین در کلاس" fetchpriority="high">
+    <div class="home-hero-shade"></div>
+    <div class="home-hero-copy">
+      <span class="home-photo-label">یادگیری با همراهی معلم هوشمند</span>
+      <h2>هر سؤال، شروع یک کشف تازه است.</h2>
+      <p>از ریاضی ششم شروع کن؛ مفهومی یاد بگیر و با تمرین مسلط شو.</p>
+      <div class="home-hero-actions">
+        <button class="home-primary-action" onclick="openLesson(1)">ادامه یادگیری <span>←</span></button>
+        <button class="home-secondary-action" onclick="showView('tutor')">پرسش از معلم هوشمند</button>
+      </div>
+    </div>
+    <a class="home-photo-credit" href="https://unsplash.com/photos/teacher-helping-young-student-with-math-problems-at-desk-wr2OzAO5fpc" target="_blank" rel="noopener">تصویر: Vitaly Gariev / Unsplash</a>
+  </div>
+
+  <section class="home-section" aria-label="انتخاب پایه">
+    <div class="home-section-title"><div><span>YOUR GRADE</span><h2>پایه تحصیلی</h2><p>پایه موردنظرت را انتخاب کن.</p></div><span class="home-section-symbol">01</span></div>
+    <div class="home-grade-grid">
+      <button class="home-grade-card" disabled aria-disabled="true"><span>۱</span><b>اول</b><small>به‌زودی</small></button>
+      <button class="home-grade-card" disabled aria-disabled="true"><span>۲</span><b>دوم</b><small>به‌زودی</small></button>
+      <button class="home-grade-card" disabled aria-disabled="true"><span>۳</span><b>سوم</b><small>به‌زودی</small></button>
+      <button class="home-grade-card" disabled aria-disabled="true"><span>۴</span><b>چهارم</b><small>به‌زودی</small></button>
+      <button class="home-grade-card" disabled aria-disabled="true"><span>۵</span><b>پنجم</b><small>به‌زودی</small></button>
+      <button class="home-grade-card is-active" onclick="showView('home')" aria-current="page"><span>۶</span><b>ششم</b><small>مسیر فعال</small></button>
     </div>
   </section>
-  <div class="achievement"><span class="medal">🏅</span><div><b>چالش امروز</b><div class="small">یک سؤال حل کن و امتیاز یادگیری بگیر.</div></div><button class="btn gold" onclick="startDailyChallenge()">شروع</button></div>
-  <div class="dashboard-launch card">
-    <div class="dashboard-launch-head"><div><span class="hero-kicker">YOUR NEXT STEP</span><h2>برنامه یادگیری امروز</h2><p class="small">یک مسیر کوتاه انتخاب کن و همین حالا شروع کن.</p></div><span class="dashboard-launch-icon">🚀</span></div>
-    <div class="dashboard-launch-grid">
-      <button class="dashboard-action" onclick="openLesson(1)"><span>📘</span><b>ادامه یادگیری</b><small>شروع از اولین درس آماده</small></button>
-      <button class="dashboard-action" onclick="startQuiz()"><span>🧠</span><b>خودآزمایی</b><small>سنجش آموخته‌ها</small></button>
-      <button class="dashboard-action" onclick="openGameLab()"><span>🎮</span><b>بازی و تمرین</b><small>یادگیری با بازیگاه</small></button>
+
+  <section class="home-section" aria-label="موضوعات آموزشی">
+    <div class="home-section-title"><div><span>LEARNING HUB</span><h2>فضاهای یادگیری</h2><p>هر بخش برای یک هدف مشخص طراحی شده است.</p></div><span class="home-section-symbol">02</span></div>
+    <div class="home-subject-grid">
+      <button class="home-subject-card home-subject-math" onclick="showView('tools')"><span class="home-subject-icon">∑</span><span><b>آزمایشگاه ریاضی</b><small>بازی، ابزار و حل مسئله</small></span><i>←</i></button>
+      <button class="home-subject-card home-subject-english" onclick="showView('english')"><span class="home-subject-icon">Ab</span><span><b>زبان انگلیسی</b><small>واژگان و مهارت‌های زبان</small></span><i>←</i></button>
+      <button class="home-subject-card home-subject-ai" onclick="showView('tutor')"><span class="home-subject-icon">✳</span><span><b>معلم هوشمند</b><small>پرسش، آموزش و رفع اشکال</small></span><i>←</i></button>
+      <button class="home-subject-card home-subject-worksheets" onclick="showView('worksheets')"><span class="home-subject-icon">▤</span><span><b>کتابخانه کاربرگ‌ها</b><small>تمرین و برگه‌های آموزشی</small></span><i>←</i></button>
     </div>
-  </div>
-  <div class="grid stats">
-    <div class="card stat"><strong id="statDone">۰</strong><span>درس تکمیل‌شده</span></div>
-    <div class="card stat"><strong id="statScore">۰٪</strong><span>میانگین آزمون‌ها</span></div>
-    <div class="card stat"><strong id="statPoints">۰</strong><span>امتیاز یادگیری</span></div>
-    <div class="card stat"><strong id="lessonTotal">۱۹</strong><span>درس آماده</span></div>
-  </div>
-  <div class="card"><div class="section-head"><h2>پیشرفت فصل</h2><span id="progressLabel" class="small">۰٪</span></div><div class="progress"><span id="progressBar"></span></div><div class="small">با پایان هر درس و شرکت در آزمون، پیشرفتت ثبت می‌شود.</div></div>
-  <div class="section-head"><h2>مسیر یادگیری درس‌های آماده</h2><span class="small">۱۹ درس آماده در چهار فصل</span></div>
-  <div id="lessonList" class="lessongrid"></div>
-  <div class="section-head"><h2>نقشه کامل کتاب ریاضی ششم</h2><span class="tag">۱۴۰۵–۱۴۰۶</span></div>
-  <div class="mutedbox" style="margin-bottom:12px">این نقشه بر اساس سرفصل‌های کتاب ریاضی ششم تنظیم شده است. درس‌نامه‌ها و سؤال‌ها محتوای آموزشی تألیفی و هم‌راستا با مفاهیم کتاب هستند. فصل‌های اول تا سوم اکنون درس‌نامه و تمرین تعاملی دارند؛ فصل‌های بعدی در مرحله تکمیل هستند.</div>
-  <div id="curriculumMap" class="curriculum-map"></div>
-  <div class="card"><div class="section-head"><h2>منبع و نسخه کتاب</h2><span class="small">کنترل سال تحصیلی</span></div><p class="small">سال هدف: ۱۴۰۵–۱۴۰۶. برای تطبیق نهاییِ شماره صفحه‌ها، شکل‌ها و هرگونه تغییر چاپی، نسخه PDF رسمی را از پایگاه کتاب‌های درسی بررسی کن.</p><div class="btnrow"><button class="btn outline" onclick="window.open('https://chap.sch.ir','_blank')">پایگاه رسمی کتاب‌های درسی ↗</button><button class="btn outline" onclick="window.open('https://www.roshd.ir/06/ریاضی-ششم-ابتدایی','_blank')">صفحه ریاضی ششم در رشد ↗</button></div></div>
-  <div class="card"><div class="section-head"><h2>آماده‌ای خودت را بسنجی؟</h2>🏆</div><p class="small">در آزمون کوتاه فصل اول شرکت کن و نتیجه‌ات را ببین.</p><button class="btn gold" onclick="startQuiz()">شروع آزمون فصل</button></div>
+  </section>
+
+  <section class="home-section home-progress-section" aria-label="پیشرفت یادگیری">
+    <div class="home-section-title"><div><span>YOUR PROGRESS</span><h2>گزارش پیشرفت</h2><p>مسیر یادگیری‌ات را در یک نگاه ببین.</p></div><span class="home-section-symbol">03</span></div>
+    <div class="home-progress-card">
+      <div class="home-progress-stats">
+        <div><strong id="statDone">۰</strong><span>درس تکمیل‌شده</span></div>
+        <div><strong id="statScore">۰٪</strong><span>میانگین آزمون</span></div>
+        <div><strong id="statPoints">۰</strong><span>امتیاز یادگیری</span></div>
+        <div><strong id="lessonTotal">۱۹</strong><span>درس آماده</span></div>
+      </div>
+      <div class="home-progress-line"><div class="section-head"><b>پیشرفت فصل</b><span id="progressLabel">۰٪</span></div><div class="progress"><span id="progressBar"></span></div><p>هر درس را کامل کن تا مسیر پیشرفتت ثبت شود.</p></div>
+    </div>
+  </section>
+
+  <section class="home-section" aria-label="درس‌های آماده">
+    <div class="home-section-title"><div><span>CONTINUE LEARNING</span><h2>درس‌های آماده ریاضی ششم</h2><p>از درس موردنظرت ادامه بده.</p></div><span class="home-section-symbol">04</span></div>
+    <div id="lessonList" class="lessongrid"></div>
+  </section>
+
+  <section class="home-section home-extra-section">
+    <details class="home-details">
+      <summary>مشاهده نقشه کامل کتاب ریاضی ششم و وضعیت فصل‌ها</summary>
+      <div class="mutedbox" style="margin:10px 0">این نقشه بر اساس سرفصل‌های کتاب ریاضی ششم تنظیم شده است. محتوای هر فصل باید پیش از انتشار نهایی از نظر درس‌نامه، مثال، تمرین و آزمون تکمیل و بازبینی شود.</div>
+      <div id="curriculumMap" class="curriculum-map"></div>
+      <p class="small">سال هدف: ۱۴۰۵–۱۴۰۶. برای تطبیق نهایی شماره صفحه‌ها و تغییرات چاپی، نسخه رسمی کتاب درسی بررسی می‌شود.</p>
+      <div class="btnrow"><button class="btn outline" onclick="window.open('https://chap.sch.ir','_blank')">پایگاه رسمی کتاب‌های درسی ↗</button><button class="btn outline" onclick="window.open('https://www.roshd.ir/06/ریاضی-ششم-ابتدایی','_blank')">رشد ↗</button></div>
+    </details>
+    <details class="home-details">
+      <summary>چالش و خودآزمایی</summary>
+      <p class="small">با یک آزمون کوتاه آموخته‌هایت را بسنج.</p>
+      <div class="btnrow"><button class="btn gold" onclick="startDailyChallenge()">چالش امروز</button><button class="btn outline" onclick="startQuiz()">شروع آزمون</button></div>
+    </details>
+  </section>
 </section>
 
 <section id="lesson" class="view">
