@@ -10,3 +10,4 @@
 #tutor .tutor-send:disabled{opacity:.65}
 @media(max-width:600px){#tutor .chatlog{height:min(46dvh,460px);min-height:190px}#tutor .tutor-composer{position:sticky;bottom:0;margin-left:-2px;margin-right:-2px;padding:7px}#tutor .tutor-send{min-width:72px;padding:9px}#tutor .bubble{font-size:13px}}
 @media(prefers-reduced-motion:reduce){#tutor .chatlog{scroll-behavior:auto}}
+\n/* Readable Persian tutor answers and isolated mathematical notation */\n#tutor .bubble.bot{direction:rtl;text-align:right;unicode-bidi:plaintext;line-height:2.05;overflow-wrap:anywhere}\n#tutor .bubble.bot .tutor-math{display:inline-block;direction:ltr;unicode-bidi:isolate;font-family:ui-monospace,Consolas,monospace;font-weight:800;white-space:nowrap;padding:1px 5px;margin:0 2px;border-radius:6px;background:#eef2ff;color:#253b75}\n#tutor .bubble.bot strong{font-weight:800;color:var(--navy)}\n
