@@ -90,7 +90,8 @@ export default {
     if (!groqApiKey) return json({ error: "کلید Groq در تنظیمات محرمانه سرور ثبت نشده است." }, 503, origin);
     let body;
     try { body = await request.json(); } catch { return json({ error: "درخواست معتبر نیست." }, 400, origin); }
-    const question = typeof body.question === "string" ? body.question.trim() : "";\n    const history = Array.isArray(body.history) ? body.history.slice(-10).filter(m => m && ["user","assistant"].includes(m.role) && typeof m.content === "string").map(m => ({ role: m.role, content: m.content.slice(0, 5000) })) : [];
+    const question = typeof body.question === "string" ? body.question.trim() : "";
+    const history = Array.isArray(body.history) ? body.history.slice(-8).filter(m => m && ["user","assistant"].includes(m.role) && typeof m.content === "string").map(m => ({ role: m.role, content: m.content.slice(0, 2500) })) : [];
     if (!question || question.length > 2500) return json({ error: "سؤال باید بین ۱ تا ۲۵۰۰ نویسه باشد." }, 400, origin);
 
     let upstream;
@@ -107,6 +108,7 @@ export default {
           max_completion_tokens: 3000,
           messages: [
             { role: "system", content: INSTRUCTIONS },
+            ...history,
             { role: "user", content: question }
           ],
           stream: false
