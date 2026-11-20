@@ -21,6 +21,7 @@ assert.match(html, /supabase-js@2/, 'Supabase client library missing');
 assert.match(html, /auth\.js/, 'multi-user auth module missing');
 assert.match(tutorWorker, /https:\/\/localhost/, 'secure Android Capacitor origin must be allowed by AI Worker CORS');
 assert.match(tutorWorker, /capacitor:\/\/localhost/, 'Capacitor custom origin must remain supported');
+assert.ok(tutorWorker.includes('keyHasWhitespace: /\\s/.test'), 'AI health check must correctly detect whitespace in the Groq key');
 const gradeHome = await read('app-home-v3.js');
 assert.match(gradeHome, /window\.openGrade=openGrade/, 'home grade cards must call a globally available navigation handler');
 assert.match(html, /AMIR_AI_DEFAULT_ENDPOINT='https:\/\/amoozesh-ba-amir-ai\.amir-aammiirr-1000\.workers\.dev'/, 'fresh installs must be preconfigured for the online AI tutor');
