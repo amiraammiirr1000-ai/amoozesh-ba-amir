@@ -104,7 +104,7 @@ export default {
         },
         body: JSON.stringify({
           model: env.GROQ_MODEL || "openai/gpt-oss-120b",
-          temperature: 0.35,
+          temperature: 0.2,
           max_completion_tokens: 3000,
           messages: [
             { role: "system", content: INSTRUCTIONS },
