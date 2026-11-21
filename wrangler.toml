@@ -4,3 +4,7 @@ compatibility_date = "2026-11-19"
 
 [observability]
 enabled = true
+
+[vars]
+SUPABASE_URL = "https://pqammhagpfwflvahndcb.supabase.co"
+SUPABASE_ANON_KEY = "sb_publishable__xgU0iAHo0y-wHbxFRlK9Q_29ocGGo_"
