@@ -138,12 +138,15 @@ export default {
           stream: false
         })
       });
-    } catch {
+    } catch (error) {
+      console.error("[Groq] network error:", String(error?.message || error).slice(0, 500));
       return json({ error: "ارتباط با سرویس Groq برقرار نشد." }, 502, origin);
     }
     const data = await upstream.json().catch(() => ({}));
     if (!upstream.ok) {
-      return json({ error: data.error?.message || "سرویس هوش مصنوعی خطا داد." }, 502, origin);
+      const providerMessage = String(data.error?.message || data.message || "No provider error message").slice(0, 1000);
+      console.error("[Groq] upstream error:", upstream.status, providerMessage);
+      return json({ error: providerMessage, providerStatus: upstream.status }, 502, origin);
     }
     const answer = data.choices?.[0]?.message?.content;
     if (typeof answer !== "string" || !answer.trim()) return json({ error: "پاسخ متنی از مدل دریافت نشد." }, 502, origin);
