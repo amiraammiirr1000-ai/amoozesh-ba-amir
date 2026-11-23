@@ -41,28 +41,42 @@ const curriculum={
 };
 const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[+d]);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let grade=1,topic=0,answersVisible=false;
-function mount(){
- const tools=document.getElementById('tools');if(!tools||document.getElementById('primaryGradesHub'))return;
- const tile=document.createElement('button');tile.className='tool-tile';tile.innerHTML='<span class="tile-ico">🎒</span><b>ریاضی پایه‌های اول تا پنجم</b><small>درس‌نامه، مثال و تمرین</small>';tile.onclick=()=>openHub();tools.querySelector('.tool-grid')?.append(tile);
- const hub=document.createElement('section');hub.id='primaryGradesHub';hub.className='card';hub.style.marginTop='14px';hub.innerHTML='<div class="section-head"><h2>🎒 مسیر ریاضی پایه‌های اول تا پنجم</h2><span class="tag">محتوای مکمل تألیفی</span></div><p class="small">هر پایه شامل ۶ محور یادگیری، توضیح مفهومی، مثال حل‌شده و تمرین همراه پاسخ است. این بسته مکمل آموزشی است و جایگزین بررسی صفحه‌به‌صفحه کتاب درسی همان سال نیست.</p><div id="primaryGradeButtons" class="btnrow"></div><div id="primaryGradeTopics" class="btnrow" style="margin-top:10px"></div><div id="primaryGradeLesson" style="margin-top:12px"></div>';
- tools.append(hub);render();
-}
+let grade=1,topic=0;
+const progressKey='amirPrimaryGradeProgressV1',quizKey='amirPrimaryGradeQuizV1';
+const normalize=s=>String(s??'').toLowerCase().replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[ي]/g,'ی').replace(/[ك]/g,'ک').replace(/[٫،؛]/g,'.').replace(/[\u200c\u200f\s]/g,'').replace(/[−–—]/g,'-').replace(/,/g,'');
+function readDone(){try{const x=JSON.parse(localStorage.getItem(progressKey)||'[]');return Array.isArray(x)?x:[]}catch(e){return[]}}
+function readQuiz(){try{const x=JSON.parse(localStorage.getItem(quizKey)||'{}');return x&&typeof x==='object'?x:{}}catch(e){return{}}}
+function topicCorrectCount(id){const q=readQuiz()[id]?.correct||{};return Object.values(q).filter(Boolean).length}
+function updateCompletionButton(id){const b=document.getElementById('primaryDone');if(!b)return;const saved=readDone().includes(id),count=topicCorrectCount(id);b.disabled=saved||count<2;b.textContent=saved?'✓ یادگیری این مبحث ثبت شده است':count>=2?'ثبت یادگیری این مبحث':'برای ثبت یادگیری، دست‌کم ۲ پاسخ درست بده ('+fa(count)+'/۳)';}
 function render(){
  const gb=document.getElementById('primaryGradeButtons'),tb=document.getElementById('primaryGradeTopics'),box=document.getElementById('primaryGradeLesson');if(!gb||!tb||!box)return;
  gb.innerHTML=Object.keys(curriculum).map(k=>'<button class="btn '+(grade===+k?'gold':'light')+'" data-grade="'+k+'">پایه '+fa(k)+'</button>').join('');
  const data=curriculum[grade];tb.innerHTML=data.topics.map((t,i)=>'<button class="btn '+(topic===i?'':'outline')+'" data-topic="'+i+'">'+fa(i+1)+'. '+esc(t[0])+'</button>').join('');
- const t=data.topics[topic];const key='amirPrimaryGradeProgressV1';let done=[];try{done=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){}
- const id=grade+'-'+topic,complete=done.includes(id);
- box.innerHTML='<article class="chapter-card open"><div class="chapter-body" style="display:block"><h3>'+esc(t[0])+'</h3><p><b>هدف یادگیری:</b> '+esc(t[1])+'</p><div class="example"><b>مثال حل‌شده</b><p>'+esc(t[2])+'</p></div><p><b>روش کار:</b> '+esc(t[3])+'</p><h4>تمرین‌های خودت را حل کن</h4>'+t[4].map((q,i)=>'<div class="card"><b>'+fa(i+1)+'. '+esc(q[0])+'</b><div class="primary-answer" id="pa'+i+'" hidden>پاسخ: '+esc(q[1])+'</div><button class="btn light" data-answer="'+i+'">نمایش پاسخ</button></div>').join('')+'<div class="btnrow"><button class="btn gold" id="primaryDone">'+(complete?'✓ این مبحث را یاد گرفته‌ام':'ثبت یادگیری این مبحث')+'</button><button class="btn outline" onclick="window.print()">چاپ درس و تمرین</button></div><p class="small">پیشرفت این مسیر روی همین دستگاه ذخیره می‌شود.</p></div></article>';
+ const t=data.topics[topic],id=grade+'-'+topic,done=readDone(),saved=done.includes(id),correct=topicCorrectCount(id);
+ const quiz=readQuiz()[id]?.correct||{};
+ box.innerHTML='<article class="chapter-card open"><div class="chapter-body" style="display:block"><h3>'+esc(t[0])+'</h3><p><b>هدف یادگیری:</b> '+esc(t[1])+'</p><div class="example"><b>مثال حل‌شده</b><p>'+esc(t[2])+'</p></div><p><b>روش کار:</b> '+esc(t[3])+'</p><h4>تمرین تعاملی</h4><p class="small">پاسخ هر سؤال را وارد کن و «بررسی» را بزن. برای ثبت یادگیری، دست‌کم ۲ پاسخ از ۳ پاسخ باید درست باشد.</p>'+t[4].map((q,i)=>'<div class="card primary-question" style="margin:9px 0"><b>'+fa(i+1)+'. '+esc(q[0])+'</b><div class="toolbar" style="margin-top:9px"><input class="input" id="pg-answer-'+i+'" placeholder="پاسخت را بنویس" autocomplete="off" '+(quiz[i]?'disabled':'')+'><button class="btn gold" data-primary-check="'+i+'" '+(quiz[i]?'disabled':'')+'>بررسی</button></div><p class="small" id="pg-feedback-'+i+'" role="status" aria-live="polite">'+(quiz[i]?'✓ پاسخ درست ثبت شده است.':'')+'</p><div class="primary-answer" id="pa'+i+'" hidden>پاسخ: '+esc(q[1])+'</div><button class="btn light" data-answer="'+i+'">نمایش پاسخ</button></div>').join('')+'<div class="mutedbox" id="primaryQuizSummary">پاسخ‌های درست این مبحث: '+fa(correct)+' از ۳</div><div class="btnrow"><button class="btn gold" id="primaryDone" '+(saved||correct<2?'disabled':'')+'>'+(saved?'✓ یادگیری این مبحث ثبت شده است':correct>=2?'ثبت یادگیری این مبحث':'برای ثبت یادگیری، دست‌کم ۲ پاسخ درست بده ('+fa(correct)+'/۳)')+'</button><button class="btn outline" onclick="window.print()">چاپ درس و تمرین</button></div><p class="small">درس‌ها و پیشرفت این مسیر روی همین دستگاه ذخیره می‌شوند.</p></div></article>';
+}
+function checkAnswer(index){
+ const id=grade+'-'+topic,t=curriculum[grade].topics[topic],input=document.getElementById('pg-answer-'+index),feedback=document.getElementById('pg-feedback-'+index),button=document.querySelector('[data-primary-check="'+index+'"]');
+ if(!input||!feedback||!button||button.disabled)return;
+ const expected=String(t[4][index][1]).split(/\s+یا\s+/).map(normalize),given=normalize(input.value);
+ if(!given){feedback.textContent='ابتدا پاسخ را بنویس.';return;}
+ if(expected.includes(given)){
+  const all=readQuiz();all[id]=all[id]||{correct:{}};all[id].correct[index]=true;
+  try{localStorage.setItem(quizKey,JSON.stringify(all));}catch(e){}
+  feedback.textContent='آفرین! پاسخ درست است و ثبت شد. ⭐';input.disabled=true;button.disabled=true;
+ }else{feedback.textContent='این پاسخ درست نیست؛ دوباره فکر کن و تلاش کن.';}
+ const count=topicCorrectCount(id),summary=document.getElementById('primaryQuizSummary');if(summary)summary.textContent='پاسخ‌های درست این مبحث: '+fa(count)+' از ۳';
+ updateCompletionButton(id);
 }
 function openHub(){mount();document.getElementById('primaryGradesHub')?.scrollIntoView({behavior:'smooth',block:'start'});}
 document.addEventListener('click',e=>{
- const g=e.target.closest('[data-grade]'),t=e.target.closest('[data-topic]'),a=e.target.closest('[data-answer]');
+ const g=e.target.closest('[data-grade]'),t=e.target.closest('[data-topic]'),a=e.target.closest('[data-answer]'),c=e.target.closest('[data-primary-check]');
  if(g){grade=+g.dataset.grade;topic=0;render();}
  if(t){topic=+t.dataset.topic;render();}
  if(a){const el=document.getElementById('pa'+a.dataset.answer);if(el){el.hidden=!el.hidden;a.textContent=el.hidden?'نمایش پاسخ':'پنهان‌کردن پاسخ';}}
- if(e.target.id==='primaryDone'){let done=[];try{done=JSON.parse(localStorage.getItem('amirPrimaryGradeProgressV1')||'[]')}catch(e){}const id=grade+'-'+topic;if(!done.includes(id))done.push(id);localStorage.setItem('amirPrimaryGradeProgressV1',JSON.stringify(done));render();}
+ if(c){checkAnswer(Number(c.dataset.primaryCheck));}
+ if(e.target.id==='primaryDone'){const id=grade+'-'+topic;if(topicCorrectCount(id)>=2){const done=readDone();if(!done.includes(id))done.push(id);try{localStorage.setItem(progressKey,JSON.stringify(done));}catch(e){}render();}}
 });
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 window.openPrimaryGradesHub=openHub;
