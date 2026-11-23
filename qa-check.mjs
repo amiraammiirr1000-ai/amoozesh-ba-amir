@@ -14,6 +14,7 @@ const backendConfig = await read('backend-config.js');
 const tutorWorker = await read('smart-teacher/worker.js');
 const webBackendConfig = await read('web/backend-config.js');
 const schema = await read('backend/schema.sql');
+const pdfGenerator = await read('scripts/generate-grade6-pdfs.py');
 assert.match(html, /backend-config\.js/, 'backend config hook missing');
 assert.equal(auth, webAuth, 'root and web auth modules must be synchronized');
 assert.equal(backendConfig, webBackendConfig, 'root and web backend configs must be synchronized');
@@ -26,6 +27,9 @@ assert.match(tutorWorker, /provider: "Cloudflare Workers AI"/, 'AI provider must
 assert.match(tutorWorker, /model: "@cf\/openai\/gpt-oss-120b"/, 'AI health check must report the configured model');
 assert.match(tutorWorker, /دست\u200cکم یک مثال واقعی و حل\u200cشده/, 'AI tutor must teach concepts with a worked example');
 assert.match(tutorWorker, /max_tokens: 4500/, 'AI tutor must have room for detailed lessons');
+assert.match(pdfGenerator, /def solutions\(kind\):/, 'Grade 6 PDF worksheets must include teacher answer keys');
+for (const topic of ['الگو و دنباله','عددنویسی','بخش‌پذیری','اعداد صحیح','کسر','اعشاری','هندسه','مختصات','اندازه‌گیری','نسبت','درصد','تقریب']) assert.ok(pdfGenerator.includes(topic), 'Missing answer key topic: '+topic);
+assert.match(pdfGenerator, /پاسخ‌نامهٔ آموزگار/, 'Generated lesson PDFs must include a separate teacher answer page');
 const gradeHome = await read('app-home-v3.js');
 assert.match(gradeHome, /window\.openGrade=openGrade/, 'home grade cards must call a globally available navigation handler');
 assert.match(html, /AMIR_AI_DEFAULT_ENDPOINT='https:\/\/amoozesh-ba-amir-ai\.amir-aammiirr-1000\.workers\.dev'/, 'fresh installs must be preconfigured for the online AI tutor');
