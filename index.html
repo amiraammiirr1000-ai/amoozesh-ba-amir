@@ -203,8 +203,8 @@ body[data-theme="midnight"] .dashboard-action{background:#17243a;border-color:#3
 <script>
 window.MathJax = {
   tex: {
-    inlineMath: [['\\\\(', '\\\\)']],
-    displayMath: [['\\\\[', '\\\\]']],
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
     processEscapes: true
   },
   options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
@@ -1014,7 +1014,7 @@ function tutorSafeHTML(value){
  s=s.replace(/^\s*(\d+)[.)]\s+(.+)$/gm,'<div class="tutor-list-item"><b>$1.</b> $2</div>');
  s=s.replace(/^\s*---+\s*$/gm,'<hr class="tutor-divider">');
  // کسرهای ساده‌ای که مدل بدون لاتک نوشته، به کسر عمودی تبدیل می‌شوند.
- s=s.replace(/(^|[\s(])([۰-۹٠-٩0-9]+)\s*\/\s*([۰-۹٠-٩0-9]+)(?=$|[\s),.؛،])/g,'$1\\\\(\\\\frac{$2}{$3}\\\\)');
+ s=s.replace(/(^|[\s(])([۰-۹٠-٩0-9]+)\s*\/\s*([۰-۹٠-٩0-9]+)(?=$|[\s),.؛،])/g,'$1\\(\\frac{$2}{$3}\\)');
  return s.replace(/\n/g,'<br>');
 }
 function typesetTutorMath(node){
