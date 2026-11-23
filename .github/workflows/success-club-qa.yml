@@ -1,0 +1,17 @@
+name: Success Club QA
+
+on:
+  push:
+    branches: [feature/success-club]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check success club module and database policies
+        run: npm run qa:club
