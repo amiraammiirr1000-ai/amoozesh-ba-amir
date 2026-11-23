@@ -111,7 +111,7 @@ assert.match(html, /id="dictionarySearch"/);
 assert.match(html, /function searchEnglishDictionary\(/);
 assert.match(html, /englishExtendedThemes/);
 assert.match(html, /function renderEnglishBook\(/);
-for (const level of ['first-friends-1','first-friends-2','first-friends-3','family-friends-1','family-friends-2','family-friends-3','family-friends-4','family-friends-5','family-friends-6']) assert.ok(html.includes(level), 'English pathway missing: ' + level);
+for (const level of ['first-friends-1','first-friends-2','first-friends-3','family-friends-1','family-friends-2','family-friends-3','family-friends-4','family-friends-5','family-friends-6','cefr-b2','cefr-c1']) assert.ok(html.includes(level), 'English pathway missing: ' + level);
 assert.match(html, /englishWords/);
 assert.match(html, /englishPdfInput/);
 assert.match(html, /englishAudioInput/);
@@ -152,6 +152,9 @@ assert.match(englishModule, /U\.forEach\(\(u,i\)=>\{u\.id=i\+1\}\)/);
 assert.match(englishModule, /window\.saveEnglishWriting/);
 assert.match(englishModule, /amirEnglishScoresV2/);
 assert.match(englishModule, /Upper elementary \/ B1/);
+assert.match(englishModule, /Upper-intermediate B2/);
+assert.match(englishModule, /Advanced C1/);
+assert.match(englishModule, /function levelForBook/);
 assert.match(englishModule, /eng-level-extension/);
 
 
