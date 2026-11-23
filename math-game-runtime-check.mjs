@@ -19,6 +19,7 @@ const answers={1:'ده‌هزارگان',2:'بله',3:'9',4:'=',5:'11',6:'-4,-4'
 for(let id=1;id<=8;id++){
  const h=harness();h.window.startMathGame(id);
  assert.match(h.els.gameStage.innerHTML,/بررسی پاسخ/,'game '+id+' must render an answer control');
+ if(id===6){assert.match(h.els.gameStage.innerHTML,/شبکهٔ زیر مشخص شده/,'coordinate game must ask the student to read the plotted point');assert.match(h.els.gameStage.innerHTML,/<svg[\\s\\S]*>A<\\/text>/,'coordinate game must render a plotted point');assert.doesNotMatch(h.els.gameStage.innerHTML,/مختصات آن[^<]*-4/,'coordinate prompt must not reveal the answer');}
  assert.ok(h.els.mathGameInput,'game '+id+' input must exist');
  h.els.mathGameInput.value=answers[id];h.window.checkMathGame();
  assert.equal(h.state.gameStats[id].correct,1,'game '+id+' must accept a correct answer');
