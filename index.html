@@ -197,7 +197,33 @@ body[data-theme="midnight"] .dashboard-action{background:#17243a;border-color:#3
 .game-progress-row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}.game-progress-row span{color:var(--muted)}.game-progress-track{height:7px;background:#e8edf2;border-radius:99px;overflow:hidden;margin:12px 0}.game-progress-track span{display:block;height:100%;background:#2b8b75}.game-question{font-size:18px;line-height:1.9;margin:14px 0}.game-correct{color:#16835d;font-weight:800}.game-wrong{color:#a35c17;font-weight:800}.game-finish{text-align:center;padding:20px}.game-finish .btn{margin:6px}.game-lab-open{outline:2px solid var(--accent);transition:outline .3s}.game-menu-message{padding:15px;background:#f4f7fb;border-radius:12px}
 </style>
 <style>.worksheet.active-print{font-family:inherit}.worksheet.active-print .ws-line{height:24px;border-bottom:1px dotted #9aa7b4;margin-bottom:8px}.worksheet.active-print h3{text-align:center}.worksheet.active-print>p{line-height:1.9}.answer-key-print{break-before:page;margin-top:24px;padding-top:14px;border-top:2px dashed #889}.answer-key-print li{margin:8px 0;line-height:1.8}</style>
-<style>#englishPrintSheet{display:none}@media print{body *{visibility:hidden!important}#englishPrintSheet,#englishPrintSheet *{visibility:visible!important}#englishPrintSheet{display:block!important;position:absolute;left:0;top:0;width:100%;padding:20px;background:#fff;color:#111;font-size:12pt}#englishPrintSheet table{width:100%;border-collapse:collapse}#englishPrintSheet td,#englishPrintSheet th{border:1px solid #777;padding:6px;text-align:left}#englishPrintSheet h1,#englishPrintSheet h2{text-align:center}}</style>
+<style>#englishPrintSheet{display:none}@media print{body *{visibility:hidden!important}#englishPrintSheet,#englishPrintSheet *{visibility:visible!important}#englishPrintSheet{display:block!important;position:absolute;left:0;top:0;width:100%;padding:20px;background:#fff;color:#111;font-size:12pt}#englishPrintSheet table{width:100%;border-collapse:collapse}#englishPrintSheet td,#englishPrintSheet th{border:1px solid #777;padding:6px;text-align:left}#englishPrintSheet h1,#englishPrintSheet h2{text-align:center}}
+/* Persian RTL chat text with isolated LTR math */
+#chatlog .bubble,
+#chatlog .bubble.bot,
+#chatlog .bubble.user {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: plaintext;
+  line-height: 1.95;
+  overflow-wrap: anywhere;
+}
+#chatlog .bubble mjx-container,
+#chatlog .bubble .MathJax,
+#chatlog .bubble bdi.tutor-math {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+#chatlog .bubble mjx-container[display="true"] {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: .65em auto;
+  text-align: center;
+}
+</style>
 <!-- release 2.9.9: redesigned home and organized learning folders -->
 <!-- MathJax: نمایش استاندارد فرمول‌ها، کسرها، توان و رادیکال در پاسخ معلم هوشمند -->
 <script>
@@ -1023,7 +1049,7 @@ function typesetTutorMath(node){
 }
 function saveTutorHistory(q,a,mode){try{const h=JSON.parse(localStorage.getItem('amirTutorHistory')||'[]');h.push({q,a,date:new Date().toISOString(),mode:mode||'offline'});localStorage.setItem('amirTutorHistory',JSON.stringify(h.slice(-50)));}catch(e){}}
 async function askTutor(e){e.preventDefault();const input=document.getElementById('tutorInput'),q=input.value.trim();if(!q)return;if(q.length>2500){setAIStatus('لطفاً سؤال را کوتاه‌تر از ۲۵۰۰ نویسه بنویس.');return;}appendBubble(q,'user');input.value='';input.style.height='auto';const endpoint=localStorage.getItem(AMIR_AI_ENDPOINT_KEY)||'';const sendBtn=document.querySelector('#tutor form button');if(sendBtn){sendBtn.disabled=true;sendBtn.textContent='در حال پاسخ…';}let answer='',mode='offline',pending=null;
- if(endpoint){pending=document.createElement('div');pending.className='bubble bot';pending.textContent='در حال بررسی سؤال…';document.getElementById('chatlog').appendChild(pending);let timer;try{const controller=new AbortController();timer=setTimeout(()=>controller.abort(),25000);const headers={'Content-Type':'application/json','Accept':'application/json'};const accessToken=await window.AmirAuth?.getAccessToken?.();if(!accessToken)throw new Error('ابتدا با حساب کاربری وارد برنامه شو.');headers.Authorization='Bearer '+accessToken;const r=await fetch(endpoint+'/api/tutor',{method:'POST',headers,body:JSON.stringify({question:q,history:Array.from(document.querySelectorAll("#chatlog .bubble")).slice(-13,-2).slice(-8).map(b=>({role:b.classList.contains("user")?"user":"assistant",content:b.textContent.replace(/^✨\s*/,"")}))}),signal:controller.signal,cache:'no-store'});let data={};try{data=await r.json();}catch(_){}if(!r.ok)throw new Error(r.status===401?'توکن دسترسی نامعتبر یا تنظیم نشده است.':(data.error||('خطای سرور '+r.status)));if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('پاسخ متنی دریافت نشد.');answer=data.answer.trim();mode='online';pending.innerHTML=tutorSafeHTML('✨ '+answer);typesetTutorMath(pending);setAIStatus('این پاسخ از سرور هوش مصنوعی دریافت شد.',true);}catch(err){const detail=err?.message||'خطای نامشخص';answer='پاسخ آنلاین دریافت نشد. جزئیات خطا: '+detail;pending.textContent='⚠️ '+answer;setAIStatus('خطای پاسخ آنلاین: '+detail,false);}finally{if(timer)clearTimeout(timer);}}
+ if(endpoint){pending=document.createElement('div');pending.className='bubble bot';pending.setAttribute('dir','rtl');pending.setAttribute('lang','fa');pending.textContent='در حال بررسی سؤال…';document.getElementById('chatlog').appendChild(pending);let timer;try{const controller=new AbortController();timer=setTimeout(()=>controller.abort(),25000);const headers={'Content-Type':'application/json','Accept':'application/json'};const accessToken=await window.AmirAuth?.getAccessToken?.();if(!accessToken)throw new Error('ابتدا با حساب کاربری وارد برنامه شو.');headers.Authorization='Bearer '+accessToken;const r=await fetch(endpoint+'/api/tutor',{method:'POST',headers,body:JSON.stringify({question:q,history:Array.from(document.querySelectorAll("#chatlog .bubble")).slice(-13,-2).slice(-8).map(b=>({role:b.classList.contains("user")?"user":"assistant",content:b.textContent.replace(/^✨\s*/,"")}))}),signal:controller.signal,cache:'no-store'});let data={};try{data=await r.json();}catch(_){}if(!r.ok)throw new Error(r.status===401?'توکن دسترسی نامعتبر یا تنظیم نشده است.':(data.error||('خطای سرور '+r.status)));if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('پاسخ متنی دریافت نشد.');answer=data.answer.trim();mode='online';pending.innerHTML=tutorSafeHTML('✨ '+answer);typesetTutorMath(pending);setAIStatus('این پاسخ از سرور هوش مصنوعی دریافت شد.',true);}catch(err){const detail=err?.message||'خطای نامشخص';answer='پاسخ آنلاین دریافت نشد. جزئیات خطا: '+detail;pending.textContent='⚠️ '+answer;setAIStatus('خطای پاسخ آنلاین: '+detail,false);}finally{if(timer)clearTimeout(timer);}}
  else{answer=offlineTutorAnswer(q);appendBubble(answer,'bot');setAIStatus('حالت آفلاین؛ برای پاسخ مدل آنلاین، سرور HTTPS را تنظیم کن.');}
  saveTutorHistory(q,answer,mode);if(sendBtn){sendBtn.disabled=false;sendBtn.textContent='ارسال سؤال';}}
 function exportFullBackup(){const keys=['amirMathState','amirLearningMemory','amirTheme','amirProfilePhoto','amirTutorHistory','amirTutorEndpointV10','amirSkillResultsV07','amirStudentsV07','amirAssignmentsV07','amClassSessionsV1','amClassAttendanceV1'];const data={app:'آموزش با امیر',schemaVersion:2,exportedAt:new Date().toISOString(),data:{}};keys.forEach(k=>{try{const v=localStorage.getItem(k);if(v!==null)data.data[k]=v;}catch(e){}});const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='backup-amoozesh-ba-amir.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),800);const m=document.getElementById('backupStatus');if(m)m.textContent='نسخه پشتیبان ساخته شد. توکن دسترسی در این فایل ذخیره نمی‌شود؛ فایل را در محل امن نگه دار.';}
