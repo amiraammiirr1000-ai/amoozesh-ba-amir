@@ -59,6 +59,7 @@ const sw = await read('sw.js');
 const webSw = await read('web/sw.js');
 const manifestText = await read('manifest.webmanifest');
 const webManifestText = await read('web/manifest.webmanifest');
+assert.equal(await read('grade6-pdf-library-v1.js'), await read('web/grade6-pdf-library-v1.js'), 'root and web Grade 6 PDF libraries must be synchronized');
 const manifest = JSON.parse(manifestText);
 const cap = JSON.parse(await read('capacitor.config.json'));
 const pkg = JSON.parse(await read('package.json'));
