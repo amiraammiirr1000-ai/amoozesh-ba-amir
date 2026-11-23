@@ -27,7 +27,7 @@ body[data-theme="midnight"] .home-v3-card,body[data-theme="midnight"] .home-v3-g
 `;
 if(!document.getElementById('homeV3Style')){const st=document.createElement('style');st.id='homeV3Style';st.textContent=css;document.head.append(st)}
 function openGrade(n){
- if(n===6){showView('home');setTimeout(()=>{const d=document.querySelector('.home-v2-resources');d?.setAttribute('open','');document.getElementById('lessonList')?.scrollIntoView({behavior:'smooth',block:'start'})},100);return}
+ if(n===6){showView('home');setTimeout(()=>{const d=document.querySelector('.home-details');d?.setAttribute('open','');document.getElementById('lessonList')?.scrollIntoView({behavior:'smooth',block:'start'})},100);return}
  showView('tools');if(typeof window.openPrimaryGradesHub==='function'){window.openPrimaryGradesHub();setTimeout(()=>document.querySelector('[data-grade="'+n+'"]')?.click(),80)}
 }
 window.openGrade=openGrade;
