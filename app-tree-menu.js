@@ -52,7 +52,7 @@ panel.innerHTML=`
 <details class="aba-tree-group"><summary>👩‍🏫 کلاس و حساب کاربری</summary><div class="aba-tree-items">
 <button class="aba-tree-item" data-view="teacher">پنل معلم و مدیریت کلاس</button>
 <button class="aba-tree-item" data-view="groupBoard">تابلوی پیشرفت گروهی A3</button>
-<button class="aba-tree-item" data-view="profile">پروفایل و ورود</button>
+<button class="aba-tree-item" data-view="profile">👤 حساب کاربری و اعلان‌ها</button>
 <button class="aba-tree-item" data-view="about">درباره برنامه</button>
 </div></details>
 `;
