@@ -35,7 +35,7 @@ const paths={
 "first-friends-1":[1,3,2,4,5,6,7,8],"first-friends-2":[1,2,3,4,5,6,7,8],"first-friends-3":[2,1,3,4,6,5,7,8],
 "family-friends-1":[1,2,3,4,5,6,7,8],"family-friends-2":[2,3,1,4,5,6,7,8],"family-friends-3":[3,2,4,1,5,6,7,8],
 "family-friends-4":[7,8,6,5,4,3,2,1],"family-friends-5":[8,7,6,5,4,3,2,1],"family-friends-6":[8,7,6,5,4,3,2,1],
-"cefr-b2":[13,14,15,16],"cefr-c1":[17,18,19,20]};
+"cefr-b2":[9,10,11,12],"cefr-c1":[13,14,15,16]};
 function levelForBook(book){if(book==="cefr-b2")return LEVELS[7];if(book==="cefr-c1")return LEVELS[8];const lv=Number((book.match(/(\d+)$/)||[])[1]||1);return LEVELS[lv]||LEVELS[1];}
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
