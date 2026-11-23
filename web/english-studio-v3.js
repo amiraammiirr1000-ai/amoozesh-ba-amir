@@ -38,6 +38,7 @@ const paths={
 "cefr-b2":[13,14,15,16],"cefr-c1":[17,18,19,20]};
 function levelForBook(book){if(book==="cefr-b2")return LEVELS[7];if(book==="cefr-c1")return LEVELS[8];const lv=Number((book.match(/(\d+)$/)||[])[1]||1);return LEVELS[lv]||LEVELS[1];}
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
 function read(k,f){try{return JSON.parse(localStorage.getItem(k)||"null")??f}catch{return f}}
 function write(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
 function words(){const raw=(typeof englishWords!=="undefined"?englishWords:[]).concat(U.flatMap(u=>u.w));const seen=new Set();return raw.filter(w=>{const k=String(w[0]).toLowerCase();if(seen.has(k))return false;seen.add(k);return true})}
