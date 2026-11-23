@@ -8,7 +8,18 @@
   const style=document.createElement('style');style.textContent='.amir-account-bar{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin:0 16px 10px;flex-wrap:wrap}.amir-account-bar #amirProfileShortcut{border-color:#d7c8ff;background:#f3efff;color:#463b87}.amir-account-btn{border:1px solid #dce6ea;border-radius:12px;background:#fff;color:#18313d;padding:8px 12px;font:700 12px inherit}.amir-auth-overlay{position:fixed;inset:0;background:#0b1729b8;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px}.amir-auth-overlay.open{display:flex}.amir-auth-panel{background:var(--white,#fff);color:var(--ink,#18313d);border-radius:22px;padding:20px;width:min(100%,430px);max-height:90vh;overflow:auto}.amir-auth-panel label{display:block;font-size:12px;margin:9px 0 4px}.amir-auth-panel input,.amir-auth-panel select{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--white);color:var(--ink)}.amir-hidden-role{display:none!important}.amir-role-panel{border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0;background:var(--white)}.amir-list-row{padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}.amir-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.amir-msg{font-size:12px;padding:9px;border-radius:10px;background:#eef5fa;margin-top:10px}.amir-role-panel .input{margin:4px 0}.amir-notice-box{border:1px solid #f0d98a;background:#fff9e8;border-radius:14px;padding:10px;margin:10px 0}';
   document.head.appendChild(style);
   const bar=document.createElement('div');bar.className='amir-account-bar';bar.innerHTML='<span id="amirAccountStatus" class="small">حالت مهمان · محتوای عمومی</span><button id="amirProfileShortcut" class="amir-account-btn" type="button">حساب کاربری و اعلان‌ها</button><button id="amirAccountOpen" class="amir-account-btn">ورود / ثبت‌نام</button>';document.querySelector('.top')?.insertAdjacentElement('afterend',bar);
-  const main=document.querySelector('main.content');if(main&&!$('profile')){const v=document.createElement('section');v.id='profile';v.className='view';v.innerHTML='<div class="section-head"><h2>حساب کاربری و اعلان‌ها</h2><span class="small">مدیریت مستقل حساب</span></div><div id="amirProfileSummary" class="amir-role-panel">برای مشاهده اطلاعات حساب وارد شو.</div><div id="amirProfilePanels"></div>';main.append(v);}
+  const main=document.querySelector('main.content');
+  let profileView=$('profile');
+  if(!profileView&&main){profileView=document.createElement('section');profileView.id='profile';profileView.className='view';main.append(profileView);}
+  if(profileView){
+   if(!$('amirProfileSummary')){
+    const summary=document.createElement('div');summary.id='amirProfileSummary';summary.className='amir-role-panel';summary.textContent='برای مشاهده اطلاعات حساب وارد شو.';
+    const heading=profileView.querySelector('.section-head');if(heading)heading.insertAdjacentElement('afterend',summary);else profileView.prepend(summary);
+   }
+   if(!$('amirProfilePanels')){
+    const panels=document.createElement('div');panels.id='amirProfilePanels';$('amirProfileSummary').insertAdjacentElement('afterend',panels);
+   }
+  }
   $('amirProfileShortcut').onclick=()=>window.showView?.('profile');
   const overlay=document.createElement('div');overlay.id='amirAuthOverlay';overlay.className='amir-auth-overlay';
   overlay.innerHTML='<div class="amir-auth-panel" role="dialog" aria-modal="true"><h2>حساب کاربری آموزش با امیر</h2><p class="small">همه کاربران به محتوای پایه دسترسی دارند.</p><label>نام نمایشی</label><input id="amirAuthName" placeholder="نام نمایشی"><label>آیدی دلخواه (۳ تا ۲۴ حرف انگلیسی، عدد یا زیرخط)</label><input id="amirAuthUsername" maxlength="24" autocomplete="username" placeholder="مثلاً student_ali"><label>شماره تماس (اختیاری)</label><input id="amirAuthPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="مثلاً 09xxxxxxxxx"><label>ایمیل</label><input id="amirAuthEmail" type="email" autocomplete="email" placeholder="name@example.com"><label>رمز عبور</label><input id="amirAuthPassword" type="password" minlength="8" autocomplete="current-password" placeholder="حداقل ۸ نویسه"><label>نوع حساب</label><select id="amirAuthRole"><option value="student">دانش‌آموز</option><option value="teacher">معلم (پس از تأیید مدیر)</option></select><div id="amirAuthMessage" class="amir-msg">'+(ready?'ثبت‌نام دانش‌آموز آزاد است؛ حساب معلم نیازمند تأیید مدیر کل است.':'اتصال آنلاین هنوز تنظیم نشده؛ برنامه در حالت مهمان/محلی است.')+'</div><div class="amir-actions"><button id="amirAuthLogin" class="btn" '+(ready?'':'disabled')+'>ورود</button><button id="amirAuthSignup" class="btn gold" '+(ready?'':'disabled')+'>ثبت‌نام</button><button id="amirAuthClose" class="btn outline">بستن</button></div></div>';
@@ -42,7 +53,7 @@
   if(profile.approval_status==='pending')alert('درخواست معلم در انتظار تأیید مدیر کل است.');
   if(['rejected','suspended'].includes(profile.approval_status))alert('حساب فعلاً اجازه استفاده از پنل معلم را ندارد.');
  }
- function rolePanel(id,title,html,where='amirProfilePanels'){ $(id)?.remove();const s=document.createElement('section');s.id=id;s.className='amir-role-panel';s.innerHTML='<h3>'+title+'</h3>'+html;const host=$(where)||$('amirProfilePanels')||document.querySelector('main.content');host?.append(s);return s;}
+ function rolePanel(id,title,html){ $(id)?.remove();const host=$('amirProfilePanels');if(!host)return null;const s=document.createElement('section');s.id=id;s.className='amir-role-panel';s.innerHTML='<h3>'+title+'</h3>'+html;host.append(s);return s;}
  function render(){
   const status=$('amirAccountStatus'),btn=$('amirAccountOpen'),summary=$('amirProfileSummary');
   if(status)status.textContent=profile?esc(profile.display_name)+' · '+({admin:'مدیر کل',teacher:'معلم',student:'دانش‌آموز'}[profile.role]||'کاربر'):'حالت مهمان · محتوای عمومی';
@@ -50,6 +61,7 @@
   if(summary)summary.innerHTML=profile?'<b>'+esc(profile.display_name)+'</b><div class="small">@'+esc(profile.username)+' · '+esc(({admin:'مدیر کل',teacher:'معلم',student:'دانش‌آموز'}[profile.role]||'کاربر'))+'</div><div class="small">وضعیت حساب: '+esc(profile.approval_status||'—')+'</div>':'<b>حالت مهمان</b><div class="small">برای دسترسی به امکانات حساب وارد شو یا ثبت‌نام کن.</div>';
   document.querySelectorAll('[data-view="teacher"]').forEach(x=>x.classList.toggle('amir-hidden-role',ready&&(!profile||!['admin','teacher'].includes(profile.role)||profile.role==='teacher'&&profile.approval_status!=='approved')));
   document.querySelectorAll('[data-view="admin"]').forEach(x=>x.classList.toggle('amir-hidden-role',!profile||profile.role!=='admin'));
+  if(adminPollTimer){clearInterval(adminPollTimer);adminPollTimer=null;}
   ['amirStudentDashboard','amirTeacherDashboard','amirAdminPanel'].forEach(id=>$(id)?.remove());
   if(!profile||profile.approval_status!=='approved')return;
   if(profile.role==='student'){
