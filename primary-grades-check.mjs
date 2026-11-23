@@ -1,6 +1,11 @@
 import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 const moduleText=await readFile(new URL('./primary-grades-v1.js',import.meta.url),'utf8');
+const webModule=await readFile(new URL('./web/primary-grades-v1.js',import.meta.url),'utf8');
+const syntax=spawnSync(process.execPath,['--check','primary-grades-v1.js'],{encoding:'utf8'});
+assert.equal(syntax.status,0,'primary grade module syntax error: '+syntax.stderr);
+assert.equal(moduleText,webModule,'root and web primary grade modules must be synchronized');
 const html=await readFile(new URL('./index.html',import.meta.url),'utf8');
 const web=await readFile(new URL('./web/index.html',import.meta.url),'utf8');
 assert.equal(html,web,'root and web pages must remain synchronized');
