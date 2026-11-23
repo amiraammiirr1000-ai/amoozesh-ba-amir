@@ -1,4 +1,4 @@
-// Groq-backed smart teacher Worker; deployed through Cloudflare Git integration.
+// Cloudflare Workers AI-backed smart teacher Worker; deployed through Cloudflare Git integration.
 const APP_ORIGINS = new Set([
   "https://amiraammiirr1000-ai.github.io",
   "capacitor://localhost",
@@ -77,12 +77,11 @@ export default {
     if (url.pathname === "/health" && request.method === "GET") {
       return json({
         ok: true,
-        configured: Boolean(env.GROQ_API_KEY),
-        keyStartsCorrectly: String(env.GROQ_API_KEY || "").trim().startsWith("gsk_"),
-        keyHasWhitespace: /\s/.test(String(env.GROQ_API_KEY || "")),
+        configured: Boolean(env.AI && typeof env.AI.run === "function"),
         accessProtected: Boolean(env.SUPABASE_URL && env.SUPABASE_ANON_KEY),
         service: "amoozesh-ba-amir-smart-teacher",
-        provider: "Groq"
+        provider: "Cloudflare Workers AI",
+        model: "@cf/openai/gpt-oss-120b"
       }, 200, origin);
     }
     if (url.pathname !== "/api/tutor" || request.method !== "POST") {
@@ -110,46 +109,46 @@ export default {
     const user = await authCheck.json().catch(() => null);
     if (!user || !user.id) return json({ error: "هویت کاربر تأیید نشد." }, 401, origin);
 
-    const groqApiKey = String(env.GROQ_API_KEY || "").trim();
-    if (!groqApiKey) return json({ error: "کلید Groq در تنظیمات محرمانه سرور ثبت نشده است." }, 503, origin);
+    if (!env.AI || typeof env.AI.run !== "function") {
+      return json({ error: "اتصال Workers AI با نام AI روی سرور فعال نیست." }, 503, origin);
+    }
     let body;
     try { body = await request.json(); } catch { return json({ error: "درخواست معتبر نیست." }, 400, origin); }
     const question = typeof body.question === "string" ? body.question.trim() : "";
     const history = Array.isArray(body.history) ? body.history.slice(-8).filter(m => m && ["user","assistant"].includes(m.role) && typeof m.content === "string").map(m => ({ role: m.role, content: m.content.slice(0, 2500) })) : [];
     if (!question || question.length > 2500) return json({ error: "سؤال باید بین ۱ تا ۲۵۰۰ نویسه باشد." }, 400, origin);
 
-    let upstream;
+    let result;
     try {
-      upstream = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${groqApiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          model: env.GROQ_MODEL || "openai/gpt-oss-120b",
-          temperature: 0.2,
-          max_completion_tokens: 4500,
-          messages: [
-            { role: "system", content: INSTRUCTIONS },
-            ...history,
-            { role: "user", content: question }
-          ],
-          stream: false
-        })
+      result = await env.AI.run("@cf/openai/gpt-oss-120b", {
+        messages: [
+          { role: "system", content: INSTRUCTIONS },
+          ...history,
+          { role: "user", content: question }
+        ],
+        temperature: 0.2,
+        max_tokens: 4500,
+        stream: false
       });
     } catch (error) {
-      console.error("[Groq] network error:", String(error?.message || error).slice(0, 500));
-      return json({ error: "ارتباط با سرویس Groq برقرار نشد." }, 502, origin);
+      const detail = String(error?.message || error || "Unknown Workers AI error").slice(0, 500);
+      console.error("[Workers AI] inference error:", detail);
+      return json({ error: "سرویس هوش مصنوعی Cloudflare در حال حاضر پاسخ‌گو نیست. لطفاً کمی بعد دوباره تلاش کن." }, 502, origin);
     }
-    const data = await upstream.json().catch(() => ({}));
-    if (!upstream.ok) {
-      const providerMessage = String(data.error?.message || data.message || "No provider error message").slice(0, 1000);
-      console.error("[Groq] upstream error:", upstream.status, providerMessage);
-      return json({ error: providerMessage, providerStatus: upstream.status }, 502, origin);
+    const candidate =
+      result?.response ??
+      result?.choices?.[0]?.message?.content ??
+      result?.result?.response ??
+      result?.output_text;
+    const answer = typeof candidate === "string"
+      ? candidate
+      : Array.isArray(candidate)
+        ? candidate.map(part => typeof part === "string" ? part : part?.text || "").join("\n")
+        : "";
+    if (!answer.trim()) {
+      console.error("[Workers AI] empty or unexpected response shape:", JSON.stringify(result).slice(0, 1000));
+      return json({ error: "مدل اجرا شد، اما پاسخ متنی قابل‌خواندن دریافت نشد." }, 502, origin);
     }
-    const answer = data.choices?.[0]?.message?.content;
-    if (typeof answer !== "string" || !answer.trim()) return json({ error: "پاسخ متنی از مدل دریافت نشد." }, 502, origin);
     return json({ answer: answer.trim(), mode: "online" }, 200, origin);
   }
 };
