@@ -59,7 +59,8 @@ const pkg = JSON.parse(await read('package.json'));
 
 assert.equal(html, webHtml, 'root and web index.html must be synchronized');
 assert.equal(sw, webSw, 'root and web service worker must be synchronized');
-assert.match(sw, /amoozesh-ba-amir-v57/, 'PWA cache version must advance when app assets change');
+assert.match(sw, /const CACHE = 'amoozesh-ba-amir-v\\d+'/, 'PWA cache version must be declared');
+assert.ok(Number(sw.match(/amoozesh-ba-amir-v(\\d+)/)?.[1]) >= 59, 'PWA cache version must include the latest app fixes');
 assert.equal(manifestText, webManifestText, 'root and web manifests must be synchronized');
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
@@ -137,7 +138,7 @@ assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
 assert.match(gameModule, /window\.openGameLab/);
 
-assert.match(sw, /amoozesh-ba-amir-v57/);
+assert.match(sw, /const CACHE = 'amoozesh-ba-amir-v\\d+'/);
 const englishModule = await read('english-studio-v3.js');
 assert.match(englishModule, /window\.openEnglishUnit/);
 assert.match(englishModule, /window\.checkEnglishUnit/);
@@ -154,7 +155,7 @@ assert.match(englishModule, /eng-level-extension/);
 
 
 
-assert.match(sw, /amoozesh-ba-amir-v57/);
+assert.match(sw, /const CACHE = 'amoozesh-ba-amir-v\\d+'/);
 assert.match(html, /id="classSessionList"/);
 assert.match(html, /function saveClassSession\(/);
 assert.match(html, /id="studentSearch"/);
