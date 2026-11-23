@@ -1,4 +1,4 @@
-/* English Learning Studio v3: original supplementary lessons, including independent B2 and Advanced C1 paths; not Oxford book reproduction. */
+/* English Learning Studio v3: original supplementary lessons, including independent B2 and Advanced C1 lessons; not Oxford book reproduction. */
 (function(){
 "use strict";
 const U=[
