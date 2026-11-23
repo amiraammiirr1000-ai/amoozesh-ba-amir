@@ -8,4 +8,5 @@ assert.ok(html.includes('<script src="primary-grades-v1.js"></script>'),'grade p
 for(const grade of [1,2,3,4,5]) assert.ok(moduleText.includes(grade+':{name:'),'grade '+grade+' content missing');
 for(const term of ['هدف یادگیری','مثال حل‌شده','تمرین تعاملی','amirPrimaryGradeProgressV1','amirPrimaryGradeQuizV1','data-primary-check','function checkAnswer','topicCorrectCount','window.print']) assert.ok(moduleText.includes(term),'missing learning feature: '+term);
 assert.ok(moduleText.split("['").length>20,'curriculum must contain multiple lesson units');
-assert.ok(moduleText.includes('دست‌کم ۲ پاسخ درست بده'),'lesson completion must require two correct answers');\nconsole.log('Primary grades 1–5 interactive curriculum checks passed.');
+assert.ok(moduleText.includes('دست‌کم ۲ پاسخ درست بده'),'lesson completion must require two correct answers');
+console.log('Primary grades 1–5 interactive curriculum checks passed.');
