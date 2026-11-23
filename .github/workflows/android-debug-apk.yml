@@ -39,6 +39,18 @@ on:
       - 'app-tree-menu.js'
       - 'visual-polish-v14.css'
       - 'dictionary-navigation-check.mjs'
+      - 'group-progress-board-v1.js'
+      - 'group-progress-board-check.mjs'
+      - 'math-game-engine-v2.js'
+      - 'math-game-engine-check.mjs'
+      - 'math-game-runtime-check.mjs'
+      - 'math-worksheets-v2.js'
+      - 'math-worksheets-check.mjs'
+      - 'math-worksheets-runtime-check.mjs'
+      - 'math-lesson-depth-v1.js'
+      - 'math-lesson-depth-check.mjs'
+      - 'visual-polish-v16.css'
+      - 'home-refresh-v17.css'
       - 'THIRD-PARTY-NOTICES.md'
       - 'auth.js'
       - 'backend-config.js'
@@ -63,14 +75,16 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
+          cache: gradle
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Generate original offline Grade 6 PDF worksheets
         run: |
@@ -140,7 +154,16 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace --console=plain
+          for attempt in 1 2 3; do
+            if ./gradlew assembleDebug --no-daemon --stacktrace --console=plain --max-workers=2; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              echo "Gradle download/build failed; retrying ($attempt/3) after a short wait..."
+              sleep 15
+            fi
+          done
+          exit 1
 
       - name: Verify APK
         run: test -s android/app/build/outputs/apk/debug/app-debug.apk
