@@ -105,12 +105,10 @@ assert.match(html, /function getQuestions\(\)[\s\S]*lessonQuestionBanks\[current
 assert.ok(html.includes("عدد بعدی را بنویس: ۳، ۷، ۱۱، ۱۵، …','۱۹'"), 'pattern worksheet answer must be correct');
 assert.match(html, /id="globalSearch"/);
 assert.match(html, /function showView\(id\)\{const navId=id;if\(id==="library"\)id="worksheets"/, 'library navigation must open the real PDF and worksheet library');
-assert.match(html, /function openGameLab\(/, 'math game lab must open');
-assert.match(html, /function startMathGame\(id\)/, 'math game engine must be active');
-assert.match(html, /function checkMathGame\(/, 'math game answers must be checked');
-assert.match(html, /function renderMathGameProgress\(/, 'persistent game progress panel missing');
-assert.match(html, /state\.gameStats\[activeMathGame\]/, 'per-game progress persistence missing');
-assert.match(html, /state\.points=\(Number\(state\.points\)\|\|0\)\+10/, 'correct game answers must add saved learning points');
+assert.match(html, /math-game-engine-v2\.js/, 'math game engine module must be loaded');
+assert.match(html, /id="gameLab"/, 'math game lab container must exist');
+assert.match(html, /id="gameStage"/, 'math game stage container must exist');
+assert.match(html, /id="gameProgress"/, 'persistent game progress panel missing');
 assert.match(html, /dashboard-launch/, 'student dashboard quick actions missing');
 assert.match(html, /id="english"/);
 assert.match(html, /id="dictionarySearch"/);
@@ -144,7 +142,7 @@ assert.match(worksheetModule, /worksheetBanks\.coordinates/);
 const gameModule = await read('math-game-engine-v2.js');
 assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
-assert.match(gameModule, /window\.openGameLab/);
+assert.match(gameModule, /window\.openGameLab/);\nassert.match(gameModule, /function coordinateGrid\(/, 'coordinate game must render an actual coordinate grid');\nassert.match(gameModule, /شبکهٔ زیر مشخص شده/, 'coordinate game must ask students to identify the plotted point');\nassert.match(gameModule, /state\.points=\(Number\(state\.points\)\|\|0\)\+10/, 'correct game answers must add saved learning points');
 
 assert.match(sw, /const CACHE = 'amoozesh-ba-amir-v\d+'/);
 const englishModule = await read('english-studio-v3.js');
