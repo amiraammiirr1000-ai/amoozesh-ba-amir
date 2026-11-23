@@ -77,6 +77,7 @@ const lessonSection = html.slice(html.indexOf('const lessons=['), html.indexOf('
 const lessonIds = [...lessonSection.matchAll(/(?:\bid:|"id":)(\d+)/g)].map(m => Number(m[1]));
 const expectedLessonIds = [1,2,3,4,...Array.from({length:25},(_,i)=>i+6)];
 assert.deepEqual([...new Set(lessonIds)].sort((a,b)=>a-b), expectedLessonIds, 'all 29 grade-six math lessons must exist exactly once');
+assert.match(html, /id="lessonTotal">۲۹<\/strong>/, 'home dashboard must display the actual 29-lesson total');
 assert.match(lessonSection, /lessons\.sort\(\(a,b\)=>a\.id-b\.id\)/, 'lesson list must be sorted by chapter sequence');
 
 for (const chapter of [1,2,3,4,5,6,7]) {
