@@ -134,6 +134,13 @@ const mathDepth = await read('math-lesson-depth-v1.js');
 assert.match(mathDepth, /window\.openLesson/);
 assert.match(mathDepth, /مثال حل‌شده مرحله‌به‌مرحله/);
 
+const primaryModule = await read('primary-grades-v1.js');
+assert.equal(primaryModule, await read('web/primary-grades-v1.js'), 'root and web primary-grade modules must be synchronized');
+assert.match(primaryModule, /function checkAnswer\(/, 'primary-grade exercises must check student answers');
+assert.match(primaryModule, /data-primary-check/, 'primary-grade exercise check controls missing');
+assert.match(primaryModule, /topicCorrectCount/, 'primary-grade learning progress must be tracked');
+assert.match(primaryModule, /count<2/, 'a lesson must require at least two correct answers before completion');
+
 const worksheetModule = await read('math-worksheets-v2.js');
 assert.match(worksheetModule, /worksheetBanks\.decimals/);
 assert.match(worksheetModule, /worksheetBanks\.symmetry/);
@@ -142,7 +149,10 @@ assert.match(worksheetModule, /worksheetBanks\.coordinates/);
 const gameModule = await read('math-game-engine-v2.js');
 assert.match(gameModule, /window\.startMathGame/);
 assert.match(gameModule, /window\.checkMathGame/);
-assert.match(gameModule, /window\.openGameLab/);\nassert.match(gameModule, /function coordinateGrid\(/, 'coordinate game must render an actual coordinate grid');\nassert.match(gameModule, /شبکهٔ زیر مشخص شده/, 'coordinate game must ask students to identify the plotted point');\nassert.match(gameModule, /state\.points=\(Number\(state\.points\)\|\|0\)\+10/, 'correct game answers must add saved learning points');
+assert.match(gameModule, /window\.openGameLab/);
+assert.match(gameModule, /function coordinateGrid\(/, 'coordinate game must render an actual coordinate grid');
+assert.match(gameModule, /شبکهٔ زیر مشخص شده/, 'coordinate game must ask students to identify the plotted point');
+assert.match(gameModule, /state\.points=\(Number\(state\.points\)\|\|0\)\+10/, 'correct game answers must add saved learning points');
 
 assert.match(sw, /const CACHE = 'amoozesh-ba-amir-v\d+'/);
 const englishModule = await read('english-studio-v3.js');
