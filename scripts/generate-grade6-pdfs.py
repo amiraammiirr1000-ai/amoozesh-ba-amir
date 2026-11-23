@@ -186,6 +186,8 @@ def draw_pdf(path,chapter,title,pages,kind):
     c.setFont('NotoArabic',9); c.drawRightString(w-42,45,fa('پاسخ‌نامهٔ راهنمای آموزگار · آموزش با امیر'))
     c.save()
 for idx,(ch,title,kind,pages) in enumerate(LESSONS,1):
+    if len(questions(kind,title)) != 6 or len(solutions(kind)) != 6:
+        raise SystemExit(f'Incomplete worksheet or answer key: {title}')
     slug=f'grade6-lesson-{idx:02d}.pdf'
     for out in OUTS: draw_pdf(out/slug,str(ch),title,pages,kind)
 for ch,name in CHAPTERS.items():
