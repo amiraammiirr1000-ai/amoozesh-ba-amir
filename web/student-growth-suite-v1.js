@@ -5,8 +5,20 @@ const $=id=>document.getElementById(id);
 const today=()=>new Date().toLocaleDateString('en-CA');
 const safe=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'null')??d}catch(e){return d}};
-let data=read(KEY,{xp:0,streak:0,lastDay:'',days:[],answers:0,correct:0,badges:[],sessions:[],mission:{day:'',done:[]},events:[]});
-const persist=()=>localStorage.setItem(KEY,JSON.stringify(data));
+const freshData=()=>({xp:0,streak:0,lastDay:'',days:[],answers:0,correct:0,badges:[],sessions:[],mission:{day:'',done:[]},events:[]});
+let activeUserId=String(window.AmirAuth?.profile?.id||'guest');
+const dataKey=()=>KEY+':'+activeUserId;
+const legacyData=read(KEY,null);
+let data=read(dataKey(),null)||(activeUserId==='guest'&&legacyData?legacyData:freshData());
+try{if(!localStorage.getItem(dataKey()))localStorage.setItem(dataKey(),JSON.stringify(data))}catch(e){}
+const persist=()=>localStorage.setItem(dataKey(),JSON.stringify(data));
+function switchUser(userId){
+ const next=String(userId||'guest');
+ if(next===activeUserId)return;
+ activeUserId=next;
+ data=read(dataKey(),freshData());
+ render();
+}
 const access=read(ACCESS,{font:100,contrast:false,motion:false});
 function award(correct,topic){
  const day=today();if(data.lastDay!==day){const prev=new Date();prev.setDate(prev.getDate()-1);const p=prev.toLocaleDateString('en-CA');data.streak=data.lastDay===p?data.streak+1:1;data.lastDay=day;data.days=[...new Set([...(data.days||[]),day])].slice(-60)}
@@ -77,7 +89,9 @@ function mount(){
  const mo=new MutationObserver(()=>{addQuestionReadButtons();});mo.observe(document.body,{childList:true,subtree:true});
  if(navigator.onLine===false){const note=document.createElement('div');note.className='card';note.textContent='حالت آفلاین فعال است؛ محتوای ذخیره‌شده و فایل‌های دانلودشده در دسترس‌اند.';document.querySelector('.content')?.prepend(note)}
  window.addEventListener('online',()=>{const n=document.querySelector('.aba-online-note');if(n)n.remove()});
- window.AbaGrowth={snapshot:()=>JSON.parse(JSON.stringify(data)),recommend,award};
+ window.AbaGrowth={snapshot:()=>JSON.parse(JSON.stringify(data)),recommend,award,switchUser};
 }
+window.AbaGrowth={snapshot:()=>JSON.parse(JSON.stringify(data)),recommend,award,switchUser};
+window.addEventListener?.('amir:user-changed',e=>switchUser(e.detail?.userId));
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
