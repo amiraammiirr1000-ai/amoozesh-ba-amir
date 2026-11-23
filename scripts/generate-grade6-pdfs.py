@@ -5,7 +5,7 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import A4
-from pypdf import PdfWriter
+from pypdf import PdfWriter, PdfReader
 import arabic_reshaper
 from bidi.algorithm import get_display
 
@@ -196,4 +196,18 @@ for ch,name in CHAPTERS.items():
     chapter_path=OUTS[0]/f'grade6-chapter-{ch}.pdf'
     with chapter_path.open('wb') as target: writer.write(target)
     (OUTS[1]/chapter_path.name).write_bytes(chapter_path.read_bytes())
-print(f'Generated {len(LESSONS)} original lesson PDFs and 7 complete chapter booklets in both web and app assets.');
+# Fail the build if any generated worksheet is missing its answer page or any
+# chapter booklet does not contain the full set of lesson and answer pages.
+for idx, lesson in enumerate(LESSONS,1):
+    expected=OUTS[0]/f'grade6-lesson-{idx:02d}.pdf'
+    if len(PdfReader(str(expected)).pages) != 2:
+        raise SystemExit(f'Invalid lesson PDF page count: {expected.name}')
+    mirror=OUTS[1]/expected.name
+    if not mirror.exists() or mirror.read_bytes()!=expected.read_bytes():
+        raise SystemExit(f'Web/app PDF mismatch: {expected.name}')
+for chapter, name in CHAPTERS.items():
+    expected_pages=sum(2 for lesson_ch, *_ in LESSONS if lesson_ch==chapter)
+    chapter_pdf=OUTS[0]/f'grade6-chapter-{chapter}.pdf'
+    if len(PdfReader(str(chapter_pdf)).pages) != expected_pages:
+        raise SystemExit(f'Invalid chapter booklet page count: {chapter_pdf.name}')
+print(f'Generated and verified {len(LESSONS)} original lesson PDFs with teacher answer pages and 7 complete chapter booklets in both web and app assets.');
