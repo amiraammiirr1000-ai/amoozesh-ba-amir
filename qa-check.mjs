@@ -66,6 +66,7 @@ const pkg = JSON.parse(await read('package.json'));
 
 assert.equal(html, webHtml, 'root and web index.html must be synchronized');
 assert.equal(sw, webSw, 'root and web service worker must be synchronized');
+assert.ok(sw.includes('primary-grades-v1.js') && sw.includes('math-game-engine-v2.js'), 'interactive math modules must be included in offline cache');
 assert.match(sw, /const CACHE = 'amoozesh-ba-amir-v\d+'/, 'PWA cache version must be declared');
 assert.ok(Number(sw.match(/amoozesh-ba-amir-v(\d+)/)?.[1]) >= 59, 'PWA cache version must include the latest app fixes');
 assert.equal(manifestText, webManifestText, 'root and web manifests must be synchronized');
