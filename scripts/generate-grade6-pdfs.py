@@ -189,7 +189,8 @@ for idx,(ch,title,kind,pages) in enumerate(LESSONS,1):
     if len(questions(kind,title)) != 6 or len(solutions(kind)) != 6:
         raise SystemExit(f'Incomplete worksheet or answer key: {title}')
     slug=f'grade6-lesson-{idx:02d}.pdf'
-    for out in OUTS: draw_pdf(out/slug,str(ch),title,pages,kind)
+    draw_pdf(OUTS[0]/slug,str(ch),title,pages,kind)
+    (OUTS[1]/slug).write_bytes((OUTS[0]/slug).read_bytes())
 for ch,name in CHAPTERS.items():
     writer=PdfWriter()
     for idx,(lesson_ch,title,kind,pages) in enumerate(LESSONS,1):
