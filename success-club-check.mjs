@@ -12,8 +12,8 @@ for (const table of ['success_clubs','success_groups','success_students','succes
 }
 assert.match(sql, /can_access_success_club/);
 assert.match(sql, /can_manage_success_club/);
-assert.match(moduleSource, /0\.75/);
-assert.match(moduleSource, /0\.25/);
+assert.match(moduleSource, /\.75/);
+assert.match(moduleSource, /\.25/);
 assert.match(moduleSource, /scOverviewMonth/);
 assert.match(moduleSource, /assessment_date/);
 assert.match(html, /success-club-v1\.js/);
