@@ -28,7 +28,7 @@ window.searchEnglishDictionary('hello');assert.ok(els.dictionaryResults.innerHTM
 window.toggleEnglishFavorite('hello');assert.ok(store.amirEnglishFavoritesV2.includes('hello'));
 window.speakEnglish('Hello there');assert.equal(spoken,1);
 window.printEnglishUnit(1);assert.equal(printed,1);
-els.bookSelect.value='cefr-b2';window.renderEnglishBook();assert.ok(els.englishBookContent.innerHTML.includes('۴ درس'));assert.ok(els.englishBookContent.innerHTML.includes('Evaluating Evidence'));
+els.bookSelect.value='cefr-b2';window.renderEnglishBook();console.log('DEBUG B2',els.bookSelect.value,els.englishBookContent.innerHTML.slice(0,260));assert.ok(els.englishBookContent.innerHTML.includes('۴ درس'));assert.ok(els.englishBookContent.innerHTML.includes('Evaluating Evidence'));
 window.openEnglishUnit(13);assert.ok(els.englishUnitDetail.innerHTML.includes('Upper-intermediate B2'));assert.ok(els.englishUnitDetail.innerHTML.includes('counterargument'));
 window.printEnglishUnit(13);assert.equal(printed,2);assert.ok(els.englishPrintSheet.innerHTML.includes('Upper-intermediate B2'));
 els.bookSelect.value='cefr-c1';window.renderEnglishBook();assert.ok(els.englishBookContent.innerHTML.includes('۴ درس'));assert.ok(els.englishBookContent.innerHTML.includes('Culture, Identity'));
