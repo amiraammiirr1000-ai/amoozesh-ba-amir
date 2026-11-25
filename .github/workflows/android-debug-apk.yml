@@ -65,6 +65,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_SIGNING_CONFIGURED: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' }}
     timeout-minutes: 25
     steps:
       - name: Get project
@@ -149,7 +151,7 @@ jobs:
           grep -E 'versionCode|versionName' android/app/build.gradle
 
       - name: Configure permanent Android signing
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' }}
+        if: ${{ env.ANDROID_SIGNING_CONFIGURED == 'true' }}
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -192,7 +194,7 @@ jobs:
           exit 1
 
       - name: Build permanently signed release APK
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' }}
+        if: ${{ env.ANDROID_SIGNING_CONFIGURED == 'true' }}
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         run: |
@@ -212,7 +214,7 @@ jobs:
           retention-days: 14
 
       - name: Upload permanently signed release APK
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' }}
+        if: ${{ env.ANDROID_SIGNING_CONFIGURED == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: amoozesh-ba-amir-signed-release-apk
