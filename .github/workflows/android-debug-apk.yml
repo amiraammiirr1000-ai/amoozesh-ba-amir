@@ -144,9 +144,37 @@ jobs:
 
       - name: Set Android app version
         run: |
-          sed -i -E 's/versionCode [0-9]+/versionCode 38/' android/app/build.gradle
+          sed -i -E 's/versionCode [0-9]+/versionCode 39/' android/app/build.gradle
           sed -i -E 's/versionName "[^"]+"/versionName "3.0.0"/' android/app/build.gradle
           grep -E 'versionCode|versionName' android/app/build.gradle
+
+      - name: Configure permanent Android signing
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' }}
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/amoozesh-ba-amir-release.jks
+          test -s android/app/amoozesh-ba-amir-release.jks
+          cat >> android/app/build.gradle <<'GRADLE'
+
+          android {
+              signingConfigs {
+                  stableRelease {
+                      storeFile file("amoozesh-ba-amir-release.jks")
+                      storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                      keyAlias "amoozeshbaamir"
+                      keyPassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                  }
+              }
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.stableRelease
+                      minifyEnabled false
+                  }
+              }
+          }
+          GRADLE
 
       - name: Build APK
         run: |
@@ -163,6 +191,15 @@ jobs:
           done
           exit 1
 
+      - name: Build permanently signed release APK
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' }}
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          cd android
+          ./gradlew assembleRelease --no-daemon --stacktrace --console=plain --max-workers=2
+          test -s app/build/outputs/apk/release/app-release.apk
+
       - name: Verify APK
         run: test -s android/app/build/outputs/apk/debug/app-debug.apk
 
@@ -173,3 +210,12 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
+
+      - name: Upload permanently signed release APK
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: amoozesh-ba-amir-signed-release-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 30
