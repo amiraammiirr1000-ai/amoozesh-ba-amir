@@ -69,6 +69,19 @@ function checkAnswer(index){
  const count=topicCorrectCount(id),summary=document.getElementById('primaryQuizSummary');if(summary)summary.textContent='پاسخ‌های درست این مبحث: '+fa(count)+' از ۳';
  updateCompletionButton(id);
 }
+
+function mount(){
+ const tools=document.getElementById('tools');if(!tools)return;
+ let hub=document.getElementById('primaryGradesHub');
+ if(!hub){
+  hub=document.createElement('section');hub.id='primaryGradesHub';hub.className='card primary-grades-hub';
+  hub.innerHTML='<div class="section-head"><div><h2>📚 مسیر کامل ریاضی پایه‌های اول تا پنجم</h2><p class="small">درس‌نامه، مثال حل‌شده، تمرین تعاملی و ثبت پیشرفت</p></div><span class="tag">۵ پایه · ۳۰ مبحث</span></div><div class="primary-grade-summary" id="primaryGradeSummary"></div><div class="btnrow" id="primaryGradeButtons" aria-label="انتخاب پایه"></div><div class="primary-grade-layout"><nav id="primaryGradeTopics" class="primary-grade-topics" aria-label="فهرست مباحث"></nav><div id="primaryGradeLesson" class="primary-grade-lesson" aria-live="polite"></div></div><div class="small" style="margin-top:10px">پیشرفت این مسیر در حال حاضر روی همین دستگاه ذخیره می‌شود. برای همگام‌سازی بین دستگاه‌ها، مرحله اتصال ابری این بخش جداگانه تکمیل خواهد شد.</div>';
+  tools.append(hub);
+  const style=document.createElement('style');style.textContent='.primary-grades-hub{margin-top:16px}.primary-grade-summary{padding:9px 12px;border-radius:12px;background:#f1f5fb;color:#42566e;font-size:11px;margin:10px 0}.primary-grade-layout{display:grid;gap:12px;margin-top:12px}.primary-grade-topics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;align-content:start}.primary-grade-topics .btn{font-size:11px;padding:8px 7px}.primary-grade-lesson{min-width:0}.primary-grade-lesson .chapter-body{padding:12px}.primary-grade-lesson .primary-question{padding:10px}.primary-grade-lesson .toolbar{display:flex;gap:7px;align-items:center}.primary-grade-lesson .toolbar .input{min-width:0;flex:1}.primary-grade-hub .section-head{align-items:flex-start}@media(min-width:760px){.primary-grade-layout{grid-template-columns:minmax(180px,260px) minmax(0,1fr)}.primary-grade-topics{grid-template-columns:1fr}}@media print{body *{visibility:hidden!important}#primaryGradesHub,#primaryGradesHub *{visibility:visible!important}#primaryGradesHub{position:absolute;inset:0;width:100%;border:0;box-shadow:none}.primary-grade-topics,#primaryGradeButtons{display:none!important}}';document.head.append(style);
+ }
+ render();
+}
+
 function openHub(){mount();document.getElementById('primaryGradesHub')?.scrollIntoView({behavior:'smooth',block:'start'});}
 document.addEventListener('click',e=>{
  const g=e.target.closest('[data-grade]'),t=e.target.closest('[data-topic]'),a=e.target.closest('[data-answer]'),c=e.target.closest('[data-primary-check]');
