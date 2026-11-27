@@ -162,6 +162,8 @@ const primaryModule = await read('primary-grades-v1.js');
 assert.equal(primaryModule, await read('web/primary-grades-v1.js'), 'root and web primary-grade modules must be synchronized');
 assert.ok(primaryModule.includes('function mount(){'), 'primary-grade hub must initialize its UI container');
 assert.ok(primaryModule.includes('primaryGradesHub'), 'primary-grade hub container missing');
+assert.ok(primaryModule.includes('primaryStartExam') && primaryModule.includes('function startExam()'), 'primary-grade comprehensive exam missing');
+assert.ok(primaryModule.includes('primaryPrintArea') && primaryModule.includes('function printWorksheet()'), 'primary-grade printable worksheet missing');
 assert.match(primaryModule, /function checkAnswer\(/, 'primary-grade exercises must check student answers');
 assert.match(primaryModule, /data-primary-check/, 'primary-grade exercise check controls missing');
 assert.match(primaryModule, /topicCorrectCount/, 'primary-grade learning progress must be tracked');
