@@ -1,9 +1,12 @@
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 const home=fs.readFileSync('app-home-v3.js','utf8');
 const dict=fs.readFileSync('dictionary-openjam.js','utf8');
 const html=fs.readFileSync('index.html','utf8');
 const biamoz=fs.readFileSync('biamoz-library.js','utf8');
 const tree=fs.readFileSync('app-tree-menu.js','utf8');
+execFileSync(process.execPath,['--check','app-home-v3.js'],{stdio:'pipe'});
+execFileSync(process.execPath,['--check','app-tree-menu.js'],{stdio:'pipe'});
 for(const x of ['grade6FolderView','buildGrade6View','data-grade6-lesson','data-grade6-quiz','window.openLesson','window.startChapterQuiz','درس‌ها و پایه‌ها','زبان انگلیسی','کاربرگ و آزمون','بازی و ابزارها','کلاس و مدیریت','ویدئوهای آموزشی','حساب و پشتیبانی','gradeFolderView']) if(!home.includes(x)) throw new Error('Missing home feature: '+x);
 for(const x of ["API+'/search","API+'/words/",'openjam-word','audio_url','language_code']) if(!dict.includes(x)) throw new Error('Missing dictionary feature: '+x);
 if(!html.includes('dictionary-openjam.js')||!html.includes('app-home-v3.js')) throw new Error('New modules are not loaded');
