@@ -20,18 +20,21 @@ create table if not exists public.success_groups (
   group_no integer not null check (group_no between 1 and 100),
   name text not null default '',
   created_at timestamptz not null default now(),
-  unique (club_id, group_no)
+  unique (club_id, group_no),
+  unique (id, club_id)
 );
 
 create table if not exists public.success_students (
   id uuid primary key default gen_random_uuid(),
   club_id uuid not null references public.success_clubs(id) on delete cascade,
-  group_id uuid not null references public.success_groups(id) on delete cascade,
+  group_id uuid not null,
   profile_id uuid references public.profiles(id) on delete set null,
   full_name text not null,
   role text not null default 'عضو' check (role in ('سرگروه','جانشین','زیرگروه','عضو')),
   display_order integer not null default 0,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  unique (id, club_id),
+  foreign key (group_id, club_id) references public.success_groups(id, club_id) on delete cascade
 );
 
 create table if not exists public.success_subjects (
@@ -40,24 +43,27 @@ create table if not exists public.success_subjects (
   name text not null,
   display_order integer not null default 0,
   created_at timestamptz not null default now(),
-  unique (club_id, name)
+  unique (club_id, name),
+  unique (id, club_id)
 );
 
 create table if not exists public.success_assessments (
   id uuid primary key default gen_random_uuid(),
   club_id uuid not null references public.success_clubs(id) on delete cascade,
-  student_id uuid not null references public.success_students(id) on delete cascade,
-  subject_id uuid not null references public.success_subjects(id) on delete cascade,
+  student_id uuid not null,
+  subject_id uuid not null,
   assessment_date date not null default current_date,
   score numeric(5,2) not null check (score >= 0 and score <= 20),
   note text not null default '',
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  foreign key (student_id, club_id) references public.success_students(id, club_id) on delete cascade,
+  foreign key (subject_id, club_id) references public.success_subjects(id, club_id) on delete cascade
 );
 
 create table if not exists public.success_performance (
   id uuid primary key default gen_random_uuid(),
   club_id uuid not null references public.success_clubs(id) on delete cascade,
-  student_id uuid not null references public.success_students(id) on delete cascade,
+  student_id uuid not null,
   month_no integer not null check (month_no between 1 and 12),
   homework integer not null default 0 check (homework between 0 and 4),
   participation integer not null default 0 check (participation between 0 and 4),
@@ -65,19 +71,22 @@ create table if not exists public.success_performance (
   responsibility integer not null default 0 check (responsibility between 0 and 4),
   cooperation integer not null default 0 check (cooperation between 0 and 4),
   updated_at timestamptz not null default now(),
-  unique (student_id, month_no)
+  unique (student_id, month_no),
+  foreign key (student_id, club_id) references public.success_students(id, club_id) on delete cascade
 );
 
 create table if not exists public.success_awards (
   id uuid primary key default gen_random_uuid(),
   club_id uuid not null references public.success_clubs(id) on delete cascade,
-  student_id uuid references public.success_students(id) on delete cascade,
-  group_id uuid references public.success_groups(id) on delete cascade,
+  student_id uuid,
+  group_id uuid,
   month_no integer check (month_no between 1 and 12),
   award_title text not null,
   reason text not null default '',
   created_at timestamptz not null default now(),
-  constraint success_award_target_check check (student_id is not null or group_id is not null)
+  constraint success_award_target_check check (student_id is not null or group_id is not null),
+  foreign key (student_id, club_id) references public.success_students(id, club_id) on delete cascade,
+  foreign key (group_id, club_id) references public.success_groups(id, club_id) on delete cascade
 );
 
 create index if not exists success_groups_club_idx on public.success_groups(club_id, group_no);
@@ -175,9 +184,11 @@ create policy "success performance teacher manage" on public.success_performance
 using (public.can_manage_success_club(club_id)) with check (public.can_manage_success_club(club_id));
 
 drop policy if exists "success awards own or teacher read" on public.success_awards;
-create policy "success awards own or teacher read" on public.success_awards for select to authenticated
+create policy "success awards own or group or teacher read" on public.success_awards for select to authenticated
 using (public.can_manage_success_club(club_id) or exists(
-  select 1 from public.success_students s where s.id=student_id and s.profile_id=auth.uid()
+  select 1 from public.success_students s
+  where s.profile_id=auth.uid() and s.club_id=success_awards.club_id
+    and (s.id=success_awards.student_id or s.group_id=success_awards.group_id)
 ));
 drop policy if exists "success awards teacher manage" on public.success_awards;
 create policy "success awards teacher manage" on public.success_awards for all to authenticated
