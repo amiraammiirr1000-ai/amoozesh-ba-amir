@@ -36,7 +36,7 @@ panel.innerHTML=`
 <button class="aba-tree-item" data-view="english" data-tab="audio">استودیو صوتی و تلفظ</button>
 </div></details>
 <details class="aba-tree-group"><summary>📝 تمرین، آزمون و فایل‌ها</summary><div class="aba-tree-items">
-<button class="aba-tree-item" data-view="library">کتابخانه PDF ریاضی ششم</button>
+<button class="aba-tree-item" data-view="libraryHub">کتابخانه PDF ریاضی ششم</button>
 <button class="aba-tree-item" data-view="worksheets">کاربرگ‌ها و ساخت برگه تمرین</button>
 <button class="aba-tree-item" data-view="english" data-tab="learning">کتابخانهٔ داستان‌ها و منابع ابتدایی</button>
 <button class="aba-tree-item" data-view="quiz">آزمون و خودآزمایی</button>
