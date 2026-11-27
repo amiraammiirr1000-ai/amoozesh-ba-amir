@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const root=fs.readFileSync(new URL('./auth.js',import.meta.url),'utf8');
+const web=fs.readFileSync(new URL('./web/auth.js',import.meta.url),'utf8');
+assert.equal(root,web,'root and web auth clients must stay synchronized');
+assert.match(root,/profileLoadSeq/,'profile loads must reject stale asynchronous results');
+assert.match(root,/requestId!==profileLoadSeq/,'stale profile responses must not overwrite the current account');
+assert.match(root,/auth\.refreshSession\(\)/,'expired access tokens must be refreshed before tutor requests');
+assert.match(root,/expiresAt\*1000<Date\.now\(\)\+60000/,'token refresh must start before expiry');
+assert.match(root,/authResult\?\.error/,'auth lookup errors must be handled explicitly');
+assert.match(root,/amir:user-changed/,'account changes must notify dependent modules');
+console.log('Auth session resilience checks passed.');
