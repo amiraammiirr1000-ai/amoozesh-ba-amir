@@ -117,6 +117,8 @@ assert.equal(videoLibrary, webVideoLibrary, 'root and web video libraries must b
 assert.match(videoLibrary, /storageKey=KEY/);
 assert.ok(videoLibrary.includes("KEY+':'+(userId?'user:'+String(userId):'guest')"), 'video library data must be scoped per signed-in account');
 assert.match(videoLibrary, /amir:user-changed/, 'video library must switch data when account changes');
+assert.match(await read('index.html'), /k\.startsWith\('amirVideoLibraryV1:user:'\)/, 'account-scoped video entries must be included in backups');
+assert.match(await read('index.html'), /نسخه ۳\.۲\.۰/, 'profile version label must match the release candidate');
 const supportModule = await read('support-center-v1.js');
 const supportSyntax = spawnSync(process.execPath, ['--check','-'], { input: supportModule, encoding: 'utf8' });
 assert.equal(supportSyntax.status, 0, 'support module syntax check failed: ' + supportSyntax.stderr);
