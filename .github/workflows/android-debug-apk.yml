@@ -182,13 +182,16 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          for attempt in 1 2 3; do
+          # Maven Central can temporarily rate-limit dependency downloads (HTTP 429).
+          # Use bounded exponential backoff so transient repository throttling does not fail the APK build.
+          for attempt in 1 2 3 4 5; do
             if ./gradlew assembleDebug --no-daemon --stacktrace --console=plain --max-workers=2; then
               exit 0
             fi
-            if [ "$attempt" -lt 3 ]; then
-              echo "Gradle download/build failed; retrying ($attempt/3) after a short wait..."
-              sleep 15
+            if [ "$attempt" -lt 5 ]; then
+              wait_seconds=$((attempt * 30))
+              echo "Gradle build/download failed; retrying ($attempt/5) after ${wait_seconds}s..."
+              sleep "$wait_seconds"
             fi
           done
           exit 1
