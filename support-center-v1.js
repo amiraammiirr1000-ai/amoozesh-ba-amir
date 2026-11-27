@@ -1,7 +1,7 @@
 /* Support center v2 — online feedback with local-first fallback and admin inbox. */
 (function(){
  'use strict';
- const KEY='amirSupportFeedbackV1',VERSION='3.1.0';
+ const KEY='amirSupportFeedbackV1',VERSION='3.2.0';
  const byId=id=>document.getElementById(id);
  function readItems(){try{const x=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(x)?x:[]}catch(_){return[]}}
  function status(message){const el=byId('supportStatus');if(el)el.textContent=message}
