@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const source=fs.readFileSync(new URL('./backup-restore-v2.js',import.meta.url),'utf8');
+const html=fs.readFileSync(new URL('./index.html',import.meta.url),'utf8');
+assert.match(source,/ABA-English-Dictionary-v2/);
+assert.match(source,/AmoozeshBaAmirLibrary/);
+assert.match(source,/__abaBackupType:'Blob'/);
+assert.match(source,/schemaVersion:4/);
+assert.match(source,/window\.exportFullBackup/);
+assert.match(source,/window\.importFullBackup/);
+assert.match(html,/<script src="backup-restore-v2\.js"><\/script>/);
+console.log('IndexedDB backup readiness checks passed.');
