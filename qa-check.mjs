@@ -245,6 +245,20 @@ assert.equal(authCheck.status, 0, 'auth.js syntax check failed: ' + authCheck.st
 
 const serverCheck = spawnSync(process.execPath, ['--check', resolve(root,'secure-ai-server/server.mjs')], { encoding: 'utf8' });
 assert.equal(serverCheck.status, 0, 'server syntax check failed: ' + serverCheck.stderr);
+
+const supportJs = await read('support-center-v1.js');
+assert.equal(supportJs, await read('web/support-center-v1.js'), 'root and web support scripts must be synchronized');
+assert.equal(await read('support-center-v1.css'), await read('web/support-center-v1.css'), 'root and web support styles must be synchronized');
+assert.ok(html.includes('support-center-v1.js') && html.includes('support-center-v1.css'), 'support center assets must be linked');
+assert.ok(sw.includes('support-center-v1.js') && sw.includes('support-center-v1.css'), 'support center assets must be cached offline');
+assert.ok(html.includes('id="support"') && html.includes('id="privacy"'), 'support and privacy views must exist');
+assert.ok(html.includes('id="supportMessage"') && html.includes('submitSupportFeedback'), 'feedback form must be wired');
+assert.ok(html.includes('privacy.html'), 'public privacy policy link must exist');
+assert.ok((await read('privacy.html')).includes('سیاست حریم خصوصی'), 'standalone privacy policy page missing');
+assert.equal(await read('privacy.html'), await read('web/privacy.html'), 'root and web privacy pages must be synchronized');
+assert.match(supportJs, /ارسال نشده است/, 'feedback UI must disclose that messages are not automatically sent');
+assert.match(supportJs, /localStorage/, 'feedback draft storage must be local and explicit');
+
 console.log('PASS: synchronized PWA/Capacitor assets, multi-user role client, class invites, HTTPS meeting links, privacy RPCs, 29 math lessons, English studio, lesson exams, worksheets and inline JavaScript syntax.');
 console.log('PASS: static project QA. Game execution tests run separately through game-lab-check.mjs.');
 console.log('NOTE: automated checks are not a substitute for testing on real Android devices, accessibility, privacy, live-class workflows or release signing.');
