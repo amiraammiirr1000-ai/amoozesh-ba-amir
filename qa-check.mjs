@@ -161,6 +161,8 @@ assert.match(classroomModule, /meeting_url/);
 const videoModule = await read('video-library-v1.js');
 assert.ok(videoModule.includes('function parseUrl('));
 assert.ok(videoModule.includes('youtube-nocookie.com'));
+assert.ok(videoModule.includes("host==='aparat.com'"), 'Aparat links must be supported for Iranian users');
+assert.ok(videoModule.includes('videohash/') && videoModule.includes("item.kind==='aparat'"), 'Aparat embeds must use the secure HTTPS player');
 assert.ok(videoModule.includes('function playLocal('));
 const videoSyntax = spawnSync(process.execPath, ['--check','-'], { input: videoModule, encoding: 'utf8' });
 assert.equal(videoSyntax.status, 0, 'video library syntax check failed: ' + videoSyntax.stderr);
