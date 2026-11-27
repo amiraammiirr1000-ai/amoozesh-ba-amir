@@ -29,5 +29,10 @@ assert.ok(nav.includes('aba-global-back'),'all main views must render a back con
 const worksheets=read('./grade6-ch1-worksheet-pack.js');
 for(const key of ['patterns','place','divisibility','integers','mixed'])assert.ok(worksheets.includes("add('"+key+"'"),'missing grade-six chapter-one worksheet bank: '+key);
 const menu=read('./app-tree-menu.js');
-assert.ok(!menu.includes('data-view="gradeFolderView"'),'navigation menu must not point to a missing view');
+const home=read('./app-home-v3.js'),classroom=read('./online-classroom-v1.js');
+assert.ok(menu.includes('data-view="gradeFolderView"')&&home.includes('function buildGradeView()'),'grade folder menu must target a mounted view');
+assert.ok(menu.includes('data-view="grade6FolderView"')&&home.includes('function buildGrade6View()'),'grade-six menu must target its mounted chapter folder');
+assert.ok(menu.includes('data-view="onlineClassroom"')&&classroom.includes("view.id='onlineClassroom'"),'online classroom menu must target its mounted view');
+assert.ok(index.includes('app-home-v3.js')&&sw.includes('./app-home-v3.js'),'grade folder module must load and cache');
+assert.ok(index.includes('online-classroom-v1.js')&&sw.includes('./online-classroom-v1.js'),'online classroom module must load and cache');
 console.log('Dictionary, offline 504 course, back navigation and grade-six worksheet checks passed.');
