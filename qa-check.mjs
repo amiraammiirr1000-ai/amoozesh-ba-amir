@@ -242,6 +242,7 @@ for (const name of ['navigation-history-v1.js','learning-tools-suite-v1.js','whi
   assert.ok(sw.includes(name), name + ' missing from service worker cache');
 }
 assert.ok(html.includes('visual-polish-v15.css'), 'v15 stylesheet missing from HTML');
+assert.ok(html.includes('visual-polish-v18.css') && sw.includes('visual-polish-v18.css'), 'v18 visual system must be linked and cached');
 assert.ok(sw.includes('visual-polish-v15.css'), 'v15 stylesheet missing from cache');
 assert.ok((await read('learning-tools-suite-v1.js')).includes('abaLearningSuite'));
 assert.ok((await read('whiteboard-pro-v1.js')).includes('abaWbSave'));
