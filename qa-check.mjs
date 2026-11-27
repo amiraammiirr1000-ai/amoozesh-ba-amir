@@ -323,7 +323,7 @@ console.log('NOTE: automated checks are not a substitute for testing on real And
 const support = await read('support-center-v1.js');
 const webSupport = await read('web/support-center-v1.js');
 assert.equal(support, webSupport, 'root and web support modules must be synchronized');
-assert.match(support, /amirSupportFeedbackV1:user:/, 'support drafts must be scoped by account');
+assert.ok(support.includes("KEY+':user:'"), 'support drafts must be scoped by account');
 assert.match(support, /storageKey/, 'support draft storage must use the active account key');
 assert.match(support, /event\.detail\?\.userId/, 'support drafts must switch scope on account changes');
 assert.match(html, /نسخه ۳\.۲\.۰/, 'visible page title must match the 3.2.0 release');
