@@ -79,7 +79,7 @@ assert.equal(manifestText, webManifestText, 'root and web manifests must be sync
 assert.equal(cap.webDir, 'web', 'Capacitor must package the synchronized web directory');
 assert.equal(manifest.lang, 'fa-IR');
 assert.equal(manifest.dir, 'rtl');
-assert.equal(pkg.version, '3.2.0', 'package version must match the 3.2.0 release candidate');
+assert.equal(pkg.version, '3.2.1', 'package version must match the 3.2.1 release candidate');
 
 for (const f of ['index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','sw.js','study-hero.svg']) {
   await access(resolve(root,'web',f), constants.R_OK);
@@ -118,7 +118,7 @@ assert.match(videoLibrary, /storageKey=KEY/);
 assert.ok(videoLibrary.includes("KEY+':'+(userId?'user:'+String(userId):'guest')"), 'video library data must be scoped per signed-in account');
 assert.match(videoLibrary, /amir:user-changed/, 'video library must switch data when account changes');
 assert.match(await read('index.html'), /k\.startsWith\('amirVideoLibraryV1:user:'\)/, 'account-scoped video entries must be included in backups');
-assert.match(await read('index.html'), /نسخه ۳\.۲\.۰/, 'profile version label must match the release candidate');
+assert.match(await read('index.html'), /نسخه ۳\.۲\.۱/, 'profile version label must match the release candidate');
 const supportModule = await read('support-center-v1.js');
 const supportSyntax = spawnSync(process.execPath, ['--check','-'], { input: supportModule, encoding: 'utf8' });
 assert.equal(supportSyntax.status, 0, 'support module syntax check failed: ' + supportSyntax.stderr);
@@ -326,5 +326,5 @@ assert.equal(support, webSupport, 'root and web support modules must be synchron
 assert.ok(support.includes("KEY+':user:'"), 'support drafts must be scoped by account');
 assert.match(support, /storageKey/, 'support draft storage must use the active account key');
 assert.match(support, /event\.detail\?\.userId/, 'support drafts must switch scope on account changes');
-assert.match(html, /نسخه ۳\.۲\.۰/, 'visible page title must match the 3.2.0 release');
+assert.match(html, /نسخه ۳\.۲\.۱/, 'visible page title must match the 3.2.1 release');
 assert.match(html, /amirSupportFeedbackV1:user:/, 'account-scoped support drafts must be included in backup');
