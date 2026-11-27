@@ -226,3 +226,5 @@ jobs:
           retention-days: 30
 # Trigger signed APK build after repository secrets were configured.
 # Re-run signing validation after correcting the base64 keystore secret.
+
+# Rebuild with the restored permanent signing key (2026-11-27).
