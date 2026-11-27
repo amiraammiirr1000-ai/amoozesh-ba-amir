@@ -115,7 +115,7 @@ const videoLibrary = await read('video-library-v1.js');
 const webVideoLibrary = await read('web/video-library-v1.js');
 assert.equal(videoLibrary, webVideoLibrary, 'root and web video libraries must be synchronized');
 assert.match(videoLibrary, /storageKey=KEY/);
-assert.match(videoLibrary, /KEY\+':\x27\(userId\?\x27user:\x27\+String\(userId\):\x27guest\x27\)/, 'video library data must be scoped per signed-in account');
+assert.ok(videoLibrary.includes("KEY+':'+(userId?'user:'+String(userId):'guest')"), 'video library data must be scoped per signed-in account');
 assert.match(videoLibrary, /amir:user-changed/, 'video library must switch data when account changes');
 const supportModule = await read('support-center-v1.js');
 const supportSyntax = spawnSync(process.execPath, ['--check','-'], { input: supportModule, encoding: 'utf8' });
