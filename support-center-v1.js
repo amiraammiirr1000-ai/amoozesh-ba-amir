@@ -2,8 +2,10 @@
 (function(){
  'use strict';
  const KEY='amirSupportFeedbackV1',VERSION='3.2.0';
+ let storageKey=KEY;
+ function switchUser(userId){storageKey=userId?KEY+':user:'+String(userId):KEY+':guest';}
+ function readItems(){try{const x=JSON.parse(localStorage.getItem(storageKey)||'[]');return Array.isArray(x)?x:[]}catch(_){return[]}}
  const byId=id=>document.getElementById(id);
- function readItems(){try{const x=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(x)?x:[]}catch(_){return[]}}
  function status(message){const el=byId('supportStatus');if(el)el.textContent=message}
  function client(){return window.AmirAuth?.client||null}
  function profile(){return window.AmirAuth?.profile||null}
@@ -20,7 +22,7 @@
    const body=(message&&message.value||'').trim();
    if(body.length<8){status('لطفاً پیام را کمی کامل‌تر بنویس.');return false;}
    const item={id:'FB-'+Date.now(),type:type?type.value:'پیشنهاد',message:body,contact:contact?contact.value.trim():'',createdAt:new Date().toISOString()};
-   try{const items=readItems();items.push(item);localStorage.setItem(KEY,JSON.stringify(items.slice(-50)))}catch(_){status('ذخیره محلی ممکن نشد؛ مجوز فضای ذخیره‌سازی را بررسی کن.');return false;}
+   try{const items=readItems();items.push(item);localStorage.setItem(storageKey,JSON.stringify(items.slice(-50)))}catch(_){status('ذخیره محلی ممکن نشد؛ مجوز فضای ذخیره‌سازی را بررسی کن.');return false;}
    const authClient=client(),user=profile();
    if(authClient&&user?.id){
      try{
@@ -61,6 +63,7 @@
   list.innerHTML=data.map(x=>'<article class="support-inbox-item"><div class="support-inbox-meta"><b>'+String(x.category||'پیام').replace(/[&<>"]/g,'')+'</b><span>'+new Date(x.created_at).toLocaleString('fa-IR')+'</span><span class="tag">'+(x.status==='resolved'?'رسیدگی‌شده':x.status==='reviewing'?'در حال بررسی':'جدید')+'</span></div><p>'+String(x.message||'').replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]))+'</p><div class="small">شناسه کاربر: '+String(x.user_id||'').slice(0,8)+(x.contact?' · راه پاسخ: '+String(x.contact).replace(/[&<>"]/g,''):'')+'</div>'+(x.status!=='resolved'?'<button class="btn light" type="button" data-support-resolve="'+x.id+'">ثبت رسیدگی</button>':'')+'</article>').join('');
  }
  document.addEventListener('click',async e=>{const b=e.target.closest('[data-support-resolve]');if(!b)return;const c=client();if(!c)return;b.disabled=true;const {error}=await c.from('support_feedback').update({status:'resolved',updated_at:new Date().toISOString()}).eq('id',b.dataset.supportResolve);if(error){status('تغییر وضعیت پیام انجام نشد.');b.disabled=false;return;}await loadInbox();});
- window.addEventListener('amir:user-changed',()=>{ensureInbox();if(profile()?.role==='admin')loadInbox();});
+ window.addEventListener('amir:user-changed',event=>{switchUser(event.detail?.userId||null);ensureInbox();if(profile()?.role==='admin')loadInbox();});
+ switchUser(profile()?.id||null);
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{ensureInbox();if(profile()?.role==='admin')loadInbox();},{once:true});else{ensureInbox();if(profile()?.role==='admin')loadInbox();}
 })();
