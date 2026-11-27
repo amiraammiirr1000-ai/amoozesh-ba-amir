@@ -12,5 +12,7 @@ for(const x of ["API+'/search","API+'/words/",'openjam-word','audio_url','langua
 if(!html.includes('dictionary-openjam.js')||!html.includes('app-home-v3.js')) throw new Error('New modules are not loaded');
 if(!biamoz.includes('biamoz.com/doc/ابتدایی/ششم/')) throw new Error('Missing Biamoz grade directory');
 if(!tree.includes('data-view="gradeFolderView"')||!tree.includes('data-view="grade6FolderView"')) throw new Error('Tree menu must open the real grade folders');
+if(!tree.includes('data-view="libraryHub"')) throw new Error('Tree menu library item must target the mounted libraryHub view');
+if(tree.includes('data-view="library"')) throw new Error('Tree menu must not point to a nonexistent library view');
 if(home.includes("showView('libraryHub')")) throw new Error('Home shortcut points to a view that is not mounted');
 console.log('Home folders, Openjam dictionary and Biamoz directory checks passed.');
