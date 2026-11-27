@@ -111,6 +111,7 @@ assert.match(html, /function startChapterQuiz\(n\)/);
 assert.match(html, /function getQuestions\(\)[\s\S]*lessonQuestionBanks\[currentLesson\]/, 'lesson quiz must use the selected lesson bank');
 assert.ok(html.includes("عدد بعدی را بنویس: ۳، ۷، ۱۱، ۱۵، …','۱۹'"), 'pattern worksheet answer must be correct');
 assert.match(html, /id="globalSearch"/);
+for (const key of ['amirPrimaryGradeProgressV1','amirPrimaryGradeQuizV1','amirPrimaryGradeExamV1','amirVideoLibraryV1','amirEnglishFavoritesV2','amirEnglishWritingV2','amirEnglishScoresV2']) assert.ok(html.includes(key), 'local backup must include '+key);
 assert.match(html, /function showView\(id\)\{const navId=id;if\(id==="library"\)id="worksheets"/, 'library navigation must open the real PDF and worksheet library');
 assert.match(html, /math-game-engine-v2\.js/, 'math game engine module must be loaded');
 assert.match(html, /id="gameLab"/, 'math game lab container must exist');
