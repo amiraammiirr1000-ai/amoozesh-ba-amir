@@ -95,7 +95,7 @@ function checkAnswer(index){
   const all=readQuiz();all[id]=all[id]||{correct:{}};all[id].correct[index]=true;
   try{localStorage.setItem(quizKey,JSON.stringify(all));}catch(e){}
   feedback.textContent='آفرین! پاسخ درست است و ثبت شد. ⭐';input.disabled=true;button.disabled=true;
- }else{feedback.textContent='این پاسخ درست نیست؛ دوباره فکر کن و تلاش کن.';}
+ }else{feedback.textContent='این پاسخ درست نیست؛ دوباره فکر کن. راهنمایی: '+t[3];}
  const count=topicCorrectCount(id),summary=document.getElementById('primaryQuizSummary');if(summary)summary.textContent='پاسخ‌های درست این مبحث: '+fa(count)+' از ۳';
  updateCompletionButton(id);
 }
