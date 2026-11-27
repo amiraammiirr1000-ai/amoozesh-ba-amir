@@ -116,6 +116,8 @@ const supportSyntax = spawnSync(process.execPath, ['--check','-'], { input: supp
 assert.equal(supportSyntax.status, 0, 'support module syntax check failed: ' + supportSyntax.stderr);
 assert.ok(supportModule.includes("from('support_feedback')"), 'online support feedback insert missing');
 assert.ok(supportModule.includes('supportAdminInbox'), 'admin support inbox missing');
+assert.ok((await read('privacy.html')).includes('جدول پشتیبانی آنلاین'), 'privacy policy must disclose online support data handling');
+assert.ok(html.includes('صندوق مدیر کل ذخیره می‌شود'), 'in-app privacy notice must disclose support inbox');
 assert.ok((await read('backend/support-feedback-v1.sql')).includes('enable row level security'), 'support feedback RLS migration missing');
 for (const key of ['amirPrimaryGradeProgressV1','amirPrimaryGradeQuizV1','amirPrimaryGradeExamV1','amirVideoLibraryV1','amirEnglishFavoritesV2','amirEnglishWritingV2','amirEnglishScoresV2']) assert.ok(html.includes(key), 'local backup must include '+key);
 assert.match(html, /function showView\(id\)\{const navId=id;if\(id==="library"\)id="worksheets"/, 'library navigation must open the real PDF and worksheet library');
