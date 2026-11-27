@@ -141,6 +141,13 @@ const mathDepth = await read('math-lesson-depth-v1.js');
 assert.match(mathDepth, /window\.openLesson/);
 assert.match(mathDepth, /مثال حل‌شده مرحله‌به‌مرحله/);
 
+const classroomModule = await read('online-classroom-v1.js');
+const classroomSyntax = spawnSync(process.execPath, ['--check','-'], { input: classroomModule, encoding: 'utf8' });
+assert.equal(classroomSyntax.status, 0, 'online classroom syntax check failed: ' + classroomSyntax.stderr);
+assert.ok(html.includes('online-classroom-v1.js'), 'online classroom module missing');
+assert.ok(sw.includes('online-classroom-v1.js'), 'online classroom module missing from offline cache');
+assert.match(classroomModule, /join_class_by_code/);
+assert.match(classroomModule, /meeting_url/);
 const videoModule = await read('video-library-v1.js');
 assert.ok(videoModule.includes('function parseUrl('));
 assert.ok(videoModule.includes('youtube-nocookie.com'));
