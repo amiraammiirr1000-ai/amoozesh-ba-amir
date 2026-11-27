@@ -28,7 +28,7 @@ function mount(){const main=document.querySelector('main.content');if(!main)retu
 const tools=document.querySelector('#tools .tool-grid');if(tools&&!$('gpbToolLink')){const b=document.createElement('button');b.id='gpbToolLink';b.className='tool-tile';b.type='button';b.innerHTML='<span class="tile-ico">🏅</span><b>تابلوی پیشرفت گروهی</b><small>۹ ماه، ۳۶ هفته و چاپ A3</small>';b.onclick=()=>window.showView?.('groupBoard');tools.append(b)}
 const teacher=$('teacher');if(teacher&&!$('gpbTeacherLink')){const b=document.createElement('button');b.id='gpbTeacherLink';b.className='btn gold';b.type='button';b.textContent='🏅 بازکردن تابلوی پیشرفت گروهی';b.onclick=()=>window.showView?.('groupBoard');teacher.querySelector('.section-head')?.insertAdjacentElement('afterend',b)}
 render()}
-function switchUser(id){const next=String(id||'guest');if(next===userId)return;userId=next;data=normalize(read(storeKey(),freshData()));render()}
+function switchUser(id){const next=String(id||'guest');if(next===userId)return;const previous=userId;userId=next;const scoped=read(storeKey(),null);if(scoped){data=normalize(scoped)}else if(next!=='guest'){const guest=read(KEY+':guest',legacy);data=normalize(guest||freshData());save()}else{data=normalize(read(KEY+':guest',legacy||freshData()))}render()}
 window.AbaGroupBoard={snapshot:()=>JSON.parse(JSON.stringify(data)),calculate,months:MONTHS.slice(),switchUser};
 window.addEventListener?.('amir:user-changed',e=>switchUser(e.detail?.userId));
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
