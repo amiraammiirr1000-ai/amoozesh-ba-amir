@@ -52,7 +52,8 @@ const curriculum={
 const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[+d]);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let grade=1,topic=0;
-const progressKey='amirPrimaryGradeProgressV1',quizKey='amirPrimaryGradeQuizV1';
+let progressKey='amirPrimaryGradeProgressV1',quizKey='amirPrimaryGradeQuizV1',examKey='amirPrimaryGradeExamV1';
+let primaryUserScope='guest';
 const normalize=s=>String(s??'').toLowerCase().replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[ي]/g,'ی').replace(/[ك]/g,'ک').replace(/[٫،؛]/g,'.').replace(/[\u200c\u200f\s]/g,'').replace(/[−–—]/g,'-').replace(/,/g,'');
 function readDone(){try{const x=JSON.parse(localStorage.getItem(progressKey)||'[]');return Array.isArray(x)?x:[]}catch(e){return[]}}
 function readQuiz(){try{const x=JSON.parse(localStorage.getItem(quizKey)||'{}');return x&&typeof x==='object'?x:{}}catch(e){return{}}}
@@ -81,7 +82,7 @@ function gradeExam(){
  const panel=document.getElementById('primaryExamPanel');if(!panel)return;
  let correct=0;const rows=examQuestions.map((q,i)=>{const input=panel.querySelector('[data-exam-answer="'+i+'"]'),given=normalize(input?.value||''),expected=String(q.answer).split(/\s+یا\s+/).map(normalize),ok=expected.includes(given);if(ok)correct++;return '<li>'+esc(q.q)+' — <b>'+(ok?'درست':'پاسخ صحیح: '+esc(q.answer))+'</b></li>'});
  const score=Math.round(correct/Math.max(1,examQuestions.length)*100);
- try{const key='amirPrimaryGradeExamV1',all=JSON.parse(localStorage.getItem(key)||'{}');all[grade]={score,correct,total:examQuestions.length,date:new Date().toISOString()};localStorage.setItem(key,JSON.stringify(all));}catch{}
+ try{const key=examKey,all=JSON.parse(localStorage.getItem(key)||'{}');all[grade]={score,correct,total:examQuestions.length,date:new Date().toISOString()};localStorage.setItem(key,JSON.stringify(all));}catch{}
  const result=document.getElementById('primaryExamResult');if(result)result.innerHTML='<div class="mutedbox"><b>نتیجه: '+fa(score)+'٪</b> · '+fa(correct)+' پاسخ درست از '+fa(examQuestions.length)+'<ol>'+rows.join('')+'</ol></div>';
 }
 function printWorksheet(){const hub=document.getElementById('primaryGradesHub');if(!hub)return;hub.classList.add('printing');const done=()=>{hub.classList.remove('printing');window.removeEventListener('afterprint',done)};window.addEventListener('afterprint',done);window.print();setTimeout(done,1500);}
@@ -134,4 +135,7 @@ document.addEventListener('click',e=>{
 });
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 window.openPrimaryGradesHub=openHub;
+function switchPrimaryUser(userId){const next=userId?'user:'+userId:'guest';if(next===primaryUserScope)return;primaryUserScope=next;const suffix=userId?':user:'+userId:'';progressKey='amirPrimaryGradeProgressV1'+suffix;quizKey='amirPrimaryGradeQuizV1'+suffix;examKey='amirPrimaryGradeExamV1'+suffix;grade=1;topic=0;render();}
+window.addEventListener('amir:user-changed',e=>switchPrimaryUser(e.detail?.userId||null));
+if(window.AmirAuth?.profile?.id)switchPrimaryUser(window.AmirAuth.profile.id);
 })();
