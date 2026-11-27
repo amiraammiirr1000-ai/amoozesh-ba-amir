@@ -1,7 +1,7 @@
 /* آموزش با امیر — multi-user client. Database RLS is the security boundary. */
 (function(){
  const cfg=window.AMIR_BACKEND_CONFIG||{}, ready=!!(cfg.supabaseUrl&&cfg.supabaseAnonKey&&window.supabase?.createClient);
- let client=null,profile=null,adminPollTimer=null;let knownAdminNotifications=new Set(); const $=id=>document.getElementById(id);
+ let client=null,profile=null,adminPollTimer=null,profileLoadSeq=0;let knownAdminNotifications=new Set(); const $=id=>document.getElementById(id);
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function mount(){
   if($('amirAuthOverlay'))return;
@@ -47,8 +47,16 @@
   if(data.session)await loadProfile();else message(role==='teacher'?'درخواست معلم ثبت شد؛ پس از تأیید ایمیل و مدیر کل فعال می‌شود.':'حساب ساخته شد؛ ایمیل را برای تأیید بررسی کن.');
  }
  async function loadProfile(){
-  const {data:{user}}=await client.auth.getUser();if(!user){profile=null;window.AmirProgress?.switchUser(null);window.AbaGrowth?.switchUser(null);window.dispatchEvent(new CustomEvent('amir:user-changed',{detail:{userId:null}}));render();return}
-  const {data,error}=await client.from('profiles').select('*').eq('id',user.id).single();if(error){message('دریافت نقش ناموفق بود: '+error.message);return}
+  const requestId=++profileLoadSeq;if(!client)return;
+  let authResult;
+  try{authResult=await client.auth.getUser();}catch(error){if(requestId===profileLoadSeq)message('بررسی نشست ورود انجام نشد: '+(error?.message||'خطای شبکه'));return;}
+  if(requestId!==profileLoadSeq)return;
+  if(authResult?.error){message('بررسی نشست ورود انجام نشد: '+authResult.error.message);return;}
+  const user=authResult?.data?.user;
+  if(!user){profile=null;window.AmirProgress?.switchUser(null);window.AbaGrowth?.switchUser(null);window.dispatchEvent(new CustomEvent('amir:user-changed',{detail:{userId:null}}));render();return;}
+  const {data,error}=await client.from('profiles').select('*').eq('id',user.id).single();
+  if(requestId!==profileLoadSeq)return;
+  if(error||!data){profile=null;window.AmirProgress?.switchUser(null);window.AbaGrowth?.switchUser(null);window.dispatchEvent(new CustomEvent('amir:user-changed',{detail:{userId:null}}));render();message('دریافت نقش حساب ناموفق بود: '+(error?.message||'پروفایل پیدا نشد'));return;}
   profile=data;window.AmirProgress?.switchUser(profile.id);window.AbaGrowth?.switchUser(profile.id);window.dispatchEvent(new CustomEvent('amir:user-changed',{detail:{userId:profile.id}}));render();$('amirAuthOverlay')?.classList.remove('open');if(profile.role==='student'&&profile.approval_status==='approved')syncStudentProgress();
   if(profile.approval_status==='pending')alert('درخواست معلم در انتظار تأیید مدیر کل است.');
   if(['rejected','suspended'].includes(profile.approval_status))alert('حساب فعلاً اجازه استفاده از پنل معلم را ندارد.');
@@ -137,7 +145,7 @@
  async function joinClass(){const code=$('amirJoinCode').value.trim();if(!code)return alert('کد کلاس را وارد کن.');const {error}=await client.rpc('join_class_by_code',{p_code:code});if(error)return alert(error.message);alert('عضویت در کلاس انجام شد.');history.replaceState({},'',location.pathname);loadStudentClasses()}
  async function loadStudentClasses(){const box=$('amirStudentClasses');if(!box)return;const {data,error}=await client.from('class_members').select('class_id,classes(title,grade,subject,meeting_url)').eq('student_id',profile.id);if(error){box.textContent=error.message;return}box.innerHTML='<b>کلاس‌های من</b>'+(data.length?data.map(x=>{const c=x.classes||{};return '<div class="amir-list-row"><b>'+esc(c.title||'کلاس')+'</b><div class="small">'+esc(c.grade||'')+' · '+esc(c.subject||'')+'</div>'+(c.meeting_url&&/^https:\/\//i.test(c.meeting_url)?'<a href="'+esc(c.meeting_url)+'" target="_blank" rel="noopener noreferrer">ورود به کلاس آنلاین</a>':'<div class="small">لینک ورود هنوز توسط معلم ثبت نشده است.</div>')+'</div>'}).join(''):'<div>هنوز عضو کلاسی نیستی.</div>')}
  async function logout(){await client.auth.signOut();profile=null;window.AmirProgress?.switchUser(null);window.AbaGrowth?.switchUser(null);window.dispatchEvent(new CustomEvent('amir:user-changed',{detail:{userId:null}}));render()}
- function init(){mount();window.addEventListener('amir:progress-changed',queueProgressSync);if(!ready)return;client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);client.auth.onAuthStateChange((_e,session)=>{if(!session){profile=null;window.AmirProgress?.switchUser(null);window.AbaGrowth?.switchUser(null);window.dispatchEvent(new CustomEvent('amir:user-changed',{detail:{userId:null}}));render()}else setTimeout(loadProfile,0)});loadProfile()}
+ function init(){mount();window.addEventListener('amir:progress-changed',queueProgressSync);if(!ready)return;client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);client.auth.onAuthStateChange((_e,session)=>{if(!session){profileLoadSeq++;profile=null;window.AmirProgress?.switchUser(null);window.AbaGrowth?.switchUser(null);window.dispatchEvent(new CustomEvent('amir:user-changed',{detail:{userId:null}}));render()}else setTimeout(loadProfile,0)});loadProfile()}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
- window.AmirAuth={get profile(){return profile},get client(){return client},get ready(){return ready},async getAccessToken(){if(!client)return null;const {data,error}=await client.auth.getSession();if(error)throw error;return data.session?.access_token||null;},refresh:loadProfile};
+ window.AmirAuth={get profile(){return profile},get client(){return client},get ready(){return ready},async getAccessToken(){if(!client)return null;let {data,error}=await client.auth.getSession();if(error)throw error;let session=data?.session;if(!session?.access_token)return null;const expiresAt=Number(session.expires_at||0);if(expiresAt&&expiresAt*1000<Date.now()+60000){const refreshed=await client.auth.refreshSession();if(refreshed.error)throw refreshed.error;session=refreshed.data?.session;}return session?.access_token||null;},refresh:loadProfile};
 })();
