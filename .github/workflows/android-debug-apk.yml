@@ -228,3 +228,5 @@ jobs:
 # Re-run signing validation after correcting the base64 keystore secret.
 
 # Rebuild with the restored permanent signing key (2026-11-27).
+
+# synchronized app entry QA retry
