@@ -18,6 +18,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'qa-check.mjs'
+      - 'english-support-readiness-check.mjs'
       - 'primary-grades-v1.js'
       - 'primary-grades-check.mjs'
       - 'app-home-v2.js'
