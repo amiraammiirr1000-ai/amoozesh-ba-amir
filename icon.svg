@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6c63ff"/><stop offset="1" stop-color="#d94685"/></linearGradient></defs><rect width="128" height="128" rx="30" fill="url(#g)"/><path d="M25 32h78M25 96h78" stroke="#fff" stroke-opacity=".25" stroke-width="3"/><text x="64" y="79" text-anchor="middle" font-size="58" font-weight="bold" fill="#fff" font-family="Tahoma,Arial">آ</text><circle cx="99" cy="27" r="8" fill="#ffe082"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+<title id="title">نشان آموزش با امیر</title><desc id="desc">کتاب گشوده با ستاره‌ای طلایی، نماد یادگیری و کشف</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102f4b"/><stop offset="1" stop-color="#5145a8"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe59a"/><stop offset="1" stop-color="#f2b83f"/></linearGradient></defs>
+<rect width="128" height="128" rx="29" fill="url(#bg)"/><circle cx="98" cy="27" r="18" fill="#ffffff" opacity=".08"/>
+<path d="M64 37c-13-9-27-10-42-5v57c16-5 30-4 42 6 12-10 26-11 42-6V32c-15-5-29-4-42 5Z" fill="#fff" fill-opacity=".08" stroke="#fff" stroke-opacity=".9" stroke-width="4" stroke-linejoin="round"/>
+<path d="M64 38v56M28 43c11-2 22 0 30 5M28 57c11-2 22 0 30 5M100 43c-11-2-22 0-30 5M100 57c-11-2-22 0-30 5" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/>
+<path d="m88 17 4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1 4-9Z" fill="url(#gold)"/>
+<path d="M64 77c-8-7-18-9-29-7v10c12-2 21 1 29 9 8-8 17-11 29-9V70c-11-2-21 0-29 7Z" fill="url(#gold)" opacity=".95"/></svg>
