@@ -22,6 +22,7 @@ function init(){
   else menuBtn.setAttribute('aria-expanded','false');
  });
  document.getElementById('abaTreeShade')?.addEventListener('click',()=>menuBtn.setAttribute('aria-expanded','false'));
+ document.querySelector('#abaTreePanel .aba-tree-close')?.addEventListener('click',()=>menuBtn.setAttribute('aria-expanded','false'));
  document.getElementById('abaTreePanel')?.addEventListener('click',e=>{if(e.target.closest('[data-view]'))menuBtn.setAttribute('aria-expanded','false');});
  document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){setSearch(false);closeTree();}
