@@ -1,0 +1,21 @@
+/* Support center v1 — accessible feedback, contact, plans and privacy */
+#support .support-methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#support .support-method{display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);border-radius:15px;background:var(--white);color:var(--ink);text-decoration:none}
+#support .support-method .symbol{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:var(--glow);font-size:20px;flex:0 0 auto}
+#support .support-method b{display:block;font-size:12px}
+#support .support-method small{display:block;color:var(--muted);font-size:10px}
+#support .support-form label{display:block;margin:10px 0 5px;font-size:12px;font-weight:800}
+#support .support-form textarea{min-height:120px;resize:vertical}
+#support .support-status{margin-top:10px;padding:10px;border-radius:12px;background:var(--glow);font-size:12px}
+#shop .plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#shop .plan-card{border:1px solid var(--line);border-radius:17px;padding:13px;background:var(--white);min-width:0}
+#shop .plan-card.featured{border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 5%,var(--white))}
+#shop .plan-card h3{margin:0 0 5px;font-size:14px}
+#shop .plan-card .plan-price{font-size:12px;font-weight:900;color:var(--accent)}
+#shop .plan-card ul{padding-right:17px;font-size:11px;line-height:2}
+#shop .plan-card .btn{width:100%;padding:8px 5px;font-size:10px}
+#privacy .policy-list li{margin:8px 0}
+#privacy .policy-date{font-size:11px;color:var(--muted)}
+.logo.brand-logo{object-fit:contain;padding:0;background:transparent;border:0;box-shadow:none}
+@media(max-width:520px){#shop .plan-grid{grid-template-columns:1fr}#support .support-methods{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){#support *{scroll-behavior:auto!important}}
