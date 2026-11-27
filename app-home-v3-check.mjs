@@ -3,7 +3,7 @@ const home=fs.readFileSync('app-home-v3.js','utf8');
 const dict=fs.readFileSync('dictionary-openjam.js','utf8');
 const html=fs.readFileSync('index.html','utf8');
 const biamoz=fs.readFileSync('biamoz-library.js','utf8');
-for(const x of ['درس‌ها و پایه‌ها','زبان انگلیسی','کاربرگ و آزمون','بازی و ابزارها','کلاس و مدیریت','ویدئوهای آموزشی','حساب و پشتیبانی','gradeFolderView','document.querySelector(\'.home-details\')']) if(!home.includes(x)) throw new Error('Missing home feature: '+x);
+for(const x of ['grade6FolderView','buildGrade6View','data-grade6-lesson','data-grade6-quiz','درس‌ها و پایه‌ها','زبان انگلیسی','کاربرگ و آزمون','بازی و ابزارها','کلاس و مدیریت','ویدئوهای آموزشی','حساب و پشتیبانی','gradeFolderView','document.querySelector(\'.home-details\')']) if(!home.includes(x)) throw new Error('Missing home feature: '+x);
 for(const x of ["API+'/search","API+'/words/",'openjam-word','audio_url','language_code']) if(!dict.includes(x)) throw new Error('Missing dictionary feature: '+x);
 if(!html.includes('dictionary-openjam.js')||!html.includes('app-home-v3.js')) throw new Error('New modules are not loaded');
 if(!biamoz.includes('biamoz.com/doc/ابتدایی/ششم/')) throw new Error('Missing Biamoz grade directory');
