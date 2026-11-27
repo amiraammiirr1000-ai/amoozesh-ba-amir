@@ -15,5 +15,5 @@ for(const term of ['هدف یادگیری','مثال حل‌شده','تمرین 
 assert.ok(moduleText.split("['").length>20,'curriculum must contain multiple lesson units');
 for(const term of ['مکان‌یابی و جهت‌ها','دسته‌بندی و جدول ساده','زمان و تقویم','شکل‌ها و ویژگی‌های هندسی','جمع و تفریق عددهای چهاررقمی','آمار و نمودارهای ساده','الگوها و ماشین ورودی–خروجی','تقارن و مساحت شکل‌ها','تقارن و چندضلعی‌ها','آمار و احتمال','function startExam()','function printWorksheet()']) assert.ok(moduleText.includes(term),'missing expanded primary-grade content: '+term);
 assert.ok(moduleText.includes('دست‌کم ۲ پاسخ درست بده'),'lesson completion must require two correct answers');
-for(const feature of ['data-primary-tutor','data-primary-whiteboard','data-primary-videos']) assert.ok(moduleText.includes(feature),'primary grade integration missing: '+feature);
+for(const feature of ['data-primary-tutor','data-primary-whiteboard','data-primary-videos','data-primary-games']) assert.ok(moduleText.includes(feature),'primary grade integration missing: '+feature);
 console.log('Primary grades 1–5 interactive curriculum checks passed.');
