@@ -25,7 +25,7 @@ panel.innerHTML=`
 <div class="aba-tree-head"><div><b>فهرست آموزش با امیر</b><div class="small">دسترسی سریع و دسته‌بندی‌شده</div></div><button class="aba-tree-close" type="button">بستن ✕</button></div>
 <details class="aba-tree-group" open><summary>📚 پایه‌ها و درس‌های ابتدایی</summary><div class="aba-tree-items">
 <button class="aba-tree-item" data-view="tools">مسیرهای ریاضی پایه‌های اول تا ششم</button>
-<button class="aba-tree-item" data-view="home">ریاضی پایه ششم</button>
+<button class="aba-tree-item" data-view="grade6FolderView">ریاضی پایه ششم</button>
 <button class="aba-tree-item" data-view="tools">درس‌ها و ابزارهای پایه‌های اول تا پنجم</button>
 </div></details>
 <details class="aba-tree-group"><summary>🇺🇸 زبان انگلیسی</summary><div class="aba-tree-items">
