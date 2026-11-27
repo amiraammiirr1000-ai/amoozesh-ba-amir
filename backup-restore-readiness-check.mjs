@@ -17,5 +17,5 @@ assert.equal(source,webSource,'root and web backup managers must be synchronized
 assert.equal(html,webHtml,'root and web HTML must be synchronized');
 assert.equal(sw,webSw,'root and web service workers must be synchronized');
 assert.match(sw,/amoozesh-ba-amir-v92/);
-assert.match(sw,/backup-restore-v2\\.js/);
+assert.match(sw,/backup-restore-v2\.js/);
 console.log('IndexedDB backup readiness checks passed.');
