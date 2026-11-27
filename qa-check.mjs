@@ -296,7 +296,8 @@ assert.ok(html.includes('id="supportMessage"') && html.includes('submitSupportFe
 assert.ok(html.includes('privacy.html'), 'public privacy policy link must exist');
 assert.ok((await read('privacy.html')).includes('سیاست حریم خصوصی'), 'standalone privacy policy page missing');
 assert.equal(await read('privacy.html'), await read('web/privacy.html'), 'root and web privacy pages must be synchronized');
-assert.match(supportJs, /ارسال نشده است/, 'feedback UI must disclose that messages are not automatically sent');
+assert.ok(supportJs.includes("from('support_feedback')"), 'authenticated feedback must support online submission');
+assert.ok(supportJs.includes('پیش‌نویس روی دستگاه ذخیره شد') && supportJs.includes('supportAdminInbox'), 'local fallback and admin inbox must remain available');
 assert.match(supportJs, /localStorage/, 'feedback draft storage must be local and explicit');
 
 console.log('PASS: synchronized PWA/Capacitor assets, multi-user role client, class invites, HTTPS meeting links, privacy RPCs, 29 math lessons, English studio, lesson exams, worksheets and inline JavaScript syntax.');
