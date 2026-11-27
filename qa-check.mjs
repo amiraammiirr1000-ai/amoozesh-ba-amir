@@ -139,6 +139,15 @@ const mathDepth = await read('math-lesson-depth-v1.js');
 assert.match(mathDepth, /window\.openLesson/);
 assert.match(mathDepth, /مثال حل‌شده مرحله‌به‌مرحله/);
 
+const toolbarModule = await read('global-toolbar-v1.js');
+assert.equal(toolbarModule, await read('web/global-toolbar-v1.js'), 'root and web top toolbar modules must be synchronized');
+const toolbarSyntax = spawnSync(process.execPath, ['--check','-'], { input: toolbarModule, encoding: 'utf8' });
+assert.equal(toolbarSyntax.status, 0, 'top toolbar syntax check failed: ' + toolbarSyntax.stderr);
+assert.ok(html.includes('global-toolbar-v1.js'), 'shared top toolbar script missing');
+assert.ok(sw.includes('global-toolbar-v1.js'), 'shared top toolbar missing from offline cache');
+assert.match(toolbarModule, /abaSearchToggle/);
+assert.match(toolbarModule, /abaOptionsToggle/);
+assert.match(toolbarModule, /globalSearch/);
 const primaryModule = await read('primary-grades-v1.js');
 assert.equal(primaryModule, await read('web/primary-grades-v1.js'), 'root and web primary-grade modules must be synchronized');
 assert.match(primaryModule, /function checkAnswer\(/, 'primary-grade exercises must check student answers');
