@@ -243,6 +243,9 @@ assert.match(html, /window\.AmirAuth\?\.getAccessToken\?\.\(\)/, 'AI tutor must 
 assert.doesNotMatch(html, /id="aiAccessToken"/, 'client-side API token fields must not be exposed');
 assert.match(html, /function exportFullBackup\(/);
 assert.match(html, /function importFullBackup\(/);
+for (const key of ['abaFlashCardsV1','abaDailyTasksV1','abaDictionaryFavoritesV2','abaWhiteboardSnapshotV1','amirEnglishRate']) assert.ok(html.includes(key), 'backup allowlist missing '+key);
+assert.ok(html.includes("k.startsWith('abaGrowthSuiteV1')"), 'account-scoped learning growth data must be included in backup');
+assert.ok(html.includes('const incoming=Object.entries(obj.data)') && html.includes('!keep.has(k)'), 'restore must replace managed local data, not silently merge stale keys');
 assert.match(sw, /url\.origin !== self\.location\.origin/);
 assert.match(sw, /pathname\.includes\('\/api\/'\)/);
 
