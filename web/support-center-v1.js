@@ -1,7 +1,7 @@
 /* Support center v2 — online feedback with local-first fallback and admin inbox. */
 (function(){
  'use strict';
- const KEY='amirSupportFeedbackV1',VERSION='3.2.0';
+ const KEY='amirSupportFeedbackV1',VERSION='3.2.1';
  let storageKey=KEY;
  function switchUser(userId){storageKey=userId?KEY+':user:'+String(userId):KEY+':guest';}
  function readItems(){try{const x=JSON.parse(localStorage.getItem(storageKey)||'[]');return Array.isArray(x)?x:[]}catch(_){return[]}}
