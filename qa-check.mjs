@@ -120,7 +120,8 @@ assert.ok((await read('privacy.html')).includes('جدول پشتیبانی آن�
 assert.ok(html.includes('صندوق مدیر کل ذخیره می‌شود'), 'in-app privacy notice must disclose support inbox');
 assert.ok((await read('backend/support-feedback-v1.sql')).includes('enable row level security'), 'support feedback RLS migration missing');
 for (const key of ['amirPrimaryGradeProgressV1','amirPrimaryGradeQuizV1','amirPrimaryGradeExamV1','amirVideoLibraryV1','amirEnglishFavoritesV2','amirEnglishWritingV2','amirEnglishScoresV2']) assert.ok(html.includes(key), 'local backup must include '+key);
-assert.match(html, /function showView\(id\)\{const navId=id;if\(id==="library"\)id="worksheets"/, 'library navigation must open the real PDF and worksheet library');
+assert.ok(html.includes('function showView(id){let navId=id;if(id==="library")id="worksheets";'), 'library navigation must open the real PDF and worksheet library');
+assert.ok(html.includes('grade6FolderView') && html.includes('onlineClassroom') && html.includes('navId="home"'), 'dynamic views must preserve bottom navigation state');
 assert.match(html, /math-game-engine-v2\.js/, 'math game engine module must be loaded');
 assert.match(html, /id="gameLab"/, 'math game lab container must exist');
 assert.match(html, /id="gameStage"/, 'math game stage container must exist');
