@@ -19,3 +19,5 @@
 .logo.brand-logo{object-fit:contain;padding:0;background:transparent;border:0;box-shadow:none}
 @media(max-width:520px){#shop .plan-grid{grid-template-columns:1fr}#support .support-methods{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){#support *{scroll-behavior:auto!important}}
+
+.support-admin-inbox{margin-top:14px}.support-inbox-item{padding:12px;border:1px solid var(--line);border-radius:14px;margin:9px 0;background:var(--white)}.support-inbox-item p{white-space:pre-wrap;overflow-wrap:anywhere}.support-inbox-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
