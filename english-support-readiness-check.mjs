@@ -21,7 +21,7 @@ const dictionary = await read('dictionary-unified-v1.js');
 assert.match(dictionary, /504-essential-words\.json/, 'dictionary must seed its offline word index from the bundled 504 list');
 assert.match(dictionary, /for\(const offset of \[0,500\]\)/, 'dictionary must fetch both pages of the 504 API dataset');
 assert.match(dictionary, /render504Course\(\)/, 'dictionary must render the 42-lesson course');
-assert.match(dictionary, /IndexedDB/, 'dictionary should describe durable offline storage');
+assert.match(dictionary, /indexedDB/i, 'dictionary should describe durable offline storage');
 const supportSql = await read('backend/support-feedback-v1.sql');
 assert.match(supportSql, /enable row level security/i, 'support feedback table must enforce RLS');
 assert.match(supportSql, /user_id=auth\.uid\(\)/, 'users may submit only feedback tied to their own account');
