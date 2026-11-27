@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="visual-polish-v15.css">
 <link rel="stylesheet" href="visual-polish-v16.css">
 <link rel="stylesheet" href="home-refresh-v17.css">
+<link rel="stylesheet" href="support-center-v1.css">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>آموزش با امیر | کتابخانه یادگیری · نسخه ۳.۰.۰</title>
 <style>
@@ -242,7 +243,7 @@ window.MathJax = {
 <body>
 <div class="app">
 <header class="top">
-  <div class="brandrow"><div class="logo">آ</div><div><div class="brand">آموزش با امیر</div><div class="sub">سامانه یادگیری، تمرین و پیشرفت</div></div></div>
+  <div class="brandrow"><img class="logo brand-logo" src="icon.svg" alt="نشان آموزش با امیر" width="52" height="52"><div><div class="brand">آموزش با امیر</div><div class="sub">سامانه یادگیری، تمرین و پیشرفت</div></div></div>
   <div class="welcome"><h1 id="greeting">سلام، به آموزش با امیر خوش آمدی! 👋</h1><p>درس، تمرین و ابزارهای یادگیری؛ همه در یک مسیر منظم.</p><span class="pill">پایه‌های اول تا ششم · زبان انگلیسی · ابزارهای آموزشی</span></div>
 </header>
 <main class="content">
@@ -408,10 +409,14 @@ window.MathJax = {
 </section>
 
 <section id="shop" class="view">
-  <div class="section-head"><h2>فروشگاه محتوای آموزشی</h2><span class="tag">نمونه اولیه</span></div>
-  <div class="card product"><div class="cover">📘</div><div style="flex:1"><h3 style="margin:0">پک ریاضی ششم ـ فصل اول</h3><div class="small">درس‌نامه مصور، مثال و تمرین</div><strong style="color:var(--green)">رایگان در نسخه آزمایشی</strong></div><button class="btn" onclick="alert('این محصول در نسخه آزمایشی رایگان است. برای فروش واقعی باید درگاه پرداخت و سامانه تحویل فایل راه‌اندازی شود.')">مشاهده</button></div>
-  <div class="card product"><div class="cover">🧩</div><div style="flex:1"><h3 style="margin:0">بانک تمرین و آزمون</h3><div class="small">تمرین‌های تکمیلی برای کلاس</div><strong>به‌زودی</strong></div><button class="btn light" onclick="alert('بخش فروش در نسخه بعدی تکمیل می‌شود.')">جزئیات</button></div>
-  <div class="mutedbox">برای فروش واقعی محتوا باید قیمت‌گذاری، درگاه پرداخت معتبر، تحویل امن فایل و قوانین حریم خصوصی اضافه شود. این نمونه هیچ پرداختی دریافت نمی‌کند.</div>
+ <div class="section-head"><h2>طرح‌های دسترسی و اشتراک</h2><span class="tag">شفاف و مرحله‌ای</span></div>
+ <div class="card"><h3>یادگیری پایه همیشه در دسترس</h3><p class="small">امکانات اصلی آموزشی و محتوای رایگان برای شروع یادگیری در دسترس می‌ماند. طرح‌های پیشرفته پس از آماده‌سازی پرداخت امن فعال خواهند شد.</p></div>
+ <div class="plan-grid">
+  <article class="plan-card"><h3>رایگان</h3><div class="plan-price">بدون هزینه</div><ul><li>محتوای عمومی رایگان</li><li>تمرین‌ها و ابزارهای پایه</li><li>پیشرفت روی دستگاه</li></ul><span class="chip">قابل استفاده</span></article>
+  <article class="plan-card featured"><h3>یادگیرنده پلاس</h3><div class="plan-price">قیمت اعلام می‌شود</div><ul><li>بسته‌های تکمیلی و آزمون‌ها</li><li>گزارش پیشرفت گسترده‌تر</li><li>امکانات پیشرفته یادگیری</li></ul><button class="btn" onclick="openPlanFeedback('یادگیرنده پلاس')">اعلام علاقه‌مندی</button></article>
+  <article class="plan-card"><h3>معلم حرفه‌ای</h3><div class="plan-price">قیمت اعلام می‌شود</div><ul><li>ابزارهای مدیریت کلاس</li><li>گزارش و خروجی‌های پیشرفته</li><li>امکانات گروهی و کاربرگ</li></ul><button class="btn outline" onclick="openPlanFeedback('معلم حرفه‌ای')">اعلام علاقه‌مندی</button></article>
+ </div>
+ <div class="card"><h3>وضعیت پرداخت</h3><p class="small">در این نسخه هیچ پرداختی دریافت نمی‌شود و اشتراک پولی فعال نیست. پیش از دریافت وجه، درگاه پرداخت معتبر، ثبت سفارش، فاکتور، لغو/تمدید اشتراک و پشتیبانی مالی باید پیاده‌سازی و آزمایش شود. برای جلوگیری از هرگونه برداشت اشتباه، دکمه خرید تا آن زمان فعال نخواهد شد.</p></div>
 </section>
 
 <section id="profile" class="view">
@@ -423,7 +428,7 @@ window.MathJax = {
   <div class="card"><h3>ظاهر برنامه</h3><p class="small">یکی از تم‌های هنری را انتخاب کن؛ انتخاب روی همین دستگاه می‌ماند.</p><div class="theme-row"><button class="theme-chip active" data-theme-choice="light" onclick="setTheme('light')">🌤 روشن و آرام</button><button class="theme-chip" data-theme-choice="rose" onclick="setTheme('rose')">🌸 رز هنری</button><button class="theme-chip" data-theme-choice="midnight" onclick="setTheme('midnight')">🌙 شبانه</button></div><div class="btnrow" style="margin-top:14px"><button class="btn" onclick="installApp()" id="installBtn">نصب روی گوشی</button><button class="btn outline" onclick="shareApp()">اشتراک‌گذاری</button></div><p id="installMsg" class="small" style="margin-top:8px">برای نصب مستقیم، برنامه باید از یک نشانی امن HTTPS باز شود.</p></div>
   <div class="card about-shortcut"><div class="about-mini-icon">✦</div><div style="flex:1"><h3 style="margin:0 0 3px">درباره آموزش با امیر</h3><p class="small" style="margin:0">معرفی آموزگار، مأموریت آموزشی و راه ارتباطی</p></div><button class="btn" onclick="showView('about')">مشاهده</button></div>
   <div class="card" id="profileBackupCard"><h3>پشتیبان‌گیری و بازیابی اطلاعات</h3><p class="small">برای حفظ اطلاعات آموزشی ذخیره‌شده روی همین گوشی، قبل از نصب نسخه جدید یک فایل پشتیبان تهیه کن. فایل ممکن است شامل اطلاعات کلاس و یادداشت‌ها باشد؛ آن را در جای امن و خصوصی نگه دار.</p><div class="btnrow"><button class="btn" onclick="exportFullBackup()">دریافت نسخه پشتیبان</button><button class="btn outline" onclick="importFullBackup()">بازیابی نسخه پشتیبان</button></div><div id="backupStatus" class="small" role="status" aria-live="polite" style="margin-top:9px"></div></div>
-  <div class="card"><h3>اطلاعات نسخه</h3><p class="small">نسخه ۲.۹.۸ · آموزش تکمیلی ۲۹ درس ریاضی ششم، ۸ بازی تعاملی، کاربرگ‌های ۱۱ مبحث، استودیوی زبان شش‌سطحی، دیکشنری و تمرین‌های قابل چاپ.</p><p class="small">حساب دانش‌آموز و معلم، دعوت کلاس و همگام‌سازی پیشرفت ریاضی پیاده‌سازی شده و نیازمند آزمون نهایی با حساب‌های واقعی است. APK فعلی Debug است؛ نسخه Release امضاشده و پرداخت آنلاین هنوز فعال نیست.</p></div>
+  <div class="card"><h3>ارتباط، راهنما و قوانین</h3><p class="small">برای ارسال پیشنهاد، گزارش خطا، درخواست همکاری یا پرسش درباره اشتراک از مرکز پشتیبانی استفاده کن.</p><div class="btnrow"><button class="btn" onclick="showView('support')">پیشنهادات و انتقادات</button><button class="btn outline" onclick="showView('privacy')">حریم خصوصی</button><button class="btn light" onclick="showView('shop')">طرح‌های اشتراک</button></div></div><div class="card"><h3>اطلاعات نسخه</h3><p class="small">نسخه ۳.۱.۰ · بازطراحی هویت بصری، مرکز پشتیبانی و شفاف‌سازی طرح‌های اشتراک.</p><p class="small">پرداخت آنلاین هنوز فعال نیست. انتشار فروشگاهی پس از آزمون نهایی و تکمیل الزامات حساب توسعه‌دهنده انجام می‌شود.</p></div>
 </section>
 
 
@@ -433,7 +438,7 @@ window.MathJax = {
  <div class="card"><h3>پیام ما</h3><p>«آموزش با امیر» با هدف ساده‌تر کردن یادگیری و کمک به رشد تحصیلی دانش‌آموزان طراحی شده است. باور داریم هر دانش‌آموز می‌تواند با آموزش روشن، تمرین هدفمند و بازخورد درست پیشرفت کند.</p><div class="achievement"><span class="medal">🎯</span><div><b>هدف یادگیری است.</b><div class="small">شعار و مسیر همیشگی ما</div></div></div></div>
  <div class="card"><h3>معرفی آموزگار</h3><div class="profile-head"><div class="about-avatar">👨🏻‍🏫</div><div><div class="profile-name">امیر محمدیان</div><div class="profile-role">آموزگار دوره ابتدایی</div><div class="small">کارشناسی ارشد روان‌شناسی تربیتی · ۱۲ سال تجربه</div></div></div><p>تمرکز آموزشی من بر فهم مفاهیم، تقویت مهارت حل مسئله و تبدیل اشتباه‌ها به فرصت یادگیری است.</p></div>
  <div class="card"><h3>چه خدماتی در نظر گرفته شده؟</h3><div class="about-feature"><span>📚</span><div><b>درس‌نامه و تمرین</b><p class="small">آموزش مفهومی، مثال حل‌شده، آزمون و کاربرگ</p></div></div><div class="about-feature"><span>🧑‍🏫</span><div><b>ابزار معلم</b><p class="small">مدیریت محلی دانش‌آموزان، تکالیف و گزارش پیشرفت</p></div></div><div class="about-feature"><span>🧠</span><div><b>یادگیری شخصی</b><p class="small">دفتر یادداشت، وایت‌برد و دستیار آموزشی</p></div></div></div>
- <div class="card"><h3>شفافیت و حریم خصوصی</h3><p class="small">در این نسخه، پیشرفت‌ها و اطلاعات کلاس در حافظه مرورگر همین دستگاه ذخیره می‌شوند؛ هنوز حساب کاربری و همگام‌سازی ابری فعال نیست. برای اطلاعات دانش‌آموزان، از دستگاه امن استفاده کنید و فایل پشتیبان را در اختیار افراد دیگر نگذارید.</p><p class="small">این نسخه آموزشی در حال توسعه است؛ بخش‌هایی مانند ویدئوهای اختصاصی، فروش آنلاین و درس‌نامه کامل همه فصل‌ها هنوز نیازمند تکمیل هستند.</p><button class="btn light" onclick="showView('profile')">بازگشت به پروفایل</button></div>
+ <div class="card"><h3>شفافیت و حریم خصوصی</h3><p class="small">برخی تنظیمات، یادداشت‌ها و داده‌های آموزشی ممکن است روی همین دستگاه ذخیره شوند و بخش‌هایی از حساب و پیشرفت در سرویس ابری پشتیبانی‌شده نگهداری شوند. نوع داده و محل ذخیره به قابلیتی که استفاده می‌کنی بستگی دارد. اطلاعات دانش‌آموزان را فقط با مجوز لازم وارد کن.</p><button class="btn light" onclick="showView('privacy')">مطالعه سیاست حریم خصوصی</button> <button class="btn outline" onclick="showView('support')">ارتباط با ما</button></div>
  <footer>ساخته‌شده برای یادگیری بهتر · آموزش با امیر · هدف یادگیری است.</footer>
 </section>
 
@@ -526,6 +531,36 @@ window.MathJax = {
  <div class="english-note">صدای گفتار از موتور تبدیل متن به گفتار گوشی یا مرورگر پخش می‌شود؛ کیفیت و صدای موجود به دستگاه وابسته است. فایل‌های اصلی کتاب‌ها فقط از رسانه‌های مجاز ناشر یا فایل‌های خریداری‌شده شما قابل افزودن هستند.</div>
 </div>
 </section><footer>آموزش با امیر · ریاضی ششم ۱۴۰۵–۱۴۰۶ · هدف یادگیری است.</footer>
+<section id="support" class="view">
+ <div class="section-head"><h2>مرکز ارتباط با ما</h2><span class="tag">پشتیبانی آموزش با امیر</span></div>
+ <div class="card"><h3>راه‌های ارتباطی</h3><p class="small">برای پیگیری اخبار و ارسال پیام مستقیم، از صفحه رسمی آموزشی استفاده کن.</p><div class="support-methods">
+  <a class="support-method" href="https://www.instagram.com/amoozesh_ba_amir/" target="_blank" rel="noopener"><span class="symbol">◎</span><span><b>اینستاگرام</b><small>@amoozesh_ba_amir</small></span></a>
+  <a class="support-method" href="https://amiraammiirr1000-ai.github.io/amoozesh-ba-amir/" target="_blank" rel="noopener"><span class="symbol">🌐</span><span><b>وب‌اپ رسمی</b><small>ورود به آموزش با امیر</small></span></a>
+ </div></div>
+ <div class="card support-form"><h3>پیشنهادات، انتقادات و گزارش خطا</h3><p class="small">پیام ابتدا فقط روی همین دستگاه ذخیره می‌شود. سپس می‌توانی آن را از طریق پنجره اشتراک‌گذاری گوشی برای ما بفرستی. این فرم هنوز به سامانه پشتیبانی آنلاین متصل نیست.</p>
+  <form onsubmit="return submitSupportFeedback(event)">
+   <label for="supportType">موضوع پیام</label><select id="supportType" class="input"><option>پیشنهاد برای ارتقا</option><option>انتقاد و تجربه کاربری</option><option>گزارش خطا</option><option>درخواست امکانات / اشتراک</option><option>همکاری آموزشی</option><option>سایر موارد</option></select>
+   <label for="supportMessage">متن پیام</label><textarea id="supportMessage" class="input" required minlength="8" maxlength="3000" placeholder="پیام خود را بنویس..."></textarea>
+   <label for="supportContact">راه پاسخ‌گویی (اختیاری)</label><input id="supportContact" class="input" maxlength="120" placeholder="ایمیل یا شناسه شبکه اجتماعی">
+   <div class="btnrow" style="margin-top:12px"><button class="btn" type="submit">ذخیره و اشتراک‌گذاری پیام</button><button class="btn outline" type="button" onclick="exportSupportFeedback()">خروجی پیام‌های ذخیره‌شده</button></div>
+   <div id="supportStatus" class="support-status" role="status" aria-live="polite">پیام‌ها تا زمان ارسال، فقط روی این دستگاه می‌مانند.</div>
+  </form>
+ </div>
+ <div class="card"><h3>پشتیبانی مالی و اشتراک</h3><p class="small">هیچ پرداخت یا خرید اشتراکی در حال حاضر فعال نیست. برای اعلام علاقه‌مندی یا پرسش درباره طرح‌ها، موضوع «درخواست امکانات / اشتراک» را انتخاب کن.</p><button class="btn light" onclick="showView('shop')">مشاهده طرح‌ها</button></div>
+</section>
+<section id="privacy" class="view">
+ <div class="section-head"><h2>سیاست حریم خصوصی</h2><span class="tag">نسخه اولیه</span></div>
+ <div class="card"><p class="policy-date">آخرین بازبینی: ۲۷ نوامبر ۲۰۲۶ · این متن باید پیش از انتشار فروشگاهی با اطلاعات حقوقی و فنی نهایی بازبینی شود.</p>
+  <h3>۱. چه اطلاعاتی ممکن است پردازش شود؟</h3><ul class="policy-list"><li>اطلاعات حساب مانند نام نمایشی، ایمیل و نقش کاربری، در صورت ثبت‌نام.</li><li>اطلاعات آموزشی مانند پاسخ تمرین، نمره، پیشرفت، کلاس و تکالیف، بسته به قابلیتی که استفاده می‌شود.</li><li>اطلاعاتی که خودت در فرم پشتیبانی یا پروفایل وارد می‌کنی.</li><li>تنظیمات و داده‌های محلی که در حافظه برنامه یا مرورگر همین دستگاه ذخیره می‌شوند.</li></ul>
+  <h3>۲. محل نگهداری و همگام‌سازی</h3><p class="small">بعضی قابلیت‌ها داده را محلی نگه می‌دارند و بعضی قابلیت‌های حساب و پیشرفت ممکن است از سرویس ابری پشتیبانی‌شده استفاده کنند. پیش از انتشار نهایی باید فهرست دقیق جدول‌ها، سرویس‌دهندگان، مدت نگهداری و محل پردازش تکمیل شود. فایل پشتیبان را خصوصی نگه دار.</p>
+  <h3>۳. استفاده از اطلاعات</h3><p class="small">اطلاعات برای ورود به حساب، ارائه ابزارهای آموزشی، ذخیره پیشرفت، مدیریت کلاس و پاسخ به درخواست‌های پشتیبانی استفاده می‌شود. اطلاعات شخصی دانش‌آموزان را بدون مجوز قانونی و رضایت لازم وارد نکن.</p>
+  <h3>۴. اشتراک‌گذاری و امنیت</h3><p class="small">اطلاعات نباید برای تبلیغات شخص ثالث فروخته شود. با این حال، سرویس‌های فنی موردنیاز برنامه ممکن است برای ارائه قابلیت‌های مربوط، داده لازم را پردازش کنند. هیچ سامانه‌ای امنیت مطلق را تضمین نمی‌کند؛ رمز عبور را محرمانه نگه دار و از دستگاه امن استفاده کن.</p>
+  <h3>۵. پشتیبان‌گیری و درخواست حذف</h3><p class="small">پیش از حذف برنامه یا تعویض گوشی، از داده‌های محلی نسخه پشتیبان بگیر. برای درخواست اصلاح یا حذف داده‌های حساب، از مرکز ارتباط با ما پیام بفرست؛ اجرای درخواست ممکن است به تأیید هویت نیاز داشته باشد.</p>
+  <h3>۶. کودکان و مسئولیت سرپرست</h3><p class="small">این برنامه برای استفاده آموزشی کودکان نیز طراحی شده است. ثبت‌نام و ورود اطلاعات کودک باید با نظارت والد یا مسئول آموزشی و رعایت قوانین مربوط انجام شود.</p>
+  <h3>۷. تغییرات سیاست</h3><p class="small">در صورت تغییر امکانات، سرویس‌دهندگان یا الزامات قانونی، این سیاست به‌روزرسانی و تاریخ بازبینی آن درج خواهد شد.</p>
+  <button class="btn light" onclick="showView('support')">درخواست درباره حریم خصوصی</button>
+ </div>
+</section>
 </main>
 <nav class="nav" aria-label="ناوبری اصلی"><button class="nav-arrow nav-prev" type="button" aria-label="گزینه‌های قبلی" onclick="scrollAppNav(-1)">‹</button><div class="navinner" id="appNavInner">
 <button class="active" data-view="home" onclick="showView('home')"><span class="ico">⌂</span>خانه</button><button data-view="english" onclick="showView(&quot;english&quot;)"><span class="ico">🔤</span>انگلیسی</button>
@@ -1345,6 +1380,7 @@ function showMathGameMenu(){const stage=document.getElementById('gameStage');if(
 <script src="student-growth-suite-v1.js"></script>
 <script src="group-progress-board-v1.js"></script>
 <script src="smart-tutor-input-v1.js"></script>
+<script src="support-center-v1.js"></script>
 </body>
 </html>
 <!-- game-lab decimal syntax fix: source files synchronized -->
